@@ -5,10 +5,12 @@ return {
   { "hrsh7th/cmp-cmdline" },
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/cmp-nvim-lua" },
+  { "onsails/lspkind.nvim" },
   {
     "hrsh7th/nvim-cmp",
     config = function()
       local cmp = require("cmp")
+      local lspkind = require("lspkind")
 
       cmp.setup({
         snippet = {
@@ -16,6 +18,7 @@ return {
             vim.snippet.expand(args.body)
           end,
         },
+
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
@@ -35,6 +38,18 @@ return {
           { name = "path" },
           { name = "buffer",  keyword_length = 5 },
         }),
+
+        formatting = {
+          format = lspkind.cmp_format({
+            with_text = true,
+            menu = {
+              buffer = "[buf]",
+              nvim_lsp = "[LSP]",
+              nvim_lua = "[api]",
+              path = "[path]",
+            }
+          })
+        }
       })
     end,
   },
