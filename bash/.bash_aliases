@@ -1,5 +1,5 @@
-alias shr='source ~/.bashrc'
-alias shp='source ~/.bash_profile'
+alias shr='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED; source ~/.bashrc'
+alias shp='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED; source ~/.bash_profile'
 alias shrc='vim ~/.bashrc'
 alias shc='cd ~/.config/config; vim .'
 alias shal='vim ~/.bash_aliases'
@@ -96,3 +96,5 @@ alias t="tmux -2"
 alias ta="tmux -2 a"
 alias tat="tmux -2 a -t"
 alias tks="tmux -2 kill-server"
+
+export BASH_ALIASES_LOADED=1

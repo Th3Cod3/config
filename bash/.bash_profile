@@ -1,22 +1,37 @@
-echo "Loading TH3COD3 settings..."
 
-if [[ -z BASH_PROFILE_LOADED ]]; then
+alias shr='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED; source ~/.bashrc'
+alias shp='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED; source ~/.bash_profile'
+
+if [[ -z $BASH_PROFILE_LOADED ]]; then
     echo "Loading ~/.bashrc"
     export BASH_PROFILE_LOADED=1
     . ~/.bashrc
 fi
 
+if [[ -z $BASH_ALIASES_LOADED ]]; then
+    echo "Loading ~/.bash_aliases"
+    export BASH_ALIASES_LOADED=1
+    . ~/.bash_aliases
+fi
+
+if [[ -z $TH3COD3_SETTINGS_LOADED ]]; then
+    echo "TH3COD3 settings was already loaded."
+    return;
+fi
+
+echo "Loading TH3COD3 settings..."
+
 # Git branch bash completion
 if [ -f ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
+  . ~/.git-completion.bash
 
-    # Add git completion to aliases
-    __git_complete g __git_main
-    __git_complete gco _git_checkout
-    __git_complete gcob _git_checkout
-    __git_complete gm _git_merge
-    __git_complete gp _git_pull
-    __git_complete gP _git_push
+  # Add git completion to aliases
+  __git_complete g __git_main
+  __git_complete gco _git_checkout
+  __git_complete gcob _git_checkout
+  __git_complete gm _git_merge
+  __git_complete gp _git_pull
+  __git_complete gP _git_push
 fi
 
 function git_branch_name() {
@@ -26,10 +41,5 @@ function git_branch_name() {
 export PS1='\n\[\e[1;37m\]|-- \[\e[1;32m\]\u\[\e[0;39m\]@\[\e[1;36m\]\h\[\e[0;39m\]:\[\e[1;33m\]\w\[\e[0;39m\]\[\e[1;35m\]$(git_branch_name)\[\e[0;39m\] \[\e[1;37m\]--|\[\e[0;39m\]\n$ '
 
 export XDG_CONFIG_HOME="$HOME/.config"
-
-if [[ -z TH3COD3_SETTINGS_LOADED ]]; then
-    echo "TH3COD3 settings was already loaded."
-    return;
-fi
 
 export TH3COD3_SETTINGS_LOADED=1
