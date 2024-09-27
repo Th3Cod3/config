@@ -7,6 +7,13 @@ return {
   { "hrsh7th/cmp-nvim-lua" },
   { "onsails/lspkind.nvim" },
   {
+    "github/copilot.vim",
+    config = function()
+      vim.keymap.set("i", "<C-L>", "<Plug>(copilot-accept-word)")
+      vim.keymap.set("i", "<C-K>", "<Plug>(copilot-accept-line)")
+    end,
+  },
+  {
     "hrsh7th/nvim-cmp",
     config = function()
       local cmp = require("cmp")
