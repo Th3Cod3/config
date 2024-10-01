@@ -6,6 +6,7 @@ return {
       require("mason").setup()
     end,
   },
+
   {
     "williamboman/mason-lspconfig.nvim",
     lazy = false,
@@ -14,34 +15,63 @@ return {
         ensure_installed = {
           "lua_ls",
           "clangd",
-          -- "bashls",
-          -- "serve_d",
-          -- "emmet_ls",
-          -- "html",
-          -- "eslint",
-          -- "intelephense",
-          -- "vimls",
-          -- "vhdl_ls",
+          "bashls",
+          "vimls",
+          "emmet_ls",
+          "html",
+          "eslint",
+          "serve_d",
+          "intelephense",
+          "vhdl_ls",
         },
       })
     end,
   },
+
   {
     "neovim/nvim-lspconfig",
     lazy = false,
     config = function()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
 
       lspconfig.lua_ls.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
+      })
+
+      lspconfig.bashls.setup({
+        capabilities = capabilities,
+      })
+
+      lspconfig.vimls.setup({
+        capabilities = capabilities,
+      })
+
+      lspconfig.emmet_ls.setup({
+        capabilities = capabilities,
+      })
+
+      lspconfig.html.setup({
+        capabilities = capabilities,
+      })
+
+      lspconfig.eslint.setup({
+        capabilities = capabilities,
+      })
+
+      lspconfig.serve_d.setup({
+        capabilities = capabilities,
+      })
+
+      lspconfig.intelephense.setup({
+        capabilities = capabilities,
       })
 
       lspconfig.clangd.setup({
         capabilities = capabilities,
         keys = {
-          { "<leader>ch", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" }
-        }
+          { "<leader>ch", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
+        },
       })
 
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
