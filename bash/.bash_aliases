@@ -1,12 +1,14 @@
-alias shr='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED; source ~/.bashrc'
-alias shp='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED; source ~/.bash_profile'
+echo "Loading .bash_aliases"
+
+alias shr='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED TH3COD3_SETTINGS_LOADED; source ~/.bashrc'
+alias shp='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED TH3COD3_SETTINGS_LOADED; source ~/.bash_profile'
 alias shrc='vim ~/.bashrc'
-alias shc='cd ~/.config/config; vim .'
+alias shc='cd ~/.config/config; vim .; cd -'
 alias shal='vim ~/.bash_aliases'
 
 ### Workspaces
-alias vcfg='cd ~/.config/config; vim .'
-alias vrsi='cd ~/code/Th3Cod3/RSI; vim .'
+alias vcfg='cd ~/.config/config; vim .; cd -'
+alias vrsi='cd ~/code/Th3Cod3/RSI; vim .; cd -'
 
 alias ll='ls -lhF'
 alias la='ls -lhAF'
@@ -35,28 +37,27 @@ alias patf="php artisan test --filter"
 
 #docker
 alias dkup='docker-compose up -d --remove-orphans'
+alias dku='docker-compose up -d --remove-orphans'
 alias dkdown='docker-compose down'
+alias dkd='docker-compose down'
 alias dkstop='docker-compose stop'
+alias dks='docker-compose stop'
+alias dkstopa='docker container stop $(docker ps -q)'
+alias dksa='docker container stop $(docker ps -q)'
 alias dkfresh='docker-compose restart'
 alias dkex='docker-compose exec'
 alias dkps='docker-compose ps'
 alias dklogs='docker-compose logs -f'
-alias dkstopa='docker container stop $(docker ps -q)'
 alias dkpsa='docker ps -a'
 alias dkrma='docker rm $(docker ps -aq)'
 
-alias dkrsidb='docker-compose exec db mysql -padmin -D rsi'
-alias dkti='docker-compose exec truckit_web_nginx bash'
 alias dkdb='docker-compose exec db bash'
 alias dkchrome='docker-compose exec chrome bash'
-alias dkmweb='docker-compose exec mijnavia_web bash'
-alias dkauweb='docker-compose exec authavia_web bash'
 alias dknode='docker-compose exec node ash'
-alias dkdb-sql='docker-compose exec db mysql'
 alias dkweb='docker-compose exec web bash'
-alias dkaweb='docker-compose exec web sh'
-alias dksh='docker-compose exec web sh'
-alias dknodered='docker-compose exec node-red bash'
+alias dkw='docker-compose exec web bash'
+alias dknr='docker-compose exec node-red bash'
+alias dksw='docker-compose exec web sh'
 
 ### GIT
 alias g='git'
@@ -82,10 +83,16 @@ alias gsp='git stash pop'
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gm='git merge'
+alias gma='git merge --abort'
+alias gmc='git merge --continue'
 alias gd='git diff'
 alias gr='git reset'
 alias grh='git reset --hard'
 alias grs='git reset --soft'
+alias grb='git rebase'
+alias grbi='git rebase -i'
+alias grba='git rebase --abort'
+alias grbc='git rebase --continue'
 alias gb='git branch'
 alias gbda='git branch | grep -v \* | xargs git branch -D ' # branch delete all except current
 alias gl='git log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short'
@@ -96,5 +103,7 @@ alias t="tmux -2"
 alias ta="tmux -2 a"
 alias tat="tmux -2 a -t"
 alias tks="tmux -2 kill-server"
+alias ts="~/.config/tmux/tmux-sessionizer.sh"
+alias tw="~/.config/tmux/tmux-windowizer.sh"
 
 export BASH_ALIASES_LOADED=1

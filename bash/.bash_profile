@@ -1,25 +1,12 @@
-
-alias shr='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED; source ~/.bashrc'
-alias shp='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED; source ~/.bash_profile'
-
-if [[ -z $BASH_PROFILE_LOADED ]]; then
-    echo "Loading ~/.bashrc"
-    export BASH_PROFILE_LOADED=1
-    . ~/.bashrc
-fi
-
-if [[ -z $BASH_ALIASES_LOADED ]]; then
-    echo "Loading ~/.bash_aliases"
-    export BASH_ALIASES_LOADED=1
-    . ~/.bash_aliases
-fi
-
-if [[ -z $TH3COD3_SETTINGS_LOADED ]]; then
-    echo "TH3COD3 settings was already loaded."
-    return;
-fi
-
 echo "Loading TH3COD3 settings..."
+
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux
+fi
+
+if [ -f ~/.bash_aliases ]; then
+. ~/.bash_aliases
+fi
 
 # Git branch bash completion
 if [ -f ~/.git-completion.bash ]; then
@@ -29,16 +16,26 @@ if [ -f ~/.git-completion.bash ]; then
   __git_complete g __git_main
   __git_complete gco _git_checkout
   __git_complete gcob _git_checkout
+  __git_complete gc _git_commit
+  __git_complete gca _git_commit
   __git_complete gm _git_merge
   __git_complete gp _git_pull
   __git_complete gP _git_push
+  __git_complete gcp _git_cherry_pick
+  __git_complete gs _git_status
+  __git_complete grb _git_rebase
+  __git_complete grbi _git_rebase
+  __git_complete gr _git_reset
+  __git_complete grh _git_reset
+  __git_complete grs _git_reset
+  __git_complete gb _git_branch
 fi
 
 function git_branch_name() {
     echo $(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')
 }
 
-export PS1='\n\[\e[1;37m\]|-- \[\e[1;32m\]\u\[\e[0;39m\]@\[\e[1;36m\]\h\[\e[0;39m\]:\[\e[1;33m\]\w\[\e[0;39m\]\[\e[1;35m\]$(git_branch_name)\[\e[0;39m\] \[\e[1;37m\]--|\[\e[0;39m\]\n$ '
+export PS1='\n\[\e[1;37m\]|-- \[\e[1;32m\]\u\[\e[0;39m\]@\[\e[1;36m\]\h\[\e[0;39m\]:\[\e[1;33m\]\w\[\e[0;39m\]\[\e[1;35m\] $(git_branch_name)\[\e[0;39m\] \[\e[1;37m\]--|\[\e[0;39m\]\n$ '
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
