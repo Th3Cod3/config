@@ -4,16 +4,14 @@ return {
   dependencies = { 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim' },
   config = function()
     require('neo-tree').setup({
-      close_if_last_window = true,
-
-      event_handlers = {
-        {
-          event = 'file_open_requested',
-          handler = function()
-            vim.cmd('Neotree close')
-          end,
-        },
-      },
+      -- event_handlers = {
+      --   {
+      --     event = 'file_open_requested',
+      --     handler = function()
+      --       vim.cmd('Neotree close')
+      --     end,
+      --   },
+      -- },
 
       window = {
         position = 'right',
@@ -47,8 +45,10 @@ return {
       filesystem = {
         filtered_items = {
           hide_dotfiles = false,
-          hide_gitignored = false,
+          -- hide_gitignored = false,
           hide_by_name = {
+            '.cache',
+            '.vscode',
             'node_modules',
             'vendor',
             '.git',
@@ -58,5 +58,6 @@ return {
       },
     })
     vim.keymap.set('n', '<C-e>', ':Neotree filesystem reveal right<CR>', {})
+    vim.keymap.set('n', '<C-w>', ':Neotree close<CR>', {})
   end,
 }
