@@ -3,6 +3,7 @@ vim.cmd('set tabstop=2')
 vim.cmd('set softtabstop=2')
 vim.cmd('set shiftwidth=2')
 vim.cmd('set wrap!')
+vim.cmd([[ autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='Visual', timeout=300} ]])
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
