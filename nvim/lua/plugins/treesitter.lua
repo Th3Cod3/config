@@ -2,7 +2,7 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    event = { 'LazyFile', 'VeryLazy' },
+    event = { 'VeryLazy' },
     config = function()
       local config = require('nvim-treesitter.configs')
       -- vim.opt.foldmethod = 'expr'

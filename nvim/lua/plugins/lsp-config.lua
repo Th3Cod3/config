@@ -69,9 +69,7 @@ return {
 
       lspconfig.clangd.setup({
         capabilities = capabilities,
-        keys = {
-          { '<leader>ch', '<Cmd>ClangdSwitchSourceHeader<Cr>', desc = 'Switch Source/Header (C/C++)' },
-        },
+        filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'h', 'arduino', 'cuda', 'proto' },
       })
 
       vim.keymap.set('n', '<leader>ch', '<Cmd>ClangdSwitchSourceHeader<Cr>', {})
