@@ -4,7 +4,7 @@
 if [[ $# -eq 1 ]]; then
   selected=$1
 else
-  selected=$((find ~/code/HAN/ ~/code/WebWhales/ ~/code/Th3Cod3/ -mindepth 1 -maxdepth 1 -type d; realpath ~/.config/config/) | fzf)
+  selected=$((find ~/code/src/ ~/code/Th3Cod3/ ~/code/WebWhales/ ~/code/HAN/IoT/ ~/code/HAN/OPS/ ~/code/HAN/QT/ -mindepth 1 -maxdepth 1 -type d; realpath ~/.config/config/) | fzf)
 fi
 
 if [[ -z $selected ]]; then

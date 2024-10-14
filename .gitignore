@@ -1,2 +1,3 @@
 tmux/plugins
-bin
+bin/
+src/

@@ -10,7 +10,8 @@ return {
     'github/copilot.vim',
     config = function()
       vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)')
-      vim.keymap.set('i', '<C-K>', '<Plug>(copilot-accept-line)')
+      vim.keymap.set('i', '<C-J>', '<Plug>(copilot-accept-line)')
+      vim.keymap.set('i', '<C-K>', '<Plug>(copilot-dismiss)')
     end,
   },
   {
