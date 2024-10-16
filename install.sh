@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 sudo apt update && \
   sudo apt install build-essential ninja-build gettext cmake unzip curl \
-  php python3 openjdk-21-jre npm \
-  fzf tmux ripgrep git
+  php python3 openjdk-21-jre npm python3-pip \
+  fzf tmux ripgrep git jq xclip
 
 sudo npm i -g n
 sudo n 22

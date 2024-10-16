@@ -1,6 +1,8 @@
 local neotree_diff_files = function(state)
   local node = state.tree:get_node()
   local log = require('neo-tree.log')
+  local render = require('neo-tree.ui.renderer')
+
   state.clipboard = state.clipboard or {}
 
   if diff_Node and diff_Node ~= tostring(node.id) then
@@ -11,20 +13,20 @@ local neotree_diff_files = function(state)
     diff_Node = nil
     current_Diff = nil
     state.clipboard = {}
-    require('neo-tree.ui.renderer').redraw(state)
+    render.redraw(state)
   else
     local existing = state.clipboard[node.id]
 
     if existing and existing.action == 'diff' then
       state.clipboard[node.id] = nil
       diff_Node = nil
-      require('neo-tree.ui.renderer').redraw(state)
+      render.redraw(state)
     else
       state.clipboard[node.id] = { action = 'diff', node = node }
       diff_Name = state.clipboard[node.id].node.name
       diff_Node = tostring(state.clipboard[node.id].node.id)
       log.info('Diff source file ' .. diff_Name)
-      require('neo-tree.ui.renderer').redraw(state)
+      render.redraw(state)
     end
   end
 end
@@ -39,6 +41,7 @@ end
 local function recursive_open(state, node, max_depth)
   local max_depth_reached = 1
   local stack = { node }
+
   while next(stack) ~= nil do
     node = table.remove(stack)
     if node.type == 'directory' and not node:is_expanded() then
@@ -69,7 +72,9 @@ local function neotree_zo(state, open_all)
     recursive_open(state, node, node:get_depth() + vim.v.count1)
   end
 
-  require('neo-tree.ui.renderer').redraw(state)
+  local render = require('neo-tree.ui.renderer')
+
+  render.redraw(state)
 end
 
 --- Recursively open the current folder and all folders it contains.
@@ -114,8 +119,10 @@ local function neotree_zc(state, close_all)
   end
 
   local last = recursive_close(state, node, max_depth)
-  require('neo-tree.ui.renderer').redraw(state)
-  require('neo-tree.ui.renderer').focus_node(state, last:get_id())
+  local render = require('neo-tree.ui.renderer')
+
+  render.redraw(state)
+  render.focus_node(state, last:get_id())
 end
 
 -- Close all containing folders back to the top level.
@@ -174,20 +181,22 @@ end
 -- @bool stay Keep the current node revealed and selected
 local function redraw_after_depthlevel_change(state, stay)
   local node = state.tree:get_node()
+  local render = require('neo-tree.ui.renderer')
 
   if stay then
-    require('neo-tree.ui.renderer').expand_to_node(state.tree, node)
+    render.expand_to_node(state.tree, node)
   else
     -- Find the closest parent that is still visible.
     local parent = state.tree:get_node(node:get_parent_id())
+
     while not parent:is_expanded() and parent:get_depth() > 1 do
       node = parent
       parent = state.tree:get_node(node:get_parent_id())
     end
   end
 
-  require('neo-tree.ui.renderer').redraw(state)
-  require('neo-tree.ui.renderer').focus_node(state, node:get_id())
+  render.redraw(state)
+  render.focus_node(state, node:get_id())
 end
 
 --- Update all open/closed folders by depthlevel, then reveal current node.
@@ -205,6 +214,7 @@ end
 -- Collapse more folders: decrease depthlevel by 1 or count.
 local function neotree_zm(state)
   local depthlevel = vim.b.neotree_depthlevel or MIN_DEPTH
+
   set_depthlevel(state, depthlevel - vim.v.count1)
   redraw_after_depthlevel_change(state, false)
 end
@@ -218,6 +228,7 @@ end
 -- Expand more folders: increase depthlevel by 1 or count.
 local function neotree_zr(state)
   local depthlevel = vim.b.neotree_depthlevel or MIN_DEPTH
+
   set_depthlevel(state, depthlevel + vim.v.count1)
   redraw_after_depthlevel_change(state, false)
 end
@@ -227,6 +238,7 @@ local function neotree_zR(state)
   local top_level_nodes = state.tree:get_nodes()
 
   local max_depth = 1
+
   for _, node in ipairs(top_level_nodes) do
     max_depth = math.max(max_depth, recursive_open(state, node))
   end
@@ -236,17 +248,21 @@ local function neotree_zR(state)
 end
 
 local function neotree_first_file(state)
+  local render = require('neo-tree.ui.renderer')
   local tree = state.tree
   local node = tree:get_node()
   local siblings = tree:get_nodes(node:get_parent_id())
-  require('neo-tree.ui.renderer').focus_node(state, siblings[#siblings]:get_id())
+
+  render.focus_node(state, siblings[#siblings]:get_id())
 end
 
 local function neotree_last_file(state)
   local tree = state.tree
   local node = tree:get_node()
   local siblings = tree:get_nodes(node:get_parent_id())
-  require('neo-tree.ui.renderer').focus_node(state, siblings[1]:get_id())
+  local render = require('neo-tree.ui.renderer')
+
+  render.focus_node(state, siblings[1]:get_id())
 end
 
 return {
@@ -259,6 +275,8 @@ return {
         position = 'right',
         mappings = {
           ['z'] = 'none',
+          ['<BS>'] = 'none',
+          ['u'] = 'navigate_up',
           ['zo'] = neotree_zo,
           ['zO'] = neotree_zO,
           ['zc'] = neotree_zc,
@@ -317,6 +335,7 @@ return {
         },
       },
     })
+
     vim.keymap.set('n', '<C-e>', ':Neotree filesystem reveal right<CR>', {})
     vim.keymap.set('n', '<C-w>', ':Neotree close<CR>', {})
   end,

@@ -13,16 +13,31 @@ return {
     config = function()
       require('mason-lspconfig').setup({
         ensure_installed = {
+          -- terminal&vim
           'lua_ls',
-          'clangd',
           'bashls',
           'vimls',
+          -- embedded
+          -- 'asm_lsp', -- requires cargo
+          'clangd',
+          'vhdl_ls',
+          'serve_d',
+          -- web
+          'ts_ls',
+          'eslint',
+          'ast_grep',
+          'vuels',
+          'jsonls',
+          'cssls',
           'emmet_ls',
           'html',
-          'eslint',
-          'serve_d',
           'intelephense',
-          'vhdl_ls',
+          'stimulus_ls',
+          -- others
+          'dockerls',
+          'sqlls',
+          'yamlls',
+          'grammarly',
         },
       })
     end,
@@ -35,18 +50,37 @@ return {
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require('lspconfig')
 
+      -- terminal&vim
       lspconfig.lua_ls.setup({ capabilities = capabilities })
       lspconfig.bashls.setup({ capabilities = capabilities })
       lspconfig.vimls.setup({ capabilities = capabilities })
-      lspconfig.emmet_ls.setup({ capabilities = capabilities })
-      lspconfig.html.setup({ capabilities = capabilities })
-      lspconfig.eslint.setup({ capabilities = capabilities })
-      lspconfig.serve_d.setup({ capabilities = capabilities })
-      lspconfig.intelephense.setup({ capabilities = capabilities })
+
+      -- embedded
+      -- lspconfig.asm_lsp.setup({ capabilities = capabilities })
       lspconfig.clangd.setup({
         capabilities = capabilities,
         filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'h', 'arduino', 'cuda', 'proto' },
       })
+      lspconfig.vhdl_ls.setup({ capabilities = capabilities })
+      lspconfig.serve_d.setup({ capabilities = capabilities })
+
+      -- web
+      lspconfig.ts_ls.setup({ capabilities = capabilities })
+      lspconfig.eslint.setup({ capabilities = capabilities })
+      lspconfig.ast_grep.setup({ capabilities = capabilities })
+      lspconfig.vuels.setup({ capabilities = capabilities })
+      lspconfig.jsonls.setup({ capabilities = capabilities })
+      lspconfig.cssls.setup({ capabilities = capabilities })
+      lspconfig.emmet_ls.setup({ capabilities = capabilities })
+      lspconfig.html.setup({ capabilities = capabilities })
+      lspconfig.intelephense.setup({ capabilities = capabilities })
+      lspconfig.stimulus_ls.setup({ capabilities = capabilities })
+
+      -- others
+      lspconfig.dockerls.setup({ capabilities = capabilities })
+      lspconfig.sqlls.setup({ capabilities = capabilities })
+      lspconfig.yamlls.setup({ capabilities = capabilities })
+      lspconfig.grammarly.setup({ capabilities = capabilities })
 
       vim.keymap.set('n', '<leader>cl', '<Cmd>LspInfo<Cr>', { desc = 'Lsp Info' })
       vim.keymap.set('n', '<leader>ch', '<Cmd>ClangdSwitchSourceHeader<Cr>', { desc = 'Clangd Switch Source Header' })
