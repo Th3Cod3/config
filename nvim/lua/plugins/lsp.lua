@@ -82,8 +82,8 @@ return {
       lspconfig.yamlls.setup({ capabilities = capabilities })
       lspconfig.grammarly.setup({ capabilities = capabilities })
 
-      vim.keymap.set('n', '<leader>cl', '<Cmd>LspInfo<Cr>', { desc = 'Lsp Info' })
-      vim.keymap.set('n', '<leader>ch', '<Cmd>ClangdSwitchSourceHeader<Cr>', { desc = 'Clangd Switch Source Header' })
+      vim.keymap.set('n', '<leader>cl', ':LspInfo<cr>', { desc = 'Lsp Info' })
+      vim.keymap.set('n', '<leader>ch', ':ClangdSwitchSourceHeader<cr>', { desc = 'Clangd Switch Source Header' })
       vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Goto Definition' })
       vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'References' })
       vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, { desc = 'Goto Implementation' })

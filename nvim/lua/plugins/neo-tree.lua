@@ -332,11 +332,14 @@ return {
             '.git',
             '.DS_Store',
           },
+          always_show_by_pattern = {
+            '.env*',
+          },
         },
       },
     })
 
-    vim.keymap.set('n', '<C-e>', ':Neotree filesystem reveal right<CR>', {})
-    vim.keymap.set('n', '<C-w>', ':Neotree close<CR>', {})
+    vim.keymap.set('n', '<C-e>', ':Neotree filesystem reveal right<CR>', { desc = 'Reveal in file tree' })
+    vim.keymap.set('n', '<C-w>', ':Neotree close<CR>', { desc = 'Close file tree' })
   end,
 }

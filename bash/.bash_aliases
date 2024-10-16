@@ -2,13 +2,7 @@ echo "Loading .bash_aliases"
 
 alias shr='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED TH3COD3_SETTINGS_LOADED; source ~/.bashrc'
 alias shp='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED TH3COD3_SETTINGS_LOADED; source ~/.bash_profile'
-alias shrc='vim ~/.bashrc'
-alias shc='cd ~/.config/config; vim .; cd -'
-alias shal='vim ~/.bash_aliases'
-
-### Workspaces
-alias vcfg='cd ~/.config/config; vim .; cd -'
-alias vrsi='cd ~/code/Th3Cod3/RSI; vim .; cd -'
+alias v='vim .'
 
 alias ll='ls -lhF'
 alias la='ls -lhAF'
