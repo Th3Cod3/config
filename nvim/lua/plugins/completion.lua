@@ -7,6 +7,14 @@ return {
   { 'hrsh7th/cmp-nvim-lua' },
   { 'onsails/lspkind.nvim' },
   {
+    'L3MON4D3/LuaSnip',
+    version = 'v2.*',
+    build = 'make install_jsregexp',
+  },
+
+  { 'saadparwaiz1/cmp_luasnip' },
+
+  {
     'github/copilot.vim',
     config = function()
       vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)')
@@ -14,6 +22,7 @@ return {
       vim.keymap.set('i', '<C-K>', '<Plug>(copilot-dismiss)')
     end,
   },
+
   {
     'folke/lazydev.nvim',
     ft = 'lua', -- only load on lua files
@@ -25,6 +34,7 @@ return {
       },
     },
   },
+
   {
     'hrsh7th/nvim-cmp',
     config = function()
@@ -34,7 +44,8 @@ return {
       cmp.setup({
         snippet = {
           expand = function(args)
-            vim.snippet.expand(args.body)
+            -- vim.snippet.expand(args.body)
+            require('luasnip').lsp_expand(args.body)
           end,
         },
 
@@ -55,7 +66,9 @@ return {
           { name = 'lazydev', group_index = 0 }, -- set group index to 0 to skip loading LuaLS completions
           { name = 'nvim_lua' },
           { name = 'nvim_lsp' },
+          { name = 'luasnip' },
           { name = 'path' },
+        }, {
           { name = 'buffer', keyword_length = 5 },
         }),
 
@@ -69,6 +82,13 @@ return {
               path = '[path]',
             },
           }),
+        },
+      })
+
+      cmp.setup.cmdline({ '/', '?' }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' },
         },
       })
     end,

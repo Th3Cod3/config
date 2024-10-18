@@ -1,9 +1,39 @@
 # My dotfiles
 
-## Main tools
+## Installation
 
-|Dep|instruction|
-|---|-----------|
-|tmux|apt install tmux|
-|neovim|compile from stable version.|
-|lazygit|download from git, [Installation guide](https://github.com/jesseduffield/lazygit?tab=readme-ov-file#installation)|
+Run the `install.sh` script to install the following packages:
+
+### Languages compilers and interpreters
+
+- python 3
+- node.js
+- php
+- gcc (c/c++) build-essential
+- java
+- go
+
+### Tools
+
+- git
+- tmux
+- fzf
+- ripgrep
+- git
+- curl
+- jq
+- xclip
+
+### Package managers
+
+- npm
+- pip
+- composer
+- cargo
+
+### Build
+
+- neovim (stable)
+- ghidra (11.2)
+- lazygit (latest)
+- lazydocker (latest)

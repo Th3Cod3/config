@@ -1,0 +1,17 @@
+[init]
+  defaultBranch = master
+[user]
+  email = yefri@th3cod3.com
+  name = Th3Cod3
+  username = Th3Cod3
+[core]
+  editor = nvim
+[diff]
+  algorithm = patience
+  tool = nvimdiff
+[difftool "nvimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE -c 'wincmd l' -c 'wincmd L'
+[merge]
+  tool = nvimdiff4
+[mergetool "nvimdiff4"]
+  cmd = nvim -d $LOCAL $REMOTE $BASE $MERGED -c 'wincmd w' -c 'wincmd J'

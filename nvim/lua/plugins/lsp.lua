@@ -96,6 +96,7 @@ return {
       vim.keymap.set('n', '<leader>cc', vim.lsp.codelens.run, { desc = 'Run Codelens' })
       vim.keymap.set('n', '<leader>cC', vim.lsp.codelens.refresh, { desc = 'Refresh & Display Codelens' })
       vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Rename' })
+      vim.keymap.set('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Open Diagnostic Float' })
     end,
   },
 }
