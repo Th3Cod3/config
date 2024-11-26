@@ -5,18 +5,20 @@ alias shp='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED TH3COD3_SETTINGS_LOADED
 alias v='vim .'
 
 alias ll='ls -lhF'
-alias la='ls -lhAF'
+alias la='ls -lhaF'
 alias l='ls -CF'
 
-alias sh-rp='sudo chown -R th3cod3 ./* -vvv && sudo find ./ -type d -print0 | xargs -0 chmod 755 -vvv && sudo find ./ -type f -print0 | xargs -0 chmod 644 -vvv'
-alias per-lar-f='sudo find storage bootstrap/cache -type f -print0 | xargs -0 chmod g=rw,u+rw,o=r -vvv'
-alias per-lar-d='sudo find storage bootstrap/cache -type d -print0 | xargs -0 chmod 775 -vvv'
-alias per-lar-own='sudo chown -R :www-data storage bootstrap/cache -vvv'
-alias chmy-l='sudo chown -R th3cod3 database app resources routes config public tests lang -vvv'
 alias chmy='sudo chown -R th3cod3'
 alias chdir='sudo find ./ -type d -print0 | xargs -0 chmod'
 alias chfile='sudo find ./ -type f -print0 | xargs -0 chmod'
 alias sh-all='chmy ./ && chdir 765 && chfile 644'
+
+LARAVEL_FOLDERS="app bootstrap config database public resources routes storage tests"
+
+alias perf="sudo find ${LARAVEL_FOLDERS} -type f -print0 | sudo xargs -0 chmod g+rw,u+rw,o+rw"
+alias perd="sudo find ${LARAVEL_FOLDERS} -type d -print0 | sudo xargs -0 chmod 777"
+alias perg="sudo chown -R th3cod3:www-data ${LARAVEL_FOLDERS}"
+alias pera="perf; perd; perg"
 
 # artisan
 alias pa="php artisan"
@@ -76,6 +78,8 @@ alias gsd='git stash drop'
 alias gsp='git stash pop'
 alias gc='git commit'
 alias gcm='git commit -m'
+alias gca='git commit --amend'
+alias gcA='git commit --amend --no-edit'
 alias gm='git merge'
 alias gma='git merge --abort'
 alias gmc='git merge --continue'

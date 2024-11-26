@@ -1,9 +1,15 @@
-vim.cmd('set expandtab')
-vim.cmd('set tabstop=2')
-vim.cmd('set softtabstop=2')
-vim.cmd('set shiftwidth=2')
-vim.cmd('set wrap!')
-vim.cmd([[ autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='Visual', timeout=300} ]])
+vim.api.nvim_create_autocmd({"TextYankPost"}, {
+  callback = function()
+    vim.highlight.on_yank({ higroup = 'Visual', timeout = 300 })
+  end,
+})
+
+vim.opt_global.expandtab = true
+vim.opt_global.tabstop = 2
+vim.opt_global.softtabstop = 2
+vim.opt_global.shiftwidth = 2
+vim.opt_global.wrap = false
+vim.opt_global.smartcase = true
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -14,7 +20,7 @@ vim.opt.smartindent = true
 vim.opt.swapfile = false
 vim.opt.backup = false
 
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
 vim.opt.updatetime = 50

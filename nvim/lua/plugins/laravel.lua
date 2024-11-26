@@ -19,7 +19,9 @@ return {
     },
 
     event = { 'VeryLazy' },
-    opts = {},
+    opts = {
+      lsp_server = 'intelephense',
+    },
     config = true,
   },
 }

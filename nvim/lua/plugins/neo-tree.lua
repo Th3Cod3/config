@@ -268,7 +268,12 @@ end
 return {
   'nvim-neo-tree/neo-tree.nvim',
   branch = 'v3.x',
-  dependencies = { 'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim' },
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'MunifTanjim/nui.nvim',
+    'kyazdani42/nvim-web-devicons',
+  },
+  priority = 999,
   config = function()
     require('neo-tree').setup({
       window = {
@@ -324,6 +329,7 @@ return {
         filtered_items = {
           hide_dotfiles = false,
           -- hide_gitignored = false,
+
           hide_by_name = {
             '.cache',
             '.vscode',
@@ -332,6 +338,7 @@ return {
             '.git',
             '.DS_Store',
           },
+
           always_show_by_pattern = {
             '.env*',
           },
@@ -340,6 +347,6 @@ return {
     })
 
     vim.keymap.set('n', '<C-e>', ':Neotree filesystem reveal right<CR>', { desc = 'Reveal in file tree' })
-    vim.keymap.set('n', '<C-w>', ':Neotree close<CR>', { desc = 'Close file tree' })
+    -- vim.keymap.set('n', '<C-w>', ':Neotree close<CR>', { desc = 'Close file tree' })
   end,
 }

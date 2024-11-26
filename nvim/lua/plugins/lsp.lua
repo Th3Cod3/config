@@ -1,54 +1,57 @@
 return {
   {
     'williamboman/mason.nvim',
-    lazy = false,
+    lazy = true,
     config = function()
       require('mason').setup()
     end,
   },
-
-  {
-    'williamboman/mason-lspconfig.nvim',
-    lazy = false,
-    config = function()
-      require('mason-lspconfig').setup({
-        ensure_installed = {
-          -- terminal&vim
-          'lua_ls',
-          'bashls',
-          'vimls',
-          -- embedded
-          -- 'asm_lsp', -- requires cargo
-          'clangd',
-          'vhdl_ls',
-          'serve_d',
-          -- web
-          'ts_ls',
-          'eslint',
-          'ast_grep',
-          'vuels',
-          'jsonls',
-          'cssls',
-          'emmet_ls',
-          'html',
-          'intelephense',
-          'stimulus_ls',
-          -- others
-          'dockerls',
-          'sqlls',
-          'yamlls',
-          'grammarly',
-        },
-      })
-    end,
-  },
-
   {
     'neovim/nvim-lspconfig',
-    lazy = false,
+    event = 'VeryLazy',
+    dependancies = {
+
+      {
+        'williamboman/mason-lspconfig.nvim',
+        event = 'VeryLazy',
+        config = function()
+          require('mason-lspconfig').setup({
+            ensure_installed = {
+              -- terminal&vim
+              'lua_ls',
+              'bashls',
+              'vimls',
+              -- embedded
+              -- 'asm_lsp', -- requires cargo
+              'clangd',
+              'vhdl_ls',
+              'serve_d',
+              -- web
+              'ts_ls',
+              'eslint',
+              'ast_grep',
+              'vuels',
+              'volar',
+              'jsonls',
+              'cssls',
+              'emmet_ls',
+              'html',
+              'phpactor',
+              'intelephense',
+              -- others
+              'dockerls',
+              'sqlls',
+              'yamlls',
+              'grammarly',
+            },
+          })
+        end,
+      },
+    },
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require('lspconfig')
+      -- vim.lsp.set_log_level('debug')
 
       -- terminal&vim
       lspconfig.lua_ls.setup({ capabilities = capabilities })
@@ -61,26 +64,64 @@ return {
         capabilities = capabilities,
         filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'h', 'arduino', 'cuda', 'proto' },
       })
-      lspconfig.vhdl_ls.setup({ capabilities = capabilities })
-      lspconfig.serve_d.setup({ capabilities = capabilities })
+      -- lspconfig.vhdl_ls.setup({ capabilities = capabilities })
+      -- lspconfig.serve_d.setup({ capabilities = capabilities })
 
       -- web
-      lspconfig.ts_ls.setup({ capabilities = capabilities })
+      local mason_registry = require('mason-registry')
+      local vuels = mason_registry.get_package('vue-language-server')
+      local vue_language_server_path = vuels:get_install_path() .. '/node_modules/@vue/language-server'
+
       lspconfig.eslint.setup({ capabilities = capabilities })
       lspconfig.ast_grep.setup({ capabilities = capabilities })
-      lspconfig.vuels.setup({ capabilities = capabilities })
+      lspconfig.ts_ls.setup({
+        capabilities = capabilities,
+
+        init_options = {
+          plugins = {
+            {
+              name = '@vue/typescript-plugin',
+              location = vue_language_server_path,
+              languages = { 'vue' },
+            },
+          },
+        },
+
+        filetypes = {
+          'javascript',
+          'javascriptreact',
+          'javascript.jsx',
+          'typescript',
+          'typescriptreact',
+          'typescript.tsx',
+          'vue',
+        },
+      })
+
+      lspconfig.volar.setup({
+        init_options = {
+          vue = {
+            hybridMode = false,
+          },
+
+          typescript = {
+            tsdk = '/usr/local/lib/node_modules/typescript/lib',
+          },
+        },
+      })
+
       lspconfig.jsonls.setup({ capabilities = capabilities })
       lspconfig.cssls.setup({ capabilities = capabilities })
       lspconfig.emmet_ls.setup({ capabilities = capabilities })
       lspconfig.html.setup({ capabilities = capabilities })
+      -- lspconfig.phpactor.setup({ capabilities = capabilities })
       lspconfig.intelephense.setup({ capabilities = capabilities })
-      lspconfig.stimulus_ls.setup({ capabilities = capabilities })
 
       -- others
-      lspconfig.dockerls.setup({ capabilities = capabilities })
-      lspconfig.sqlls.setup({ capabilities = capabilities })
-      lspconfig.yamlls.setup({ capabilities = capabilities })
-      lspconfig.grammarly.setup({ capabilities = capabilities })
+      -- lspconfig.dockerls.setup({ capabilities = capabilities })
+      -- lspconfig.sqlls.setup({ capabilities = capabilities })
+      -- lspconfig.yamlls.setup({ capabilities = capabilities })
+      -- lspconfig.grammarly.setup({ capabilities = capabilities })
 
       vim.keymap.set('n', '<leader>cl', ':LspInfo<cr>', { desc = 'Lsp Info' })
       vim.keymap.set('n', '<leader>ch', ':ClangdSwitchSourceHeader<cr>', { desc = 'Clangd Switch Source Header' })

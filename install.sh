@@ -64,6 +64,13 @@ else
   rm lazygit.tar.gz
 fi
 
+if [ -f /usr/local/bin/lazydocker ]; then
+  echo "Lazydocker already install"
+else
+  curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+  sudo install ~/.local/bin/lazydocker /usr/local/bin
+fi
+
 ln -s ~/.config/config/tmux ~/.config/tmux
 ln -s ~/.config/config/nvim ~/.config/nvim
 ln -s ~/.config/config/bash/.bash_aliases ~/.bash_aliases
