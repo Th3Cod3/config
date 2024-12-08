@@ -1,4 +1,22 @@
 #!/usr/bin/bash
+if [ -f /etc/arch-release ]; then
+  echo "Arch Linux detected"
+  sudo pacman -Sy && sudo pacman -S --needed base-devel ninja gettext cmake unzip curl \
+    php python go \
+    npm python-pip \
+    fzf tmux ripgrep git jq xclip
+elif [ -f /etc/debian_version ]; then
+  echo "Debian based distro detected"
+  sudo apt update && \
+    sudo apt install build-essential ninja-build gettext cmake unzip curl \
+    php python3 openjdk-21-jre golang \
+    npm python3-pip cargo \
+    fzf tmux ripgrep git jq xclip
+else
+  echo "Unsupported distro"
+  exit 1
+fi
+
 sudo apt update && \
   sudo apt install build-essential ninja-build gettext cmake unzip curl \
   php python3 openjdk-21-jre golang \
@@ -32,14 +50,15 @@ else
   cd ../..
 fi
 
-if [ -f /usr/local/bin/ghidra ]; then
-  echo "Ghidra already installed"
-else
-  cd src
-  wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.2_build/ghidra_11.2_PUBLIC_20240926.zip
-  unzip ghidra_11.2_PUBLIC_20240926.zip
-  sudo ln -s ghidra_11.2_PUBLIC/runGhidra /usr/local/bin/ghidra
-fi
+# @TODO: add flag/option to install ghidra
+# if [ -f /usr/local/bin/ghidra ]; then
+#   echo "Ghidra already installed"
+# else
+#   cd src
+#   wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.2_build/ghidra_11.2_PUBLIC_20240926.zip
+#   unzip ghidra_11.2_PUBLIC_20240926.zip
+#   sudo ln -s ghidra_11.2_PUBLIC/runGhidra /usr/local/bin/ghidra
+# fi
 
 if [ -f ~/.git-completion.bash ]; then
   echo "Git completion already installed"
@@ -57,11 +76,16 @@ else
     rm lazygit.tar.gz
   fi
 
+  # check if arm or x86 if arm set ARCH=armv6 otherwise ARCH=x86_64
+  ARCH=x86_64
+  if [[ $(uname -m) == armv* ]]; then
+    ARCH=armv6
+  fi
   LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-  curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+  curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_${ARCH}.tar.gz"
   tar xf lazygit.tar.gz lazygit
   sudo install lazygit /usr/local/bin
-  rm lazygit.tar.gz
+  rm lazygit.tar.gz lazygit
 fi
 
 if [ -f /usr/local/bin/lazydocker ]; then
