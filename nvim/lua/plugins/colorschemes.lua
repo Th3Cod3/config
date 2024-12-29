@@ -1,5 +1,17 @@
 return {
   {
+    'xiyaowong/transparent.nvim',
+    opt = {
+      extra_groups = {
+        'DiagnosticTextError',
+        'DiagnosticTextWarn',
+        'DiagnosticTextInfo',
+        'DiagnosticTextHint',
+      },
+    },
+  },
+
+  {
     'navarasu/onedark.nvim',
     lazy = false,
     name = 'onedark',

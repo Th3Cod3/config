@@ -117,10 +117,8 @@ return {
               ['if'] = { query = '@function.inner', desc = 'Inner function' },
               ['ac'] = { query = '@class.outer', desc = 'Outer class' },
               ['ic'] = { query = '@class.inner', desc = 'Inner class' },
-              ['ap'] = { query = '@parameter.outer', desc = 'Outer parameter' },
-              ['ip'] = { query = '@parameter.inner', desc = 'Inner parameter' },
-              ['aa'] = { query = '@attribute.outer', desc = 'Outer attribute' },
-              ['ia'] = { query = '@attribute.inner', desc = 'Inner attribute' },
+              ['aa'] = { query = '@parameter.outer', desc = 'Outer argument' },
+              ['ia'] = { query = '@parameter.inner', desc = 'Inner argument' },
             },
             selection_modes = {
               ['@parameter.outer'] = 'v', -- charwise

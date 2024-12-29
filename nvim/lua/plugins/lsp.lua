@@ -7,47 +7,45 @@ return {
     end,
   },
   {
+    'williamboman/mason-lspconfig.nvim',
+    event = 'VeryLazy',
+    config = function()
+      require('mason-lspconfig').setup({
+        ensure_installed = {
+          -- terminal&vim
+          'lua_ls',
+          'bashls',
+          'vimls',
+          -- embedded
+          -- 'asm_lsp', -- requires cargo
+          'clangd',
+          'vhdl_ls',
+          'serve_d',
+          -- web
+          'ts_ls',
+          'eslint',
+          'ast_grep',
+          'vuels',
+          'volar',
+          'jsonls',
+          'cssls',
+          'emmet_ls',
+          'html',
+          'phpactor',
+          'intelephense',
+          -- others
+          'dockerls',
+          'sqlls',
+          'yamlls',
+          'grammarly',
+        },
+      })
+    end,
+  },
+  {
     'neovim/nvim-lspconfig',
     event = 'VeryLazy',
-    dependancies = {
-
-      {
-        'williamboman/mason-lspconfig.nvim',
-        event = 'VeryLazy',
-        config = function()
-          require('mason-lspconfig').setup({
-            ensure_installed = {
-              -- terminal&vim
-              'lua_ls',
-              'bashls',
-              'vimls',
-              -- embedded
-              -- 'asm_lsp', -- requires cargo
-              'clangd',
-              'vhdl_ls',
-              'serve_d',
-              -- web
-              'ts_ls',
-              'eslint',
-              'ast_grep',
-              'vuels',
-              'volar',
-              'jsonls',
-              'cssls',
-              'emmet_ls',
-              'html',
-              'phpactor',
-              'intelephense',
-              -- others
-              'dockerls',
-              'sqlls',
-              'yamlls',
-              'grammarly',
-            },
-          })
-        end,
-      },
-    },
+    dependancies = {},
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require('lspconfig')
