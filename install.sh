@@ -94,6 +94,7 @@ ln -s ~/.config/config/nvim ~/.config/nvim
 ln -s ~/.config/config/bash/.bash_aliases ~/.bash_aliases
 ln -s ~/.config/config/bash/.bash_profile ~/.bash_profile
 ln -s ~/.config/config/git/.gitconfig ~/.gitconfig
+mkdir -p ~/.config/lazygit
 ln -s ~/.config/config/git/config.yml ~/.config/lazygit/config.yml
 ln -s ~/.config/config/tmux/plugins ~/.tmux/plugins
 
