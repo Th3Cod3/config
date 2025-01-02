@@ -12,18 +12,21 @@ return {
       local action_state = require('telescope.actions.state')
       local builtin = require('telescope.builtin')
 
-      local buffers = function ()
+      local buffers
+      buffers = function ()
         builtin.buffers({
-          sort_lastused = true,
+          sort_mru = true,
           ignore_current_buffer = true,
           attach_mappings = function(prompt_bufnr, map)
             local delete_buf = function()
               local selection = action_state.get_selected_entry()
               actions.close(prompt_bufnr)
               vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+              buffers()
             end
 
             map('n', 'd', delete_buf)
+            map('i', '<c-d>', delete_buf)
 
             return true
           end,
@@ -44,6 +47,7 @@ return {
 
       local map = vim.keymap.set
 
+      map('n', '<leader>T', ':Telescope ', { desc = 'Telescope cmd' })
       map('n', '<leader>ff', builtin.find_files, { desc = 'Telescope Find Files' })
       map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fb', buffers, { desc = 'Telescope Buffers' })
@@ -51,11 +55,19 @@ return {
       map('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope Help Tags' })
       map('n', '<leader>fo', builtin.oldfiles, { desc = 'Telescope Old Files' })
       map('n', '<leader>fr', builtin.registers, { desc = 'Telescope Registers' })
+      map('n', '<leader>fj', builtin.jumplist, { desc = 'Telescope Jump List' })
+      map('n', '<leader>fm', builtin.marks, { desc = 'Telescope Marks' })
       map('n', '<leader>fc', builtin.commands, { desc = 'Telescope Commands' })
-      map('n', '<leader>fm', builtin.man_pages, { desc = 'Telescope man pages' })
+      map('n', '<leader>fM', builtin.man_pages, { desc = 'Telescope man pages' })
       map('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope Keymaps' })
       map('n', '<leader>fd', builtin.diagnostics, { desc = 'Telescope Diagnostics' })
       map('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Telescope LSP Document Symbols' })
+      map('n', '<leader>fw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP Workspace Symbols' })
+      map('n', '<leader><leader>gf', builtin.git_files, { desc = 'Telescope Git Files' })
+      map('n', '<leader><leader>gs', builtin.git_status, { desc = 'Telescope Git Status' })
+      map('n', '<leader><leader>gc', builtin.git_commits, { desc = 'Telescope Git Commits' })
+      map('n', '<leader><leader>gp', builtin.git_bcommits, { desc = 'Telescope Git BCommits' })
+      map('n', '<leader><leader>gb', builtin.git_branches, { desc = 'Telescope Git Branches' })
 
       telescope.load_extension('ui-select')
     end,

@@ -37,7 +37,6 @@ return {
       local h = require('null-ls.helpers')
 
       null_ls.setup({
-        debug = true,
         sources = {
           null_ls.builtins.diagnostics.phpstan.with({
             command = 'docker-compose',

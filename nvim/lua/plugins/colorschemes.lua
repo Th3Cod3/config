@@ -1,14 +1,12 @@
 return {
   {
     'xiyaowong/transparent.nvim',
-    opt = {
-      extra_groups = {
-        'DiagnosticTextError',
-        'DiagnosticTextWarn',
-        'DiagnosticTextInfo',
-        'DiagnosticTextHint',
-      },
-    },
+    config = function()
+      require('transparent').setup({
+        enable = true,
+      })
+      require('transparent').clear_prefix('NeoTree')
+    end,
   },
 
   {

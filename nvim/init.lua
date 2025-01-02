@@ -1,6 +1,6 @@
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  vim.fn.system({
+vim.fn.system({
     'git',
     'clone',
     '--filter=blob:none',
@@ -13,3 +13,4 @@ vim.opt.rtp:prepend(lazypath)
 
 require('th3cod3')
 require('lazy').setup('plugins')
+vim.keymap.set('n', '<leader>L', ':Lazy reload', { desc = 'Lazy reload' })

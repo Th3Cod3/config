@@ -45,7 +45,9 @@ return {
   {
     'neovim/nvim-lspconfig',
     event = 'VeryLazy',
-    dependancies = {},
+    dependancies = {
+      'nvim-telescope/telescope.nvim',
+    },
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require('lspconfig')
@@ -121,21 +123,28 @@ return {
       -- lspconfig.yamlls.setup({ capabilities = capabilities })
       -- lspconfig.grammarly.setup({ capabilities = capabilities })
 
-      vim.keymap.set('n', '<leader>cl', ':LspInfo<cr>', { desc = 'Lsp Info' })
-      vim.keymap.set('n', '<leader>ch', ':ClangdSwitchSourceHeader<cr>', { desc = 'Clangd Switch Source Header' })
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Goto Definition' })
-      vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'References' })
-      vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, { desc = 'Goto Implementation' })
-      vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, { desc = 'Goto Type Definition' })
-      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto Declaration' })
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover' })
-      vim.keymap.set('n', 'gK', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
-      vim.keymap.set('i', '<M-k>', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
-      vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action' })
-      vim.keymap.set('n', '<leader>cc', vim.lsp.codelens.run, { desc = 'Run Codelens' })
-      vim.keymap.set('n', '<leader>cC', vim.lsp.codelens.refresh, { desc = 'Refresh & Display Codelens' })
-      vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Rename' })
-      vim.keymap.set('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Open Diagnostic Float' })
+      local builtin = require('telescope.builtin')
+      local map = vim.keymap.set
+
+      map('n', '<leader>cl', ':LspInfo<cr>', { desc = 'Lsp Info' })
+      map('n', '<leader>ch', ':ClangdSwitchSourceHeader<cr>', { desc = 'Clangd Switch Source Header' })
+      -- map('n', 'gd', vim.lsp.buf.definition, { desc = 'Goto Definition' })
+      -- map('n', 'gr', vim.lsp.buf.references, { desc = 'References' })
+      -- map('n', 'gI', vim.lsp.buf.implementation, { desc = 'Goto Implementation' })
+      -- map('n', 'gy', vim.lsp.buf.type_definition, { desc = 'Goto Type Definition' })
+      map('n', 'gd', builtin.lsp_definitions, { desc = 'Goto Definition' })
+      map('n', 'gr', builtin.lsp_references, { desc = 'References' })
+      map('n', 'gI', builtin.lsp_implementations, { desc = 'Goto Implementation' })
+      map('n', 'gy', builtin.lsp_type_definitions, { desc = 'Goto Type Definition' })
+      map('n', 'K', vim.lsp.buf.hover, { desc = 'Hover' })
+      map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto Declaration' })
+      map('n', 'gk', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
+      map('i', '<M-k>', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
+      map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action' })
+      map('n', '<leader>cc', vim.lsp.codelens.run, { desc = 'Run Codelens' })
+      map('n', '<leader>cC', vim.lsp.codelens.refresh, { desc = 'Refresh & Display Codelens' })
+      map('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Rename' })
+      map('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Open Diagnostic Float' })
     end,
   },
 }

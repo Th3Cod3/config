@@ -12,7 +12,9 @@ return {
     keys = {
       { '<leader>la', ':Laravel artisan<cr>', desc = 'Laravel artisan' },
       { '<leader>lr', ':Laravel routes<cr>', desc = 'Laravel routes' },
-      { '<leader>lm', ':Laravel related<cr>', desc = 'Laravel related' },
+      { '<leader>lR', ':Laravel related<cr>', desc = 'Laravel related' },
+      { '<leader>lv', ':Laravel view_finder<cr>', desc = 'Laravel list views'},
+      { '<leader>lm', ':Laravel make<cr>', desc = 'Laravel make' },
     },
 
     event = { 'VeryLazy' },

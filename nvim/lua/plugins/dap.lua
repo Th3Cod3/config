@@ -1,5 +1,8 @@
 return {
   {
+    'jbyuki/one-small-step-for-vimkind',
+  },
+  {
     'mfussenegger/nvim-dap',
     event = 'VeryLazy',
     dependencies = {
@@ -7,24 +10,24 @@ return {
       'theHamsta/nvim-dap-virtual-text',
       'nvim-neotest/nvim-nio',
       'mason.nvim',
-
+      -- adapters
+      'jbyuki/one-small-step-for-vimkind',
       {
         'jay-babu/mason-nvim-dap.nvim',
         opts = {
           ensure_installed = {
             'php',
-            'lua',
           },
 
           handlers = {
-            function (config)
+            function(config)
               require('mason-nvim-dap').default_setup(config)
             end,
 
-            php = function (config)
+            php = function(config)
               config.configurations = {
                 {
-                  name = 'PHP XDebug',
+                  name = 'PHP XDebug port 9001',
                   type = 'php',
                   request = 'launch',
                   port = 9001,
@@ -33,19 +36,16 @@ return {
                   },
                   hostname = '0.0.0.0',
                   ignore = {
-                    '**/vendor/**'
-                  }
+                    '**/vendor/**',
+                  },
                 },
               }
 
               require('mason-nvim-dap').default_setup(config)
             end,
-          }
-        }
-
+          },
+        },
       },
-      -- adapters
-      'jbyuki/one-small-step-for-vimkind',
     },
     config = function()
       local dap = require('dap')
