@@ -9,13 +9,15 @@ elif [ -f /etc/debian_version ]; then
   echo "Debian based distro detected"
   sudo apt update && \
     sudo apt install build-essential ninja-build gettext cmake unzip curl \
-    php python3 openjdk-21-jre golang \
+    php python3 golang \
     npm python3-pip cargo \
     fzf tmux ripgrep git jq xclip
 else
   echo "Unsupported distro"
   exit 1
 fi
+
+ARCH=$(uname -m)
 
 sudo npm i -g n
 sudo n 22
@@ -48,6 +50,7 @@ fi
 # if [ -f /usr/local/bin/ghidra ]; then
 #   echo "Ghidra already installed"
 # else
+#   sudo apt update && apt install openjdk-21-jre 
 #   cd src
 #   wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.2_build/ghidra_11.2_PUBLIC_20240926.zip
 #   unzip ghidra_11.2_PUBLIC_20240926.zip
@@ -71,16 +74,38 @@ else
   fi
 
   # check if arm or x86 if arm set ARCH=armv6 otherwise ARCH=x86_64
-  ARCH=x86_64
-  if [[ $(uname -m) == armv* ]]; then
-    ARCH=armv6
+  if [[ $ARCH == "aarch64" ]]; then
+    ARCH=arm64
   fi
+
   LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
   curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_${ARCH}.tar.gz"
   tar xf lazygit.tar.gz lazygit
   sudo install lazygit /usr/local/bin
   rm lazygit.tar.gz lazygit
 fi
+
+if [ -f /usr/local/bin/lazysql ]; then
+  echo "Lazysql already install"
+else
+  cd bin
+  mkdir -p bin
+
+  if [ -f lazysql.tar.gz ]; then
+    rm lazysql.tar.gz
+  fi
+
+  # check if arm or x86 if arm set ARCH=armv6 otherwise ARCH=x86_64
+  if [[ $ARCH == "aarch64" ]]; then
+    ARCH=arm64
+  fi
+
+  curl -Lo lazysql.tar.gz "https://github.com/jorgerojas26/lazysql/releases/latest/download/lazysql_Linux_${ARCH}.tar.gz"
+  tar xf lazysql.tar.gz lazysql
+  sudo install lazysql /usr/local/bin
+  rm lazysql.tar.gz lazysql
+fi
+
 
 if [ -f /usr/local/bin/lazydocker ]; then
   echo "Lazydocker already install"
