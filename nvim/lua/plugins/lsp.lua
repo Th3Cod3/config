@@ -144,6 +144,7 @@ return {
       map('n', 'gI', builtin.lsp_implementations, { desc = 'Goto Implementation' })
       map('n', 'gy', builtin.lsp_type_definitions, { desc = 'Goto Type Definition' })
       map('n', 'K', vim.lsp.buf.hover, { desc = 'Hover' })
+      map('n', 'gh', vim.lsp.buf.hover, { desc = 'Hover' })
       map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto Declaration' })
       map('n', 'gk', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
       map('i', '<M-k>', vim.lsp.buf.signature_help, { desc = 'Signature Help' })

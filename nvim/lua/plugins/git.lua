@@ -2,7 +2,7 @@ return {
   {
     'tpope/vim-fugitive',
     config = function()
-      vim.keymap.set('n', '<leader>gs', ':Git<CR>', { desc = 'Git fugitive', noremap = true })
+      vim.keymap.set('n', '<leader>gS', ':Git<CR>', { desc = 'Git fugitive', noremap = true })
       vim.keymap.set('n', '<leader>gB', ':Git blame<CR>', { desc = 'Git fugitive blame', noremap = true })
     end,
   },
