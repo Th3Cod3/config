@@ -1,26 +1,8 @@
-return {
-  {
-    'williamboman/mason.nvim',
-    lazy = true,
-    config = function()
-      require('mason').setup()
-    end,
-  },
-  {
-    'williamboman/mason-lspconfig.nvim',
-    event = 'VeryLazy',
-    config = function()
-      require('mason-lspconfig').setup({
-        ensure_installed = {
+local ensure_installed_sys = {
           -- terminal&vim
           'lua_ls',
           'bashls',
           'vimls',
-          -- embedded
-          -- 'asm_lsp', -- requires cargo
-          'clangd',
-          'vhdl_ls',
-          'serve_d',
           -- web
           'ts_ls',
           'eslint',
@@ -38,7 +20,32 @@ return {
           'sqlls',
           'yamlls',
           'grammarly',
-        },
+}
+
+if vim.fn.system('uname -m') == 'x86_64' then
+  -- mason has only registered those packages for x86_64
+  -- embedded
+  table.insert(ensure_installed_sys, 'clangd')
+  table.insert(ensure_installed_sys, 'vhdl_ls')
+  table.insert(ensure_installed_sys, 'serve_d')
+  -- table.insert(ensure_installed_sys, 'asm_lsp')
+end
+
+
+return {
+  {
+    'williamboman/mason.nvim',
+    lazy = true,
+    config = function()
+      require('mason').setup()
+    end,
+  },
+  {
+    'williamboman/mason-lspconfig.nvim',
+    event = 'VeryLazy',
+    config = function()
+      require('mason-lspconfig').setup({
+        ensure_installed = ensure_installed_sys,
       })
     end,
   },
