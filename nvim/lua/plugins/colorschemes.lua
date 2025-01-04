@@ -1,21 +1,21 @@
 return {
   {
-    'xiyaowong/transparent.nvim',
-    config = function()
-      require('transparent').setup({
-        enable = true,
-      })
-      require('transparent').clear_prefix('NeoTree')
-    end,
-  },
-
-  {
     'navarasu/onedark.nvim',
     lazy = false,
     name = 'onedark',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme('onedark')
+      require('onedark').setup({
+        style = 'deep',
+        transparent = true,
+        highlights = {
+          ["@function"] = { fg = '#5555FF' },
+          ["@function.member"] = { fg = '#5555FF' },
+          ["@variable"] = { fg = '#CCCCCC' },
+          ["Visual"] = { bg = '#555555' }
+        }
+      })
+      require('onedark').load()
     end,
   },
 
