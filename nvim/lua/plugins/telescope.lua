@@ -63,7 +63,10 @@ return {
       map('n', '<leader>fc', builtin.commands, { desc = 'Telescope Commands' })
       map('n', '<leader>fM', builtin.man_pages, { desc = 'Telescope man pages' })
       map('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope Keymaps' })
-      map('n', '<leader>fd', builtin.diagnostics, { desc = 'Telescope Diagnostics' })
+      map('n', '<leader>fd', function ()
+          builtin.diagnostics({ bufnr = 0 });
+      end , { desc = 'Telescope Diagnostics (buffer)' })
+      map('n', '<leader>fD', builtin.diagnostics, { desc = 'Telescope Diagnostics (CWD)' })
       map('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Telescope LSP Document Symbols' })
       map('n', '<leader>fw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP Workspace Symbols' })
       map('n', '<leader>gf', builtin.git_files, { desc = 'Telescope Git Files' })
