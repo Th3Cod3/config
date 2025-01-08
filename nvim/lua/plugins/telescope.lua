@@ -13,7 +13,7 @@ return {
       local builtin = require('telescope.builtin')
 
       local buffers
-      buffers = function ()
+      buffers = function()
         builtin.buffers({
           sort_mru = true,
           ignore_current_buffer = true,
@@ -51,7 +51,9 @@ return {
       local map = vim.keymap.set
 
       map('n', '<leader>T', ':Telescope ', { desc = 'Telescope cmd' })
-      map('n', '<leader>ff', builtin.find_files, { desc = 'Telescope Find Files' })
+      map('n', '<leader>ff', function()
+        builtin.find_files({ hidden = true })
+      end, { desc = 'Telescope Find Files' })
       map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fb', buffers, { desc = 'Telescope Buffers' })
       map('n', '<leader>fq', buffers, { desc = 'Telescope Buffers' })
@@ -63,9 +65,9 @@ return {
       map('n', '<leader>fc', builtin.commands, { desc = 'Telescope Commands' })
       map('n', '<leader>fM', builtin.man_pages, { desc = 'Telescope man pages' })
       map('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope Keymaps' })
-      map('n', '<leader>fd', function ()
-          builtin.diagnostics({ bufnr = 0 });
-      end , { desc = 'Telescope Diagnostics (buffer)' })
+      map('n', '<leader>fd', function()
+        builtin.diagnostics({ bufnr = 0 })
+      end, { desc = 'Telescope Diagnostics (buffer)' })
       map('n', '<leader>fD', builtin.diagnostics, { desc = 'Telescope Diagnostics (CWD)' })
       map('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Telescope LSP Document Symbols' })
       map('n', '<leader>fw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP Workspace Symbols' })

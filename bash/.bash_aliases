@@ -5,7 +5,7 @@ alias shp='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED TH3COD3_SETTINGS_LOADED
 alias v='vim .'
 
 alias ll='ls -lhF'
-alias la='ls -lhaF'
+alias la='ls -lhAF'
 alias l='ls -CF'
 
 alias chmy='sudo chown -R th3cod3'
