@@ -102,6 +102,8 @@ alias ta="tmux -2 a"
 alias tat="tmux -2 a -t"
 alias tks="tmux -2 kill-server"
 alias ts="~/.config/tmux/tmux-sessionizer.sh"
-alias tw="~/.config/tmux/tmux-windowizer.sh"
+
+# ghidra
+alias ghidra='~/src/ghidra_11.2_PUBLIC/ghidraRun'
 
 export BASH_ALIASES_LOADED=1

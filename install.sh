@@ -46,17 +46,6 @@ else
   cd ../..
 fi
 
-# @TODO: add flag/option to install ghidra
-# if [ -f /usr/local/bin/ghidra ]; then
-#   echo "Ghidra already installed"
-# else
-#   sudo apt update && apt install openjdk-21-jre 
-#   cd src
-#   wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.2_build/ghidra_11.2_PUBLIC_20240926.zip
-#   unzip ghidra_11.2_PUBLIC_20240926.zip
-#   sudo ln -s ghidra_11.2_PUBLIC/runGhidra /usr/local/bin/ghidra
-# fi
-
 if [ -f ~/.git-completion.bash ]; then
   echo "Git completion already installed"
 else
@@ -106,7 +95,6 @@ else
   rm lazysql.tar.gz lazysql
 fi
 
-
 if [ -f /usr/local/bin/lazydocker ]; then
   echo "Lazydocker already install"
 else
@@ -115,13 +103,13 @@ else
 fi
 
 ln -s ~/.config/config/tmux ~/.config/tmux
+ln -s ~/.config/config/alacritty ~/.config/alacritty
 ln -s ~/.config/config/nvim ~/.config/nvim
 ln -s ~/.config/config/bash/.bash_aliases ~/.bash_aliases
 ln -s ~/.config/config/bash/.bash_profile ~/.bash_profile
 ln -s ~/.config/config/git/.gitconfig ~/.gitconfig
 mkdir -p ~/.config/lazygit
 ln -s ~/.config/config/git/config.yml ~/.config/lazygit/config.yml
-ln -s ~/.config/config/tmux/plugins ~/.tmux/plugins
 
 source ~/.bash_profile
 
