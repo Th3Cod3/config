@@ -5,7 +5,7 @@ shell:
 
 window:
   opacity: 0.9
-  decorations: None
+  decorations: Full
   startup_mode: Maximized
   dimensions:
     columns: 80
