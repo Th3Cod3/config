@@ -1,51 +1,63 @@
 return {
   {
     'jbyuki/one-small-step-for-vimkind',
+    lazy = true,
+  },
+  {
+    'rcarriga/nvim-dap-ui',
+    lazy = true,
+  },
+  {
+    'theHamsta/nvim-dap-virtual-text',
+    lazy = true,
+  },
+  {
+    'nvim-neotest/nvim-nio',
+    lazy = true,
+  },
+  {
+    'jbyuki/one-small-step-for-vimkind',
+    lazy = true,
+  },
+  {
+    'jay-babu/mason-nvim-dap.nvim',
+    opts = {
+      ensure_installed = {
+        'php',
+      },
+
+      handlers = {
+        function(config)
+          require('mason-nvim-dap').default_setup(config)
+        end,
+
+        php = function(config)
+          config.configurations = {
+            {
+              name = 'PHP XDebug port 9001',
+              type = 'php',
+              request = 'launch',
+              port = 9001,
+              pathMappings = {
+                ['/var/www/html/'] = '${workspaceFolder}',
+              },
+              hostname = '0.0.0.0',
+              ignore = {
+                '**/vendor/**',
+              },
+            },
+          }
+
+          require('mason-nvim-dap').default_setup(config)
+        end,
+      },
+    },
   },
   {
     'mfussenegger/nvim-dap',
     event = 'VeryLazy',
     dependencies = {
-      'rcarriga/nvim-dap-ui',
-      'theHamsta/nvim-dap-virtual-text',
-      'nvim-neotest/nvim-nio',
-      'mason.nvim',
       -- adapters
-      'jbyuki/one-small-step-for-vimkind',
-      {
-        'jay-babu/mason-nvim-dap.nvim',
-        opts = {
-          ensure_installed = {
-            'php',
-          },
-
-          handlers = {
-            function(config)
-              require('mason-nvim-dap').default_setup(config)
-            end,
-
-            php = function(config)
-              config.configurations = {
-                {
-                  name = 'PHP XDebug port 9001',
-                  type = 'php',
-                  request = 'launch',
-                  port = 9001,
-                  pathMappings = {
-                    ['/var/www/html/'] = '${workspaceFolder}',
-                  },
-                  hostname = '0.0.0.0',
-                  ignore = {
-                    '**/vendor/**',
-                  },
-                },
-              }
-
-              require('mason-nvim-dap').default_setup(config)
-            end,
-          },
-        },
-      },
     },
     config = function()
       local dap = require('dap')

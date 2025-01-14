@@ -1,23 +1,13 @@
 return {
-  { 'hrsh7th/cmp-buffer' },
-  { 'hrsh7th/cmp-path' },
-  { 'hrsh7th/cmp-cmdline' },
-  { 'hrsh7th/cmp-nvim-lsp' },
-  { 'hrsh7th/cmp-nvim-lua' },
-  { 'onsails/lspkind.nvim' },
-  { 'hrsh7th/cmp-nvim-lsp' },
-
   {
     'L3MON4D3/LuaSnip',
     version = 'v2.*',
     build = 'make install_jsregexp',
   },
 
-  { 'saadparwaiz1/cmp_luasnip' },
-
   {
     'folke/lazydev.nvim',
-    ft = 'lua', -- only load on lua files
+    ft = { 'lua' },
     opts = {
       library = {
         -- See the configuration section for more details
@@ -29,7 +19,8 @@ return {
 
   {
     'github/copilot.vim',
-    event = 'VeryLazy',
+    event = { 'InsertEnter' },
+    ft = {},
     cmd = { 'Copilot' },
     keys = {
       { '<C-L>', '<Plug>(copilot-accept-word)', desc = 'Copilot accept word', mode = 'i' },
@@ -40,8 +31,14 @@ return {
 
   {
     'hrsh7th/nvim-cmp',
-    event = 'VeryLazy',
-    dependancies = {},
+    event = { 'InsertEnter' },
+    dependancies = {
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lua',
+      'saadparwaiz1/cmp_luasnip',
+    },
     config = function()
       local cmp = require('cmp')
       local lspkind = require('lspkind')
@@ -128,18 +125,17 @@ return {
       })
 
       local ls = require('luasnip')
+      local map = vim.keymap.set
 
-      vim.keymap.set({ 'i' }, '<Tab>', function()
-        ls.expand()
-      end, { desc = 'Snippet expand', silent = true })
-      vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
+      -- map({ 'i' }, '<cr>', ls.expand, { desc = 'Snippet expand', silent = true })
+      map({ 'i', 's' }, '<Tab>', function()
         ls.jump(1)
       end, { desc = 'Snippet jump next', silent = true })
-      vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
+      map({ 'i', 's' }, '<S-Tab>', function()
         ls.jump(-1)
       end, { desc = 'Snippet jump prev', silent = true })
 
-      vim.keymap.set({ 'i', 's' }, '<C-E>', function()
+      map({ 'i', 's' }, '<C-E>', function()
         if ls.choice_active() then
           ls.change_choice(1)
         end

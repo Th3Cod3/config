@@ -3,9 +3,9 @@ return {
 
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.5',
-    event = 'VeryLazy',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    tag = '0.1.8',
+    lazy = true,
+    cmd = {'Telescope'},
     config = function()
       local telescope = require('telescope')
       local actions = require('telescope.actions')

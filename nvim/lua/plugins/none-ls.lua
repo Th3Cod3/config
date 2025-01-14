@@ -1,15 +1,8 @@
 return {
+  { 'jay-babu/mason-null-ls.nvim', lazy = true },
   {
-    'jay-babu/mason-null-ls.nvim',
+    'nvimtools/none-ls.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
-    dependencies = {
-      'williamboman/mason.nvim',
-      {
-        'nvimtools/none-ls.nvim',
-        requires = { 'nvim-lua/plenary.nvim' },
-      },
-    },
-
     config = function()
       require('mason-null-ls').setup({
         ensure_installed = {

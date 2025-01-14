@@ -1,25 +1,24 @@
 local ensure_installed_sys = {
-          -- terminal&vim
-          'lua_ls',
-          'bashls',
-          'vimls',
-          -- web
-          'ts_ls',
-          'eslint',
-          'ast_grep',
-          'vuels',
-          'volar',
-          'jsonls',
-          'cssls',
-          'emmet_ls',
-          'html',
-          'phpactor',
-          'intelephense',
-          -- others
-          'dockerls',
-          'sqlls',
-          'yamlls',
-          'grammarly',
+  -- terminal&vim
+  'lua_ls',
+  'bashls',
+  'vimls',
+  -- web
+  'ts_ls',
+  'eslint',
+  'ast_grep',
+  'vuels',
+  'volar',
+  'jsonls',
+  'cssls',
+  'emmet_ls',
+  'html',
+  'intelephense',
+  -- others
+  'dockerls',
+  'sqlls',
+  'yamlls',
+  'grammarly',
 }
 
 if vim.fn.system('uname -m') == 'x86_64' then
@@ -31,15 +30,7 @@ if vim.fn.system('uname -m') == 'x86_64' then
   -- table.insert(ensure_installed_sys, 'asm_lsp')
 end
 
-
 return {
-  {
-    'williamboman/mason.nvim',
-    lazy = true,
-    config = function()
-      require('mason').setup()
-    end,
-  },
   {
     'williamboman/mason-lspconfig.nvim',
     event = 'VeryLazy',
@@ -49,11 +40,22 @@ return {
       })
     end,
   },
+
+  {
+    'hrsh7th/cmp-nvim-lsp',
+    lazy = true,
+  },
+
+  {
+    'onsails/lspkind.nvim',
+    lazy=true
+  },
+
   {
     'neovim/nvim-lspconfig',
-    event = 'VeryLazy',
+    event = { 'InsertEnter' },
     dependancies = {
-      'nvim-telescope/telescope.nvim',
+      'williamboman/mason-lspconfig.nvim',
     },
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -146,7 +148,7 @@ return {
       map('n', 'K', vim.lsp.buf.hover, { desc = 'Hover' })
       map('n', 'gh', vim.lsp.buf.hover, { desc = 'Hover' })
       map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto Declaration' })
-      map('n', 'gk', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
+      map('n', 'gK', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
       map('i', '<M-k>', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
       map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action' })
       map('n', '<leader>cc', vim.lsp.codelens.run, { desc = 'Run Codelens' })

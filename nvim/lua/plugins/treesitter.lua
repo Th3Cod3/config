@@ -101,9 +101,6 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
-    dependancies = {
-      'nvim-treesitter/nvim-treesitter',
-    },
     config = function()
       local config = require('nvim-treesitter.configs')
 
