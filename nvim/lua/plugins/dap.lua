@@ -21,6 +21,7 @@ return {
   },
   {
     'jay-babu/mason-nvim-dap.nvim',
+    lazy = true,
     opts = {
       ensure_installed = {
         'php',
@@ -57,7 +58,7 @@ return {
     'mfussenegger/nvim-dap',
     event = 'VeryLazy',
     dependencies = {
-      -- adapters
+      'jay-babu/mason-nvim-dap.nvim',
     },
     config = function()
       local dap = require('dap')

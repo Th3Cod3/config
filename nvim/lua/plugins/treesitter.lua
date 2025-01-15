@@ -1,6 +1,7 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
+    event = 'VeryLazy',
     build = ':TSUpdate',
     config = function()
       local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
@@ -101,6 +102,7 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    event = 'BufRead',
     config = function()
       local config = require('nvim-treesitter.configs')
 

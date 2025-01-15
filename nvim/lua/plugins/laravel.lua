@@ -6,6 +6,7 @@ return {
       'nvim-telescope/telescope.nvim',
       'MunifTanjim/nui.nvim',
       'kevinhwang91/promise-async',
+      'nvim-treesitter/nvim-treesitter',
     },
 
     cmd = { 'Laravel' },
@@ -21,6 +22,5 @@ return {
     opts = {
       lsp_server = 'intelephense',
     },
-    config = true,
   },
 }

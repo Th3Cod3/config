@@ -1,6 +1,7 @@
 return {
   {
     'L3MON4D3/LuaSnip',
+    event = 'VeryLazy',
     version = 'v2.*',
     build = 'make install_jsregexp',
   },
@@ -19,7 +20,7 @@ return {
 
   {
     'github/copilot.vim',
-    event = { 'InsertEnter' },
+    event = { 'InsertEnter', 'BufRead', 'BufNewFile' },
     ft = {},
     cmd = { 'Copilot' },
     keys = {
@@ -28,17 +29,15 @@ return {
       { '<C-K>', '<Plug>(copilot-dismiss)', desc = 'Copilot dismiss', mode = 'i' },
     },
   },
-
+  { 'hrsh7th/cmp-buffer', event = 'VeryLazy' },
+  { 'hrsh7th/cmp-path', event = 'VeryLazy' },
+  { 'hrsh7th/cmp-cmdline', event = 'VeryLazy' },
+  { 'hrsh7th/cmp-nvim-lua', event = 'VeryLazy' },
+  { 'saadparwaiz1/cmp_luasnip', event = 'VeryLazy' },
   {
     'hrsh7th/nvim-cmp',
-    event = { 'InsertEnter' },
-    dependancies = {
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-nvim-lua',
-      'saadparwaiz1/cmp_luasnip',
-    },
+    event = 'VeryLazy',
+    depandancies = {},
     config = function()
       local cmp = require('cmp')
       local lspkind = require('lspkind')
@@ -66,9 +65,7 @@ return {
 
         sources = cmp.config.sources({
           { name = 'lazydev', group_index = 0 }, -- set group index to 0 to skip loading LuaLS completions
-          {
-            name = 'nvim_lua',
-          },
+          { name = 'nvim_lua' },
           {
             name = 'nvim_lsp',
             ---@param entry cmp.Entry

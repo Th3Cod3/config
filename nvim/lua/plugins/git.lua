@@ -1,6 +1,7 @@
 return {
   {
     'tpope/vim-fugitive',
+    event = 'VeryLazy',
     config = function()
       vim.keymap.set('n', '<leader>gS', ':Git<CR>', { desc = 'Git fugitive', noremap = true })
       vim.keymap.set('n', '<leader>gB', ':Git blame<CR>', { desc = 'Git fugitive blame', noremap = true })
@@ -9,6 +10,7 @@ return {
 
   {
     'lewis6991/gitsigns.nvim',
+    event = 'BufRead',
     config = function()
       require('gitsigns').setup({
         current_line_blame = true,
