@@ -84,8 +84,12 @@ return {
 
       local map = vim.keymap.set
 
-      map('n', '<leader>dx', dap.close, { noremap = true, desc = 'Debug close' })
-      map('n', '<leader>dX', dap_ui.close, { noremap = true, desc = 'Debug UI close' })
+      map('n', '<leader>ds', function()
+        require('osv').launch({ port = 8086 })
+      end, { noremap = true, desc = 'Launch Lua debugger server' })
+
+      map('n', '<leader>dX', dap.close, { noremap = true, desc = 'Debug stop' })
+      map('n', '<leader>dx', dap_ui.close, { noremap = true, desc = 'Debug UI close' })
       map('n', '<leader>db', dap.toggle_breakpoint, { noremap = true, desc = 'Toggle breakpoint' })
       map('n', '<leader>dc', dap.continue, { noremap = true, desc = 'Debug continue' })
       map('n', '<leader>dn', dap.step_over, { noremap = true, desc = 'Debug step over (next)' })
@@ -93,9 +97,12 @@ return {
       map('n', '<leader>do', dap.step_out, { noremap = true, desc = 'Debug step out' })
       map('n', '<leader>dk', dap.up, { noremap = true, desc = 'Debug up' })
       map('n', '<leader>dj', dap.down, { noremap = true, desc = 'Debug down' })
-      map('n', '<leader>dr', dap.repl.toggle, { noremap = true, desc = 'Toggle REPL' })
-      map('n', '<leader>dR', dap.restart, { noremap = true, desc = 'Restart debugging' })
+      map('n', '<leader>dR', dap.repl.toggle, { noremap = true, desc = 'Toggle REPL' })
+      map('n', '<leader>dr', dap.restart, { noremap = true, desc = 'Restart debugging' })
       map('n', '<leader>dl', dap.list_breakpoints, { noremap = true, desc = 'List breakpoints' })
+      map('n', '<leader>de', function ()
+        dap_ui.elements.watches.add(vim.fn.expand('<cword>'))
+      end, { noremap = true, desc = 'Add watch' })
 
       local dapBefore = dap.listeners.before
       dapBefore.attach.dapui_config = dap_ui.open
