@@ -43,49 +43,7 @@ return {
             show_help = '?',
           },
         },
-        ensure_installed = {
-          -- terminal&vim
-          'diff',
-          'bash',
-          'lua',
-          'objdump',
-          'strace',
-          'tmux',
-          'vim',
-          'query',
-          -- embedded
-          'asm',
-          'arduino',
-          'c',
-          'cpp',
-          'devicetree',
-          'disassembly',
-          'doxygen',
-          'printf',
-          'vhdl',
-          -- web
-          'css',
-          'dockerfile',
-          'html',
-          'javascript',
-          'jsdoc',
-          'json',
-          'php',
-          'phpdoc',
-          'scss',
-          'twig',
-          'typescript',
-          'vue',
-          'blade',
-          -- general
-          'csv',
-          'ini',
-          'python',
-          'regex',
-          'sql',
-          'xml',
-          'yaml',
-        },
+        ensure_installed = require('config.ensure_installed').treesitter,
         auto_install = true,
         highlight = {
           enable = true,
@@ -96,7 +54,7 @@ return {
       })
 
       vim.opt.foldmethod = 'expr'
-      vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
       vim.opt.foldlevelstart = 99
     end,
   },

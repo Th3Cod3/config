@@ -1,5 +1,49 @@
 local M = {}
 
+M.treesitter = {
+  -- terminal&vim
+  'diff',
+  'bash',
+  'lua',
+  'objdump',
+  'strace',
+  'tmux',
+  'vim',
+  'query',
+  -- embedded
+  'asm',
+  'arduino',
+  'c',
+  'cpp',
+  'devicetree',
+  'disassembly',
+  'doxygen',
+  'printf',
+  'vhdl',
+  -- web
+  'css',
+  'dockerfile',
+  'html',
+  'javascript',
+  'jsdoc',
+  'json',
+  'php',
+  'phpdoc',
+  'scss',
+  'twig',
+  'typescript',
+  'vue',
+  'blade',
+  -- general
+  'csv',
+  'ini',
+  'python',
+  'regex',
+  'sql',
+  'xml',
+  'yaml',
+}
+
 M.lsp = {
   -- terminal&vim
   'lua_ls',
