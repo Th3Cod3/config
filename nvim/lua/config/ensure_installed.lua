@@ -64,7 +64,7 @@ M.lsp = {
   'dockerls',
   'sqlls',
   'yamlls',
-  'grammarly',
+  'ltex',
 }
 
 M.null_ls = {

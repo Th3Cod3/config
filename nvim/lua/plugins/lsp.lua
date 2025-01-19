@@ -98,7 +98,7 @@ return {
       -- lspconfig.dockerls.setup({ capabilities = capabilities })
       -- lspconfig.sqlls.setup({ capabilities = capabilities })
       -- lspconfig.yamlls.setup({ capabilities = capabilities })
-      -- lspconfig.grammarly.setup({ capabilities = capabilities })
+      lspconfig.ltex.setup({ capabilities = capabilities })
 
       local builtin = require('telescope.builtin')
       local map = vim.keymap.set

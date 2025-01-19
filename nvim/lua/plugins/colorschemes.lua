@@ -1,3 +1,10 @@
+local c = {
+  purple = '#5555FF',
+  gray = '#999999',
+  white = '#CCCCCC',
+  gray2 = '#555555',
+};
+
 return {
   {
     'navarasu/onedark.nvim',
@@ -9,11 +16,14 @@ return {
         style = 'deep',
         transparent = true,
         highlights = {
-          ["@function"] = { fg = '#5555FF' },
-          ["@function.member"] = { fg = '#5555FF' },
-          ["@variable"] = { fg = '#CCCCCC' },
-          ["Visual"] = { bg = '#555555' }
-        }
+          ['@function'] = { fg = c.purple },
+          ['@lsp.type.method'] = { fg = c.purple },
+          ['@function.member'] = { fg = c.purple },
+          ['@variable'] = { fg = c.white },
+          ['Visual'] = { bg = c.gray2 },
+          ['NeoTreeMessage'] = { fg = c.gray },
+          ['NeoTreeFileStats'] = { fg = c.gray },
+        },
       })
       require('onedark').load()
     end,
