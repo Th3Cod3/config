@@ -21,7 +21,7 @@ return {
   },
   {
     'jay-babu/mason-nvim-dap.nvim',
-    lazy = true,
+    event = 'VeryLazy',
     opts = {
       ensure_installed = {
         'php',
@@ -39,6 +39,19 @@ return {
               type = 'php',
               request = 'launch',
               port = 9001,
+              pathMappings = {
+                ['/var/www/html/'] = '${workspaceFolder}',
+              },
+              hostname = '0.0.0.0',
+              ignore = {
+                '**/vendor/**',
+              },
+            },
+            {
+              name = 'PHP XDebug port 9003',
+              type = 'php',
+              request = 'launch',
+              port = 9003,
               pathMappings = {
                 ['/var/www/html/'] = '${workspaceFolder}',
               },
@@ -88,8 +101,18 @@ return {
         require('osv').launch({ port = 8086 })
       end, { noremap = true, desc = 'Launch Lua debugger server' })
 
-      map('n', '<leader>dX', dap.close, { noremap = true, desc = 'Debug stop' })
-      map('n', '<leader>dx', dap_ui.close, { noremap = true, desc = 'Debug UI close' })
+      map({'n', 'v'}, '<leader>dh', require('dap.ui.widgets').hover, { noremap = true, desc = 'Debug hover' })
+      map({'n', 'v'}, '<leader>dp', require('dap.ui.widgets').preview, { noremap = true, desc = 'Debug preview' })
+      map('n', '<leader>df', function()
+        local widgets = require('dap.ui.widgets')
+        widgets.centered_float(widgets.frames)
+      end, { noremap = true, desc = 'Debug frames' })
+      map('n', '<leader>ds', function()
+        local widgets = require('dap.ui.widgets')
+        widgets.centered_float(widgets.scopes)
+      end, { noremap = true, desc = 'Debug scopes' })
+      map('n', '<leader>dX', function() dap.close(); dap_ui.close() end, { noremap = true, desc = 'Debug stop' })
+      map('n', '<leader>dx', dap_ui.toggle, { noremap = true, desc = 'Debug UI open/close' })
       map('n', '<leader>db', dap.toggle_breakpoint, { noremap = true, desc = 'Toggle breakpoint' })
       map('n', '<leader>dc', dap.continue, { noremap = true, desc = 'Debug continue' })
       map('n', '<leader>dn', dap.step_over, { noremap = true, desc = 'Debug step over (next)' })
@@ -100,7 +123,7 @@ return {
       map('n', '<leader>dR', dap.repl.toggle, { noremap = true, desc = 'Toggle REPL' })
       map('n', '<leader>dr', dap.restart, { noremap = true, desc = 'Restart debugging' })
       map('n', '<leader>dl', dap.list_breakpoints, { noremap = true, desc = 'List breakpoints' })
-      map('n', '<leader>de', function ()
+      map('n', '<leader>de', function()
         dap_ui.elements.watches.add(vim.fn.expand('<cword>'))
       end, { noremap = true, desc = 'Add watch' })
 
