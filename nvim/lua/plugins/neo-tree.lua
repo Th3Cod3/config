@@ -19,13 +19,16 @@ return {
       },
 
       window = {
-        position = 'right',
+        position = 'current',
         mappings = {
           ['z'] = 'none',
           ['<BS>'] = 'noop',
           ['/'] = 'noop',
           ['U'] = 'navigate_up',
           ['f'] = 'fuzzy_finder',
+          ['F'] = { ntc.find_files, desc = 'Find files (Telescope)' },
+          ['G'] = { ntc.live_grep, desc = 'Live grep (Telescope)' },
+          ['Y'] = { ntc.copy_path, desc = 'Copy path' },
           ['zo'] = { ntc.neotree_zo, desc = 'Fold' },
           ['zO'] = { ntc.neotree_zO, desc = 'Fold recursively' },
           ['zc'] = { ntc.neotree_zc, desc = 'Unfold' },
@@ -90,7 +93,7 @@ return {
       },
     })
 
-    vim.keymap.set('n', '<C-e>', ':Neotree filesystem reveal right<CR>', { desc = 'Reveal in file tree' })
+    vim.keymap.set('n', '<C-e>', ':Neotree filesystem reveal current<cr>', { desc = 'Reveal in file tree' })
     -- vim.keymap.set('n', '<C-w>', ':Neotree close<CR>', { desc = 'Close file tree' })
   end,
 }

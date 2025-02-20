@@ -1,7 +1,7 @@
 vim.g.mapleader = ' '
 
-vim.keymap.set({ 'n', 'v' }, '<leader>|', ':s<cr>')
-vim.keymap.set({ 'n', 'v' }, '<leader>-', ':vs<cr>')
+vim.keymap.set({ 'n', 'v' }, '<leader>|', ':vs<cr>')
+vim.keymap.set({ 'n', 'v' }, '<leader>-', ':sp<cr>')
 vim.keymap.set('n', '<leader>x', ':bd<cr>')
 
 vim.keymap.set({ 'n', 'v' }, '<leader>bn', ':bnext<cr>')
@@ -31,6 +31,21 @@ vim.keymap.set(
 )
 
 vim.keymap.set({ 'n', 'v' }, '<leader>kv', ':qa!<cr>', { desc = 'Force quit all file (quit vim)' })
+
+local function toggle_quickfix()
+  local windows = vim.fn.getwininfo()
+  for _, win in pairs(windows) do
+    if win["quickfix"] == 1 then
+      vim.cmd.cclose()
+      return
+    end
+  end
+  vim.cmd.copen()
+end
+
+vim.keymap.set('n', '<leader>fq', toggle_quickfix, { desc = "Toggle Quickfix Window" })
+vim.keymap.set('n', '<leader>qn', ':cnext<cr>', { desc = "Next Quickfix" })
+vim.keymap.set('n', '<leader>qp', ':cprevious<cr>', { desc = "Previous Quickfix" })
 
 -- rezise windows
 vim.keymap.set('n', '<M-Left>', ':vertical resize -2<CR>', { silent = true })

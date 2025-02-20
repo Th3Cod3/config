@@ -3,6 +3,63 @@ local M = {}
 local diff_node = nil
 local diff_name = nil
 
+M.find_files = function(state)
+  local telescope = require('telescope.builtin')
+  local node = state.tree:get_node()
+  local path = node:get_id()
+
+  telescope.find_files({ cwd = path, hidden = true })
+end
+
+M.live_grep = function(state)
+  local telescope = require('telescope.builtin')
+  local node = state.tree:get_node()
+  local path = node:get_id()
+
+  telescope.live_grep({ cwd = path })
+end
+
+M.copy_path = function(state)
+  -- NeoTree is based on [NuiTree](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree)
+  -- The node is based on [NuiNode](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree#nuitreenode)
+  local node = state.tree:get_node()
+  local filepath = node:get_id()
+  local filename = node.name
+  local modify = vim.fn.fnamemodify
+
+  local results = {
+    filepath,
+    modify(filepath, ':.'),
+    modify(filepath, ':~'),
+    filename,
+    modify(filename, ':r'),
+    modify(filename, ':e'),
+  }
+
+  vim.ui.select({
+    '1. Absolute path: ' .. results[1],
+    '2. Path relative to CWD: ' .. results[2],
+    '3. Path relative to HOME: ' .. results[3],
+    '4. Filename: ' .. results[4],
+    '5. Filename without extension: ' .. results[5],
+    '6. Extension of the filename: ' .. results[6],
+  }, { prompt = 'Choose to copy to clipboard:' }, function(choice)
+    if choice then
+      local i = tonumber(choice:sub(1, 1))
+      if i then
+        local result = results[i]
+        vim.fn.setreg('"', result)
+        vim.fn.setreg('+', result)
+        vim.notify('Copied: ' .. result)
+      else
+        vim.notify('Invalid selection')
+      end
+    else
+      vim.notify('Selection cancelled')
+    end
+  end)
+end
+
 M.neotree_diff_files = function(state)
   local node = state.tree:get_node()
   local log = require('neo-tree.log')
@@ -232,7 +289,7 @@ M.neotree_zM = function(state)
 end
 
 -- Expand more folders: increase depthlevel by 1 or count.
-M.neotree_zr = function (state)
+M.neotree_zr = function(state)
   local depthlevel = vim.b.neotree_depthlevel or MIN_DEPTH
 
   set_depthlevel(state, depthlevel + vim.v.count1)
@@ -271,4 +328,4 @@ M.neotree_last_file = function(state)
   render.focus_node(state, siblings[1]:get_id())
 end
 
-return M;
+return M
