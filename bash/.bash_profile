@@ -1,10 +1,17 @@
 echo "Loading TH3COD3 settings..."
 
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ] && [ -z "$NO_TMUX" ]; then
+  while IFS='=' read -r key value; do
+    case "$key" in
+      TMUX|NO_TMUX) continue ;;  # skip these to avoid problems
+      *) tmux set-environment -g "$key" "$value" ;;
+    esac
+  done < <(env)
+
   if [[ -n $VSCODE_WORKSPACE ]]; then
     exec tmux new-session -As $VSCODE_WORKSPACE
   fi
-  exec tmux new-session -A -s main
+  exec tmux new-session -As main
 fi
 
 if [ -x /usr/bin/dircolors ]; then
@@ -57,6 +64,7 @@ function git_branch_name() {
     echo $(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')
 }
 
+bind 'set completion-ignore-case on'
 export PS1='\n\[\e[1;37m\]|-- \[\e[1;32m\]\u\[\e[0;39m\]@\[\e[1;36m\]\h\[\e[0;39m\]:\[\e[1;33m\]\w\[\e[0;39m\]\[\e[1;35m\] $(git_branch_name)\[\e[0;39m\] \[\e[1;37m\]--|\[\e[0;39m\]\n$ '
 
 export XDG_CONFIG_HOME="$HOME/.config"
