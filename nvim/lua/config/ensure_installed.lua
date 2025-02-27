@@ -78,7 +78,9 @@ M.null_ls = {
   'phpstan',
 }
 
-if vim.fn.system('uname -m') == 'x86_64' then
+local arch = vim.fn.system('uname -m')
+arch = string.gsub(arch, "%s+", "")
+if arch == 'x86_64' then
   -- mason has only registered those packages for x86_64
   -- embedded
   table.insert(M.lsp, 'clangd')

@@ -10,4 +10,22 @@ return {
     ---@type render.md.UserConfig
     opts = {},
   },
+
+  {
+    'hedyhli/markdown-toc.nvim',
+    ft = { 'markdown' },
+    cmd = { 'Mtoc' },
+    opts = {},
+  },
+
+  {
+    'iamcco/markdown-preview.nvim',
+    cmd = {
+      'MarkdownPreviewToggle',
+      'MarkdownPreview',
+      'MarkdownPreviewStop',
+    },
+    ft = { 'markdown' },
+    build = ':call mkdp#util#install()',
+  },
 }
