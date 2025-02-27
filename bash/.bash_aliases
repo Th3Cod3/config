@@ -95,6 +95,8 @@ alias gb='git branch'
 alias gbda='git branch | grep -v \* | xargs git branch -D ' # branch delete all except current
 alias gl='git log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short'
 alias grl='git reflog'
+alias gu='git update-index --assume-unchanged'
+alias gU='git update-index --no-assume-unchanged'
 
 ### TMUX
 alias t="tmux -2"
