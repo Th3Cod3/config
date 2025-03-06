@@ -9,6 +9,26 @@ return {
   },
 
   {
+    'sindrets/diffview.nvim',
+    cmd = {
+      'DiffviewOpen',
+      'DiffviewClose',
+      'DiffviewToggleFiles',
+      'DiffviewFocusFiles',
+      'DiffviewRefresh',
+      'DiffviewToggleFile',
+      'DiffviewFileHistory',
+      'DiffviewToggleOption',
+    },
+    keys = {
+      { '<leader>gd', ':DiffviewOpen<cr>', desc = 'Diffview open' },
+      { '<leader>gx', ':DiffviewClose<cr>', desc = 'Diffview close' },
+      { '<leader>gh', ':DiffviewFileHistory<cr>', desc = 'Diffview history (commits)' },
+      { '<leader>gb', ':DiffviewFileHistory %<cr>', desc = 'Current buffer git history' },
+    },
+  },
+
+  {
     'lewis6991/gitsigns.nvim',
     event = 'BufRead',
     config = function()

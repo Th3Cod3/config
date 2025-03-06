@@ -40,6 +40,17 @@ return {
       end
 
       telescope.setup({
+        defaults = {
+          file_ignore_patterns = { 'node_modules', '.git', 'vendor' },
+          mappings = {
+            i = {
+              ['<esc>'] = actions.close,
+            },
+            n = {
+              ['<esc>'] = actions.close,
+            },
+          },
+        },
         picker = {
           find_files = {
             hidden = true,
@@ -76,8 +87,6 @@ return {
       map('n', '<leader>fw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP Workspace Symbols' })
       map('n', '<leader>gF', builtin.git_files, { desc = 'Telescope Git Files' })
       map('n', '<leader>gs', builtin.git_status, { desc = 'Telescope Git Status' })
-      map('n', '<leader>gc', builtin.git_commits, { desc = 'Telescope Git Commits' })
-      map('n', '<leader>gp', builtin.git_bcommits, { desc = 'Telescope Git BCommits' })
       map('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope Git Branches' })
 
     end,
