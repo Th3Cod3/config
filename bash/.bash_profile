@@ -1,19 +1,5 @@
 echo "Loading TH3COD3 settings..."
 
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ] && [ -z "$NO_TMUX" ]; then
-  while IFS='=' read -r key value; do
-    case "$key" in
-      TMUX|NO_TMUX) continue ;;  # skip these to avoid problems
-      *) tmux set-environment -g "$key" "$value" ;;
-    esac
-  done < <(env)
-
-  if [[ -n $VSCODE_WORKSPACE ]]; then
-    exec tmux new-session -As $VSCODE_WORKSPACE
-  fi
-  exec tmux new-session -As main
-fi
-
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'

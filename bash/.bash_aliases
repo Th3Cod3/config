@@ -99,9 +99,7 @@ alias gu='git update-index --assume-unchanged'
 alias gU='git update-index --no-assume-unchanged'
 
 ### TMUX
-alias t="tmux -2"
-alias ta="tmux -2 a"
-alias tat="tmux -2 a -t"
+alias t="tmux new-session -As main"
 alias tks="tmux -2 kill-server"
 alias ts="~/.config/tmux/tmux-sessionizer.sh"
 
