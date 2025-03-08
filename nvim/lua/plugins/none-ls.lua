@@ -17,7 +17,10 @@ return {
       local function get_docker_path(params)
         local filename = params.bufname
         local project_root = vim.fn.getcwd()
-        return filename:gsub(project_root, docker_map_dir) -- Replace local root with Docker's path
+
+        filename = filename:gsub(project_root, docker_map_dir)
+
+        return filename
       end
 
       local h = require('null-ls.helpers')
@@ -25,6 +28,9 @@ return {
       null_ls.setup({
         sources = {
           null_ls.builtins.diagnostics.phpstan.with({
+            check_exit_code = function(code)
+              return code <= 1
+            end,
             command = 'docker-compose',
             args = function(params)
               return {
@@ -38,9 +44,12 @@ return {
                 get_docker_path(params),
               }
             end,
+            timeout = 5000,
+            temp_dir = '/tmp',
             on_output = function(params)
               local path = params.temp_path or params.bufname
               local parser = h.diagnostics.from_json({})
+
               path = get_docker_path(params)
               params.messages = params.output
                   and params.output.files
@@ -67,6 +76,7 @@ return {
                 get_docker_path(params),
               }
             end,
+            timeout = 5000,
           }),
           null_ls.builtins.formatting.prettierd,
           null_ls.builtins.diagnostics.editorconfig_checker,
