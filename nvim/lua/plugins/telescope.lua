@@ -12,42 +12,36 @@ return {
     config = function()
       local telescope = require('telescope')
       local actions = require('telescope.actions')
-      local action_state = require('telescope.actions.state')
+      local actionsLayout = require('telescope.actions.layout')
       local builtin = require('telescope.builtin')
 
-      local buffers
-      buffers = function()
+      local buffers = function()
         builtin.buffers({
           sort_mru = true,
           ignore_current_buffer = true,
-          attach_mappings = function(prompt_bufnr, map)
-            local delete_buf = function()
-              local selection = action_state.get_selected_entry()
-              -- @todo: refresh buffer list after deletion
-              -- local picker = action_state.get_current_picker(prompt_bufnr)
-              -- picker:refresh()
-              actions.close(prompt_bufnr)
-              vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-              buffers()
-            end
-
-            map('n', 'd', delete_buf)
-            map('i', '<c-d>', delete_buf)
-
-            return true
-          end,
         })
       end
 
       telescope.setup({
         defaults = {
           file_ignore_patterns = { 'node_modules', '.git', 'vendor' },
+          preview = {
+            hide_on_startup = true,
+          },
           mappings = {
             i = {
-              ['<esc>'] = actions.close,
+              ['<C-p>'] = actionsLayout.toggle_preview,
+              ['<C-d>'] = actions.delete_buffer,
+              ['<C-j>'] = actions.cycle_history_next,
+              ['<C-k>'] = actions.cycle_history_prev,
+              ['<C-v>'] = actionsLayout.cycle_layout_next,
             },
             n = {
-              ['<esc>'] = actions.close,
+              ['d'] = actions.delete_buffer,
+              ['<C-p>'] = actionsLayout.toggle_preview,
+              ['<C-j>'] = actions.cycle_history_next,
+              ['<C-k>'] = actions.cycle_history_prev,
+              ['<C-v>'] = actionsLayout.cycle_layout_next,
             },
           },
         },
@@ -80,7 +74,7 @@ return {
       map('n', '<leader>fM', builtin.man_pages, { desc = 'Telescope man pages' })
       map('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope Keymaps' })
       map('n', '<leader>fd', function()
-        builtin.diagnostics({ bufnr = 0 })
+        builtin.diagnostics({ bufnr = 0, previewer = false })
       end, { desc = 'Telescope Diagnostics (buffer)' })
       map('n', '<leader>fD', builtin.diagnostics, { desc = 'Telescope Diagnostics (CWD)' })
       map('n', '<leader>fS', builtin.lsp_document_symbols, { desc = 'Telescope LSP Document Symbols' })
