@@ -1,5 +1,7 @@
 local goFile = function ()
-  if require('laravel').app('gf').cursor_on_resource() then
+  local is_terminal = vim.api.nvim_get_option_value('buftype', {}) == 'terminal'
+
+  if not is_terminal and require('laravel').app('gf').cursor_on_resource() then
     return '<cmd>Laravel gf<CR>'
   end
 

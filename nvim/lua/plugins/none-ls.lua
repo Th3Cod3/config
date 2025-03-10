@@ -4,21 +4,20 @@ return {
     event = 'VeryLazy',
     opts = {
       ensure_installed = require('config.ensure_installed').null_ls,
-    }
-
+    },
   },
   {
     'nvimtools/none-ls.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local null_ls = require('null-ls')
-
       local docker_map_dir = '/var/www/html'
       local function get_docker_path(params)
+        ---@type string filename
         local filename = params.bufname
         local project_root = vim.fn.getcwd()
 
-        filename = filename:gsub(project_root, docker_map_dir)
+        filename = filename:gsub(vim.pesc(project_root), docker_map_dir)
 
         return filename
       end
@@ -26,11 +25,9 @@ return {
       local h = require('null-ls.helpers')
 
       null_ls.setup({
+        diagnostics_format = '[#{s}] #{m}',
         sources = {
           null_ls.builtins.diagnostics.phpstan.with({
-            check_exit_code = function(code)
-              return code <= 1
-            end,
             command = 'docker-compose',
             args = function(params)
               return {
@@ -42,6 +39,7 @@ return {
                 'json',
                 '--no-progress',
                 get_docker_path(params),
+                '--memory-limit=1G',
               }
             end,
             timeout = 5000,
@@ -56,6 +54,10 @@ return {
                   and params.output.files[path]
                   and params.output.files[path].messages
                 or {}
+
+              if not next(params.messages) and not params.output then
+                vim.notify('phpstan error: ' .. params.err)
+              end
 
               return parser({ output = params.messages })
             end,
