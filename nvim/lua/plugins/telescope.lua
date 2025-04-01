@@ -61,10 +61,11 @@ return {
 
       map('n', '<leader>T', ':Telescope ', { desc = 'Telescope cmd' })
       map('n', '<leader>ff', function() builtin.find_files({ hidden = true }) end, { desc = 'Telescope Find Files' })
+      map('n', '<leader><leader><leader>', builtin.resume, { desc = 'Telescope Resume' })
       map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fs', builtin.grep_string, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fb', buffers, { desc = 'Telescope Buffers' })
-      map('n', '<leader>fQ', builtin.quickfix, { desc = 'Telescope quickfix' })
+      map('n', '<leader>fq', builtin.quickfix, { desc = 'Telescope quickfix' })
       map('n', '<leader>fH', builtin.help_tags, { desc = 'Telescope Help Tags' })
       map('n', '<leader>fo', builtin.oldfiles, { desc = 'Telescope Old Files' })
       map('n', '<leader>fr', builtin.registers, { desc = 'Telescope Registers' })
@@ -81,7 +82,7 @@ return {
       map('n', '<leader>fw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP Workspace Symbols' })
       map('n', '<leader>gF', builtin.git_files, { desc = 'Telescope Git Files' })
       map('n', '<leader>gs', builtin.git_status, { desc = 'Telescope Git Status' })
-      map('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope Git Branches' })
+      -- map('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope Git Branches' })
 
     end,
   },

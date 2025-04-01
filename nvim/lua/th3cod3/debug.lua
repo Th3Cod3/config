@@ -11,7 +11,7 @@ _G.dump = function (...)
   f:write("\n--------------------------------\n")
   for _, object in ipairs(objects) do
     f:write(object)
-    f:write("\n\n")
+    f:write("\n############################\n")
   end
   f:write("\n--------------------------------\n")
 

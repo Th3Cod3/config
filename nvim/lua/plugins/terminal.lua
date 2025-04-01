@@ -21,7 +21,7 @@ return {
 
       local map = vim.keymap.set
 
-      map('n', '<leader>tt', term.toggle, { desc = 'Toggle terminal' })
+      map('n', '<C-t>', term.toggle, { desc = 'Toggle terminal' })
       map('n', '<leader>tv', ':ToggleTerm direction=vertical<cr>', { desc = 'Toggle terminal (vertical)' })
       map('n', '<leader>th', ':ToggleTerm direction=horizontal<cr>', { desc = 'Toggle terminal (horizontal)' })
       map('t', '<C-t>', term.toggle, { desc = 'Toggle terminal' })

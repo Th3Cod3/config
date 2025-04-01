@@ -93,7 +93,9 @@ return {
       },
     })
 
-    vim.keymap.set('n', '<C-e>', ':Neotree filesystem reveal current<cr>', { desc = 'Reveal in file tree' })
-    -- vim.keymap.set('n', '<C-w>', ':Neotree close<CR>', { desc = 'Close file tree' })
+    local map = vim.keymap.set
+
+    map('n', '<C-e>', ':Neotree filesystem reveal_force_cwd float<cr>', { desc = 'Reveal in file tree' })
+    map('n', '<leader>ge', ':Neotree git_status float<cr>', { desc = 'Reveal in file tree' })
   end,
 }

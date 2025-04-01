@@ -1,7 +1,10 @@
-local goFile = function ()
-  local is_terminal = vim.api.nvim_get_option_value('buftype', {}) == 'terminal'
+local goFile = function()
+  local filetypes = { 'blade', 'php' }
+  local ft = vim.api.nvim_get_option_value('filetype', {})
 
-  if not is_terminal and require('laravel').app('gf').cursor_on_resource() then
+  local isPhpFile = table.concat(filetypes, ','):find(ft) ~= nil
+
+  if isPhpFile and require('laravel').app('gf').cursor_on_resource() then
     return '<cmd>Laravel gf<CR>'
   end
 
@@ -21,6 +24,7 @@ return {
     cmd = { 'Laravel' },
     keys = {
       { '<leader>la', ':Laravel artisan<cr>', desc = 'Laravel artisan' },
+      { '<leader>lt', ':Laravel artisan tinker<cr>', desc = 'Laravel Tinker' },
       { '<leader>lr', ':Laravel routes<cr>', desc = 'Laravel routes' },
       { '<leader>lR', ':Laravel related<cr>', desc = 'Laravel related' },
       { '<leader>lv', ':Laravel view_finder<cr>', desc = 'Laravel list views' },

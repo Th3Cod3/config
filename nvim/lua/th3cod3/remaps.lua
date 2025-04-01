@@ -23,10 +23,7 @@ map({ 'n', 'v' }, '<leader>P', [["+P]], { desc = 'Paste from system clipboard' }
 map({ 'n', 'v' }, '<leader>x', [["_d]], { desc = 'Delete without yanking' })
 
 -- Search
-map(
-  'n', '<leader>sw', [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]],
-  { desc = 'Replace word under cursor' }
-)
+map('n', '<leader>sw', [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
 map({ 'n', 'v' }, '<leader>sh', ':noh<cr>', { desc = 'Clear search highlight' })
 
 map({ 'n', 'v' }, '<leader>kv', ':qa!<cr>', { desc = 'Force quit all file (kill vim)' })
@@ -40,7 +37,7 @@ map('n', '<M-q>', 'Q', { noremap = true, desc = 'Replay last register' })
 local function toggle_quickfix()
   local windows = vim.fn.getwininfo()
   for _, win in pairs(windows) do
-    if win["quickfix"] == 1 then
+    if win['quickfix'] == 1 then
       vim.cmd.cclose()
       return
     end
@@ -48,9 +45,9 @@ local function toggle_quickfix()
   vim.cmd.copen()
 end
 
-map('n', '<leader>qt', toggle_quickfix, { desc = "Toggle Quickfix Window" })
-map('n', '<leader>qn', ':cnext<cr>', { desc = "Next Quickfix" })
-map('n', '<leader>qp', ':cprevious<cr>', { desc = "Previous Quickfix" })
+map('n', '<leader>qt', toggle_quickfix, { desc = 'Toggle Quickfix Window' })
+map('n', '<leader>qn', ':cnext<cr>', { desc = 'Next Quickfix' })
+map('n', '<leader>qp', ':cprevious<cr>', { desc = 'Previous Quickfix' })
 
 -- rezise windows
 map('n', '<M-Left>', ':vertical resize -2<CR>', { silent = true })
@@ -66,4 +63,3 @@ map({ 'n', 'v' }, '<leader>-', ':sp<cr>')
 map({ 'n', 'v' }, '<leader>bd', ':bd<cr>')
 map({ 'n', 'v' }, '<leader>bn', ':bnext<cr>')
 map({ 'n', 'v' }, '<leader>bp', ':bprevious<cr>')
-
