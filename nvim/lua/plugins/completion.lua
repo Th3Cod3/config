@@ -19,19 +19,119 @@ return {
   },
 
   {
-    'github/copilot.vim',
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
     event = { 'InsertEnter', 'BufRead', 'BufNewFile' },
-    ft = {},
-    cmd = { 'Copilot' },
     keys = {
-      { '<C-L>', '<Plug>(copilot-accept-word)', desc = 'Copilot accept word', mode = 'i' },
-      { '<C-J>', '<Plug>(copilot-accept-line)', desc = 'Copilot accept line', mode = 'i' },
-      { '<C-K>', '<Plug>(copilot-dismiss)', desc = 'Copilot dismiss', mode = 'i' },
+      { '<leader>ac', ':Copilot suggestion<cr>', desc = 'Copilot suggestion' },
+    },
+    config = function()
+      require('copilot').setup({
+        suggestion = {
+          auto_trigger = true,
+          keymap = {
+            accept = false,
+            accept_word = '<C-L>',
+            accept_line = '<C-J>',
+            dismiss = '<C-K>',
+          },
+        },
+        filetypes = {
+          markdown = true,
+        },
+      })
+
+      vim.keymap.set('i', '<tab>', function()
+        if require('copilot.suggestion').is_visible() then
+          require('copilot.suggestion').accept()
+          return '<Ignore>'
+        end
+
+        return '<tab>'
+      end, { expr = true, noremap = true })
+    end,
+  },
+
+  {
+    'yetone/avante.nvim',
+    event = 'VeryLazy',
+    version = false, -- Never set this value to "*"! Never!
+    opts = {
+      provider = 'copilot',
+      windows = {
+        width = 50,
+      },
+      repo_map = {
+        ignore_patterns = {
+          '%.git',
+          '%.worktree',
+          '__pycache__',
+          'node_modules',
+          'vendor',
+        },
+      },
+      mappings = {
+        cancel = {
+          normal = { '<C-c>' },
+        },
+        sidebar = {
+          close = { '<C-c', 'ZZ' },
+        },
+      },
+      file_selector = {
+        provider = 'telescope',
+      },
+      vendors = {
+        ---@type AvanteSupportedProvider
+        ['claude-haiku'] = {
+          __inherited_from = 'claude',
+          model = 'claude-3-5-haiku-20241022',
+          timeout = 30000, -- Timeout in milliseconds
+          temperature = 0,
+          max_tokens = 8192,
+        },
+      },
+    },
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    build = 'make',
+    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'stevearc/dressing.nvim',
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+      'nvim-telescope/telescope.nvim',
+      'hrsh7th/nvim-cmp',
+      'nvim-tree/nvim-web-devicons',
+      'zbirenbaum/copilot.lua',
+      'MeanderingProgrammer/render-markdown.nvim',
+      --- The below dependencies may be not needed in my case
+      'echasnovski/mini.pick',
+      'ibhagwan/fzf-lua',
+      -- {
+      --   -- support for image pasting
+      --   "HakonHarnes/img-clip.nvim",
+      --   event = "VeryLazy",
+      --   opts = {
+      --     -- recommended settings
+      --     default = {
+      --       embed_image_as_base64 = false,
+      --       prompt_for_file_name = false,
+      --       drag_and_drop = {
+      --         insert_mode = true,
+      --       },
+      --       -- required for Windows users
+      --       use_absolute_path = true,
+      --     },
+      --   },
+      -- },
     },
   },
+
   { 'hrsh7th/cmp-buffer', event = 'VeryLazy' },
   { 'hrsh7th/cmp-path', event = 'VeryLazy' },
   { 'hrsh7th/cmp-cmdline', event = 'VeryLazy' },
+  { 'hrsh7th/cmp-nvim-lua', event = 'VeryLazy' },
   { 'hrsh7th/cmp-nvim-lua', event = 'VeryLazy' },
   { 'saadparwaiz1/cmp_luasnip', event = 'VeryLazy' },
   {
