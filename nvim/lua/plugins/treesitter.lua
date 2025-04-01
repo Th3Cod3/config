@@ -78,10 +78,53 @@ return {
               ['@function.outer'] = 'V', -- linewise
               ['@class.outer'] = '<c-v>', -- blockwise
             },
-            include_surrounding_whitespace = true,
+            swap = {
+              enable = true,
+              swap_next = {
+                ['<leader>sa'] = '@parameter.inner',
+              },
+              swap_previous = {
+                ['<leader>sa'] = '@parameter.inner',
+              },
+            },
+            move = {
+              enable = true,
+              set_jumps = true,
+              goto_next_start = {
+                [']f'] = { query = '@function.outer', desc = 'Next function start' },
+                [']d'] = { query = '@conditional.outer', desc = 'Next conditional start' },
+                [']]'] = { query = '@class.outer', desc = 'Next class start' },
+                [']l'] = { query = { '@loop.inner', '@loop.outer' }, desc = 'Next loop start' },
+                [']s'] = { query = '@local.scope', query_group = 'locals', desc = 'Next scope' },
+                [']z'] = { query = '@fold', query_group = 'folds', desc = 'Next fold' },
+              },
+              goto_previous_start = {
+                ['[f'] = { query = '@function.outer', desc = 'Previous function start' },
+                ['[['] = { query = '@class.outer', desc = 'Previous class start' },
+                ['[d'] = { query = '@conditional.outer', desc = 'Previous conditional start' },
+                ['[l'] = { query = { '@loop.inner', '@loop.outer' }, desc = 'Previous loop start' },
+                ['[s'] = { query = '@local.scope', query_group = 'locals', desc = 'Previous scope' },
+                ['[z'] = { query = '@fold', query_group = 'folds', desc = 'Previous fold' },
+              },
+            },
           },
         },
       })
+    end,
+  },
+  {
+    'chrisgrieser/nvim-various-textobjs',
+    event = 'VeryLazy',
+    config = function()
+      local textobjs = require("various-textobjs")
+      textobjs.setup({
+        keymaps = {
+          useDefaults = true,
+        },
+      })
+
+      local map = vim.keymap.set
+      map({ 'o', 'x' }, 'b', function () textobjs.entireBuffer() end, { noremap = true, silent = true })
     end,
   },
   {
