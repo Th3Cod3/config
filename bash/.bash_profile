@@ -23,6 +23,10 @@ if [ -f ~/.bash_aliases ]; then
 . ~/.bash_aliases
 fi
 
+if [ -f ~/.config/config/.env ]; then
+  source ~/.config/config/.env
+fi
+
 # Git branch bash completion
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash

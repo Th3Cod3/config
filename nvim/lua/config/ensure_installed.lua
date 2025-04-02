@@ -42,6 +42,8 @@ M.treesitter = {
   'sql',
   'xml',
   'yaml',
+  'markdown',
+  'markdown_inline',
 }
 
 M.lsp = {

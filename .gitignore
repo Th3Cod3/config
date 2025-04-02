@@ -1,3 +1,5 @@
+.clipboard
+.env*
 tmux/plugins
 nvim/spell/
 bin/

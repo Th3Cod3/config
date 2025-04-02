@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return {
   {
     'nvim-treesitter/nvim-treesitter',
@@ -72,6 +73,8 @@ return {
               ['ic'] = { query = '@class.inner', desc = 'Inner class' },
               ['aa'] = { query = '@parameter.outer', desc = 'Outer argument' },
               ['ia'] = { query = '@parameter.inner', desc = 'Inner argument' },
+              ['ad'] = { query = '@conditional.outer', desc = 'Outer conditional' },
+              ['id'] = { query = '@conditional.inner', desc = 'Inner conditional' },
             },
             selection_modes = {
               ['@parameter.outer'] = 'v', -- charwise
