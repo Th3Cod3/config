@@ -21,15 +21,7 @@ ARCH=$(uname -m)
 
 sudo npm i -g n
 sudo n 22
-
-rm ~/.config/tmux ||:
-rm ~/.config/nvim ||:
-rm ~/.bash_profile ||:
-rm ~/.bash_aliases ||:
-rm ~/.tmux.conf ||:
-rm ~/.gitconfig ||:
-rm ~/.config/lazygit/config.yml ||:
-rm -R ~/.tmux/plugins ||:
+sudo npm i -g typescript @vue/typescript-plugin
 
 mkdir -p ~/.tmux
 git submodule init
@@ -102,14 +94,15 @@ else
   sudo install ~/.local/bin/lazydocker /usr/local/bin
 fi
 
-ln -s ~/.config/config/tmux ~/.config/tmux
-ln -s ~/.config/config/alacritty ~/.config/alacritty
-ln -s ~/.config/config/nvim ~/.config/nvim
-ln -s ~/.config/config/bash/.bash_aliases ~/.bash_aliases
-ln -s ~/.config/config/bash/.bash_profile ~/.bash_profile
-ln -s ~/.config/config/git/.gitconfig ~/.gitconfig
+ln -sf ~/.config/config/tmux ~/.config/
+ln -sf ~/.config/config/alacritty ~/.config/
+ln -sf ~/.config/config/kitty ~/.config/
+ln -sf ~/.config/config/nvim ~/.config/
+ln -sf ~/.config/config/bash/.bash_aliases ~/.bash_aliases
+ln -sf ~/.config/config/bash/.bash_profile ~/.bash_profile
+ln -sf ~/.config/config/git/.gitconfig ~/.gitconfig
 mkdir -p ~/.config/lazygit
-ln -s ~/.config/config/git/config.yml ~/.config/lazygit/config.yml
+ln -sf ~/.config/config/git/config.yml ~/.config/lazygit/config.yml
 
 source ~/.bash_profile
 
