@@ -1,14 +1,14 @@
 echo "Loading TH3COD3 settings..."
 
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  #alias dir='dir --color=auto'
+  #alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 
 if ! shopt -oq posix; then
@@ -20,7 +20,7 @@ if ! shopt -oq posix; then
 fi
 
 if [ -f ~/.bash_aliases ]; then
-. ~/.bash_aliases
+  . ~/.bash_aliases
 fi
 
 if [ -f ~/.config/config/.env ]; then
@@ -51,7 +51,7 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 
 function git_branch_name() {
-    echo $(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')
+  echo $(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')
 }
 
 bind 'set completion-ignore-case on'
