@@ -3,7 +3,7 @@ local c = {
   gray = '#999999',
   white = '#CCCCCC',
   gray2 = '#555555',
-};
+}
 
 return {
   {
@@ -30,19 +30,32 @@ return {
   },
 
   {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
+    'utilyre/barbecue.nvim',
+    name = 'barbecue',
+    version = '*',
     dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
+      'SmiteshP/nvim-navic',
+      'nvim-tree/nvim-web-devicons', -- optional dependency
     },
     opts = {},
   },
-
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = { 'BufEnter' },
+    opt = {
+      enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
+      multiwindow = false,      -- Enable multiwindow support.
+      max_lines = 6,            -- How many lines the window should span. Values <= 0 mean no limit.
+      min_window_height = 0,    -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+      line_numbers = true,
+      multiline_threshold = 20, -- Maximum number of lines to show for a single context
+      trim_scope = 'outer',     -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+      mode = 'topline',          -- Line used to calculate context. Choices: 'cursor', 'topline'
+    },
+  },
   {
     'lukas-reineke/indent-blankline.nvim',
-    event = 'BufEnter',
+    event = { 'BufEnter' },
     config = function()
       local highlight = {
         'IblRed',

@@ -16,7 +16,7 @@ return {
 
   {
     'onsails/lspkind.nvim',
-    lazy=true
+    lazy = true,
   },
 
   {
@@ -41,7 +41,7 @@ return {
         capabilities = capabilities,
         filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'h', 'arduino', 'cuda', 'proto' },
       })
-      -- lspconfig.vhdl_ls.setup({ capabilities = capabilities })
+      lspconfig.vhdl_ls.setup({ capabilities = capabilities })
       -- lspconfig.serve_d.setup({ capabilities = capabilities })
 
       -- web

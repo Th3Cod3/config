@@ -56,8 +56,12 @@ return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
     version = false, -- Never set this value to "*"! Never!
+    keys = {
+      { '<leader>aC', ':AvanteClear<cr>', desc = 'Avante clear' },
+      { '<leader>at', ':AvanteToggle<cr>', desc = 'Avante toggle' },
+    },
     opts = {
-      provider = 'copilot',
+      provider = 'claude',
       windows = {
         width = 50,
       },
@@ -75,7 +79,8 @@ return {
           normal = { '<C-c>' },
         },
         sidebar = {
-          close = { '<C-c', 'ZZ' },
+          close = { '<C-c>', 'ZZ' },
+          close_form_input = { '<C-c>', '<C-d>' },
         },
       },
       file_selector = {
@@ -108,23 +113,6 @@ return {
       --- The below dependencies may be not needed in my case
       'echasnovski/mini.pick',
       'ibhagwan/fzf-lua',
-      -- {
-      --   -- support for image pasting
-      --   "HakonHarnes/img-clip.nvim",
-      --   event = "VeryLazy",
-      --   opts = {
-      --     -- recommended settings
-      --     default = {
-      --       embed_image_as_base64 = false,
-      --       prompt_for_file_name = false,
-      --       drag_and_drop = {
-      --         insert_mode = true,
-      --       },
-      --       -- required for Windows users
-      --       use_absolute_path = true,
-      --     },
-      --   },
-      -- },
     },
   },
 

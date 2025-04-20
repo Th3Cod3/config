@@ -42,6 +42,7 @@ return {
                 '--memory-limit=1G',
               }
             end,
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
             timeout = 5000,
             temp_dir = '/tmp',
             on_output = function(params)
@@ -55,8 +56,9 @@ return {
                   and params.output.files[path].messages
                 or {}
 
+              -- @todo: getting false positives, when phpstan has not found any errors
               if not next(params.messages) and not params.output then
-                vim.notify('phpstan error: ' .. params.err)
+                vim.print('phpstan error: ' .. params.err)
               end
 
               return parser({ output = params.messages })
