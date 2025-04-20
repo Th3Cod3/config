@@ -66,6 +66,7 @@ local function cycle_diagnostic_view()
       virtual_text = false,
     })
   else
+    diagnostic_next_view = 'text'
     vim.diagnostic.config({
       virtual_lines = false,
       virtual_text = false,
