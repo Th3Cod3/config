@@ -32,6 +32,7 @@ return {
             args = function(params)
               return {
                 'exec',
+                '-T',
                 'web',
                 'vendor/bin/phpstan',
                 'analyze',
