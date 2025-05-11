@@ -22,7 +22,8 @@ return {
   },
 
   {
-    'iamcco/markdown-preview.nvim',
+    -- 'iamcco/markdown-preview.nvim',
+    'wardenclyffetower/markdown-preview.nvim',
     cmd = {
       'MarkdownPreviewToggle',
       'MarkdownPreview',
