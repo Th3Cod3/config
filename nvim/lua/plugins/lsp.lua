@@ -49,9 +49,7 @@ return {
       -- lspconfig.serve_d.setup({ capabilities = capabilities })
 
       -- web
-      local mason_registry = require('mason-registry')
-      local vuels = mason_registry.get_package('vue-language-server')
-      local vue_language_server_path = vuels:get_install_path() .. '/node_modules/@vue/language-server'
+      local vuels_path = vim.fn.expand("$MASON/packages/vue-language-server/node_modules/@vue/language-server")
 
       lspconfig.eslint.setup({ capabilities = capabilities })
       lspconfig.ast_grep.setup({ capabilities = capabilities })
@@ -62,7 +60,7 @@ return {
           plugins = {
             {
               name = '@vue/typescript-plugin',
-              location = vue_language_server_path,
+              location = vuels_path,
               languages = { 'vue' },
             },
           },
@@ -109,14 +107,14 @@ return {
 
       map('n', '<leader>cl', ':LspInfo<cr>', { desc = 'Lsp Info' })
       map('n', '<leader>ch', ':ClangdSwitchSourceHeader<cr>', { desc = 'Clangd Switch Source Header' })
-      -- map('n', 'gd', vim.lsp.buf.definition, { desc = 'Goto Definition' })
-      -- map('n', 'gr', vim.lsp.buf.references, { desc = 'References' })
-      -- map('n', 'gI', vim.lsp.buf.implementation, { desc = 'Goto Implementation' })
-      -- map('n', 'gy', vim.lsp.buf.type_definition, { desc = 'Goto Type Definition' })
-      map('n', 'gd', builtin.lsp_definitions, { desc = 'Goto Definition' })
-      map('n', 'gr', builtin.lsp_references, { desc = 'References' })
-      map('n', 'gI', builtin.lsp_implementations, { desc = 'Goto Implementation' })
-      map('n', 'gy', builtin.lsp_type_definitions, { desc = 'Goto Type Definition' })
+      map('n', 'gd', vim.lsp.buf.definition, { desc = 'Goto Definition' })
+      map('n', 'gr', vim.lsp.buf.references, { desc = 'References' })
+      map('n', 'gI', vim.lsp.buf.implementation, { desc = 'Goto Implementation' })
+      map('n', 'gy', vim.lsp.buf.type_definition, { desc = 'Goto Type Definition' })
+      -- map('n', 'gd', builtin.lsp_definitions, { desc = 'Goto Definition' })
+      -- map('n', 'gr', builtin.lsp_references, { desc = 'References' })
+      -- map('n', 'gI', builtin.lsp_implementations, { desc = 'Goto Implementation' })
+      -- map('n', 'gy', builtin.lsp_type_definitions, { desc = 'Goto Type Definition' })
       map('n', 'K', vim.lsp.buf.hover, { desc = 'Hover' })
       map('n', 'gh', vim.lsp.buf.hover, { desc = 'Hover' })
       map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto Declaration' })
