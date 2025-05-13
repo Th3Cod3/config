@@ -45,6 +45,30 @@ local function toggle_quickfix()
   vim.cmd.copen()
 end
 
+local function compare_to_clipboard()
+  local ftype = vim.api.nvim_eval('&filetype')
+  vim.cmd(string.format(
+    [[
+    execute "\"xy"
+    vsplit
+    enew
+    normal! P
+    setlocal buftype=nowrite
+    set filetype=%s
+    diffthis
+    execute "normal! \<C-w>\<C-w>"
+    enew
+    set filetype=%s
+    normal! "xP
+    diffthis
+  ]],
+    ftype,
+    ftype
+  ))
+end
+
+map('x', '<leader>d', compare_to_clipboard)
+
 map('n', '<leader>qt', toggle_quickfix, { desc = 'Toggle Quickfix Window' })
 map('n', '<leader>qn', ':cnext<cr>', { desc = 'Next Quickfix' })
 map('n', '<leader>qp', ':cprevious<cr>', { desc = 'Previous Quickfix' })
