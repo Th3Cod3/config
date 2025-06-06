@@ -86,25 +86,14 @@ return {
       file_selector = {
         provider = 'telescope',
       },
-      vendors = {
-        ---@type AvanteSupportedProvider
-        ['claude-haiku'] = {
-          __inherited_from = 'claude',
-          model = 'claude-3-5-haiku-20241022',
-          timeout = 30000, -- Timeout in milliseconds
-          temperature = 0,
-          max_tokens = 8192,
-        },
-      },
     },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = 'make',
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
       'stevearc/dressing.nvim',
       'nvim-lua/plenary.nvim',
       'MunifTanjim/nui.nvim',
+      --- The below dependencies are optional,
       'nvim-telescope/telescope.nvim',
       'hrsh7th/nvim-cmp',
       'nvim-tree/nvim-web-devicons',

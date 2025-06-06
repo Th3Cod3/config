@@ -56,7 +56,6 @@ M.lsp = {
   'eslint',
   'ast_grep',
   'vuels',
-  'volar',
   'jsonls',
   'cssls',
   'emmet_ls',
