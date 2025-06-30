@@ -77,7 +77,7 @@ return {
         },
       })
 
-      lspconfig.vue_ls.setup({
+      lspconfig.vuels.setup({
         init_options = {
           vue = {
             hybridMode = false,

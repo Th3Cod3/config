@@ -27,11 +27,14 @@ mkdir -p ~/.tmux
 git submodule init
 git submodule update
 
-if [ -f src/neovim/build/bin/nvim ]; then
+if [ -f /usr/local/bin/nvim ]; then
   echo "Neovim already installed"
 else
   # compile neovim
   cd src/neovim
+  rm -rf build
+  make clean
+  git fetch --tags --force
   git checkout stable
   make CMAKE_BUILD_TYPE=RelWithDebInfo
   sudo make install

@@ -18,98 +18,11 @@ return {
     },
   },
 
-  {
-    'zbirenbaum/copilot.lua',
-    cmd = 'Copilot',
-    event = { 'InsertEnter', 'BufRead', 'BufNewFile' },
-    keys = {
-      { '<leader>ac', ':Copilot suggestion<cr>', desc = 'Copilot suggestion' },
-    },
-    config = function()
-      require('copilot').setup({
-        suggestion = {
-          auto_trigger = true,
-          keymap = {
-            accept = false,
-            accept_word = '<C-L>',
-            accept_line = '<C-J>',
-            dismiss = '<C-K>',
-          },
-        },
-        filetypes = {
-          markdown = true,
-        },
-      })
-
-      vim.keymap.set('i', '<tab>', function()
-        if require('copilot.suggestion').is_visible() then
-          require('copilot.suggestion').accept()
-          return '<Ignore>'
-        end
-
-        return '<tab>'
-      end, { expr = true, noremap = true })
-    end,
-  },
-
-  {
-    'yetone/avante.nvim',
-    event = 'VeryLazy',
-    version = false, -- Never set this value to "*"! Never!
-    keys = {
-      { '<leader>aC', ':AvanteClear<cr>', desc = 'Avante clear' },
-      { '<leader>at', ':AvanteToggle<cr>', desc = 'Avante toggle' },
-    },
-    opts = {
-      provider = 'claude',
-      windows = {
-        width = 50,
-      },
-      repo_map = {
-        ignore_patterns = {
-          '%.git',
-          '%.worktree',
-          '__pycache__',
-          'node_modules',
-          'vendor',
-        },
-      },
-      mappings = {
-        cancel = {
-          normal = { '<C-c>' },
-        },
-        sidebar = {
-          close = { '<C-c>', 'ZZ' },
-          close_form_input = { '<C-c>', '<C-d>' },
-        },
-      },
-      file_selector = {
-        provider = 'telescope',
-      },
-    },
-    build = 'make',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'stevearc/dressing.nvim',
-      'nvim-lua/plenary.nvim',
-      'MunifTanjim/nui.nvim',
-      --- The below dependencies are optional,
-      'nvim-telescope/telescope.nvim',
-      'hrsh7th/nvim-cmp',
-      'nvim-tree/nvim-web-devicons',
-      'zbirenbaum/copilot.lua',
-      'MeanderingProgrammer/render-markdown.nvim',
-      --- The below dependencies may be not needed in my case
-      'echasnovski/mini.pick',
-      'ibhagwan/fzf-lua',
-    },
-  },
-
-  { 'hrsh7th/cmp-buffer', event = 'VeryLazy' },
-  { 'hrsh7th/cmp-path', event = 'VeryLazy' },
-  { 'hrsh7th/cmp-cmdline', event = 'VeryLazy' },
-  { 'hrsh7th/cmp-nvim-lua', event = 'VeryLazy' },
-  { 'hrsh7th/cmp-nvim-lua', event = 'VeryLazy' },
+  { 'hrsh7th/cmp-buffer',       event = 'VeryLazy' },
+  { 'hrsh7th/cmp-path',         event = 'VeryLazy' },
+  { 'hrsh7th/cmp-cmdline',      event = 'VeryLazy' },
+  { 'hrsh7th/cmp-nvim-lua',     event = 'VeryLazy' },
+  { 'hrsh7th/cmp-nvim-lua',     event = 'VeryLazy' },
   { 'saadparwaiz1/cmp_luasnip', event = 'VeryLazy' },
   {
     'hrsh7th/nvim-cmp',
