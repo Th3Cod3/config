@@ -59,8 +59,11 @@ return {
       { '<leader>at', ':AvanteToggle<cr>', desc = 'Avante toggle' },
     },
     opts = {
-      provider = 'claude',
+      provider = 'gemini',
       providers = {
+        gemini = {
+          model = 'gemini-2.5-flash',
+        },
         -- claude = {
         --   endpoint = 'https://api.anthropic.com',
         --   model = 'claude-sonnet-4-20250514',

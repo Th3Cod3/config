@@ -35,5 +35,6 @@ return {
     opts = {
       lsp_server = 'intelephense',
     },
+    config = true,
   },
 }

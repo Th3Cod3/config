@@ -2,22 +2,18 @@ echo "Loading .bash_aliases"
 
 alias shr='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED TH3COD3_SETTINGS_LOADED; source ~/.bashrc'
 alias shp='unset BASH_ALIASES_LOADED BASH_PROFILE_LOADED TH3COD3_SETTINGS_LOADED; source ~/.bash_profile'
-alias v='vim .'
+alias v='nvim .'
 
 alias ll='ls -lhF'
 alias la='ls -lhAF'
 alias l='ls -CF'
+alias cb='~/.config/config/scripts/.clipboard.sh'
 
-alias chmy='sudo chown -R th3cod3'
-alias chdir='sudo find ./ -type d -print0 | xargs -0 chmod'
-alias chfile='sudo find ./ -type f -print0 | xargs -0 chmod'
-alias sh-all='chmy ./ && chdir 765 && chfile 644'
+export PER_FOLDERS="."
 
-LARAVEL_FOLDERS="app bootstrap config database public resources routes storage tests"
-
-alias perf="sudo find ${LARAVEL_FOLDERS} -type f -print0 | sudo xargs -0 chmod g+rw,u+rw,o+rw"
-alias perd="sudo find ${LARAVEL_FOLDERS} -type d -print0 | sudo xargs -0 chmod 777"
-alias perg="sudo chown -R th3cod3:www-data ${LARAVEL_FOLDERS}"
+alias perf='sudo find ${PER_FOLDERS} -type f -print0 | sudo xargs -0 chmod a+rw'
+alias perd='sudo find ${PER_FOLDERS} -type d -print0 | sudo xargs -0 chmod 777'
+alias perg='sudo chown -R th3cod3:www-data ${PER_FOLDERS}'
 alias pera="perf; perd; perg"
 
 # artisan
@@ -32,13 +28,9 @@ alias pat="php artisan test"
 alias patf="php artisan test --filter"
 
 #docker
-alias dkup='docker-compose up -d --remove-orphans'
 alias dku='docker-compose up -d --remove-orphans'
-alias dkdown='docker-compose down'
 alias dkd='docker-compose down'
-alias dkstop='docker-compose stop'
 alias dks='docker-compose stop'
-alias dkstopa='docker container stop $(docker ps -q)'
 alias dksa='docker container stop $(docker ps -q)'
 alias dkfresh='docker-compose restart'
 alias dkex='docker-compose exec'
@@ -50,13 +42,13 @@ alias dkrma='docker rm $(docker ps -aq)'
 alias dkdb='docker-compose exec db bash'
 alias dkchrome='docker-compose exec chrome bash'
 alias dknode='docker-compose exec node ash'
-alias dkweb='docker-compose exec web bash'
 alias dkw='docker-compose exec web bash'
 alias dknr='docker-compose exec node-red bash'
 alias dksw='docker-compose exec web sh'
 
 ### GIT
 alias g='git'
+alias gcl='git clone'
 alias gp='git pull'
 alias gP='git push'
 alias gPf='git push -f'
@@ -66,8 +58,8 @@ alias gcob='git checkout -b'
 alias gcom='git checkout master'
 alias gcod='git checkout dev'
 alias gcp='git cherry-pick'
-alias gs='git status'
-alias gss='git status -s'
+alias gst='git status'
+alias gsts='git status -s'
 alias ga='git add'
 alias gai='git add -i'
 alias gaA='git add -A'

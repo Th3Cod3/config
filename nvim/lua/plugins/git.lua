@@ -1,5 +1,48 @@
 return {
   {
+    'ruifm/gitlinker.nvim',
+    keys = {
+      {
+        '<leader>gy',
+        function()
+          require('gitlinker').get_buf_range_url('n')
+        end,
+        desc = 'Git remote permalink',
+      },
+      {
+        '<leader>gy',
+        function()
+          require('gitlinker').get_buf_range_url('v')
+        end,
+        mode = 'v',
+        desc = 'Git remote permalink (visual)',
+      },
+      {
+        '<leader>go',
+        function()
+          require('gitlinker').get_buf_range_url('n', {
+            action_callback = require('gitlinker.actions').open_in_browser,
+          })
+        end,
+        desc = 'Git remote permalink (open in browser)',
+      },
+      {
+        '<leader>go',
+        function()
+          require('gitlinker').get_buf_range_url('v', {
+            action_callback = require('gitlinker.actions').open_in_browser,
+          })
+        end,
+        mode = 'v',
+        desc = 'Git remote permalink (open in browser)',
+      },
+    },
+    config = function()
+      require('gitlinker').setup()
+    end,
+  },
+
+  {
     'tpope/vim-fugitive',
     event = 'VeryLazy',
     config = function()
@@ -74,10 +117,14 @@ return {
           map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'Undo stage hunk' })
           map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'Reset buffer' })
           map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Preview hunk' })
-          map('n', '<leader>hb', function() gitsigns.blame_line({ full = true }) end, { desc = 'Blame line' })
+          map('n', '<leader>hb', function()
+            gitsigns.blame_line({ full = true })
+          end, { desc = 'Blame line' })
           map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = 'Toggle blame line' })
           map('n', '<leader>hd', gitsigns.diffthis, { desc = 'Diff this' })
-          map('n', '<leader>hD', function() gitsigns.diffthis('~') end, { desc = 'Diff this (cached)' })
+          map('n', '<leader>hD', function()
+            gitsigns.diffthis('~')
+          end, { desc = 'Diff this (cached)' })
           map('n', '<leader>td', gitsigns.toggle_deleted, { desc = 'Toggle deleted' })
 
           -- Text object

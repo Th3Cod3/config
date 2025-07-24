@@ -65,25 +65,6 @@ return {
               return parser({ output = params.messages })
             end,
           }),
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.shfmt,
-          null_ls.builtins.formatting.blade_formatter,
-          null_ls.builtins.formatting.phpcsfixer.with({
-            command = 'docker-compose',
-            args = function(params)
-              return {
-                'exec',
-                'web',
-                'vendor/bin/php-cs-fixer',
-                '--no-interaction',
-                '--quiet',
-                'fix',
-                get_docker_path(params),
-              }
-            end,
-            timeout = 5000,
-          }),
-          null_ls.builtins.formatting.prettierd,
           null_ls.builtins.diagnostics.editorconfig_checker,
           null_ls.builtins.diagnostics.markdownlint,
           null_ls.builtins.diagnostics.checkmake,

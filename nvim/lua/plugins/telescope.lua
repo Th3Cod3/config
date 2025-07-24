@@ -24,7 +24,7 @@ return {
 
       telescope.setup({
         defaults = {
-          file_ignore_patterns = { 'node_modules', '.git', 'vendor' },
+          file_ignore_patterns = { 'node_modules/', '.git/', 'vendor/' },
           preview = {
             hide_on_startup = true,
           },
