@@ -5,7 +5,7 @@ return {
       'nvim-lua/plenary.nvim',
     },
     -- build = "bundled_build.lua",
-    -- build = "npm install -g mcp-hub@latest",
+    build = "npm install -g mcp-hub@latest",
     opts = {
       -- use_bundled_binary = true,
       extensions = {

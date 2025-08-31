@@ -61,38 +61,32 @@ return {
       })
 
       local vuels_path = vim.fn.expand("$MASON/packages/vue-language-server/node_modules/@vue/language-server")
+      local vue_plugin = {
+        name = '@vue/typescript-plugin',
+        location = vuels_path,
+        languages = { 'vue' },
+        configNamespace = 'typescript',
+      }
 
-      vim.lsp.config('ts_ls', {
-        init_options = {
-          plugins = {
-            {
-              name = '@vue/typescript-plugin',
-              location = vuels_path,
-              languages = { 'vue' },
+      vim.lsp.config('vtsls', {
+        settings = {
+          vtsls = {
+            tsserver = {
+              globalPlugins = {
+                vue_plugin,
+              },
             },
           },
         },
 
         filetypes = {
+          'typescript',
           'javascript',
           'javascriptreact',
           'javascript.jsx',
-          'typescript',
           'typescriptreact',
           'typescript.tsx',
-          'vue',
-        },
-      })
-
-      vim.lsp.config('vuels', {
-        init_options = {
-          vue = {
-            hybridMode = false,
-          },
-
-          typescript = {
-            tsdk = '/usr/local/lib/node_modules/typescript/lib',
-          },
+          'vue'
         },
       })
     end,
