@@ -52,7 +52,9 @@ M.lsp = {
   'bashls',
   'vimls',
   -- web
+  'ts_ls',
   'vtsls',
+  'vue_ls',
   'eslint',
   'ast_grep',
   'jsonls',

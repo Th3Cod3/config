@@ -5,7 +5,7 @@ shell:
 
 window:
   opacity: 0.9
-  decorations: Full
+  decorations: full
   startup_mode: Maximized
   dimensions:
     columns: 80
@@ -13,10 +13,9 @@ window:
   padding:
     x: 10
     y: 10
-  theme: Dark
 
 font:
-  size: 15.0
+  size: 13.0
   normal:
     family: "JetBrains Mono Nerd Font"
     style: Regular
