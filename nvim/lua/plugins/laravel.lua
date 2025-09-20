@@ -14,11 +14,13 @@ end
 return {
   {
     'adalessa/laravel.nvim',
+    version = '3.*',
     dependencies = {
       'tpope/vim-dotenv',
       'nvim-telescope/telescope.nvim',
       'MunifTanjim/nui.nvim',
       'kevinhwang91/promise-async',
+      'nvim-neotest/nvim-nio',
       'nvim-treesitter/nvim-treesitter',
     },
     cmd = { 'Laravel' },

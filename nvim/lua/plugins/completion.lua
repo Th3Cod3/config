@@ -1,5 +1,15 @@
 return {
   {
+    'saghen/blink.compat',
+    -- use v2.* for blink.cmp v1.*
+    version = '2.*',
+    -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+    lazy = true,
+    -- make sure to set opts so that lazy.nvim calls blink.compat's setup
+    opts = {},
+  },
+
+  {
     'saghen/blink.cmp',
     -- optional: provides snippets for the snippet source
     dependencies = {
@@ -52,6 +62,11 @@ return {
       sources = {
         default = { 'lazydev', 'avante', 'lsp', 'path', 'snippets', 'buffer' },
         providers = {
+          laravel = {
+              name = "laravel",
+              module = "blink.compat.source",
+              score_offset = 95, -- show at a higher priority than lsp
+          },
           avante = {
             module = 'blink-cmp-avante',
             name = 'Avante',

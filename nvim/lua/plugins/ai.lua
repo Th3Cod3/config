@@ -59,27 +59,12 @@ return {
       { '<leader>at', ':AvanteToggle<cr>', desc = 'Avante toggle' },
     },
     opts = {
-      provider = 'gemini',
+      provider = 'copilot',
       providers = {
-        gemini = {
-          model = 'gemini-2.5-flash',
-        },
-        -- claude = {
-        --   endpoint = 'https://api.anthropic.com',
-        --   model = 'claude-sonnet-4-20250514',
-        --   disable_tools = true,
-        --   extra_request_body = {
-        --     temperature = 0,
-        --     max_tokens = 8192,
-        --   },
-        -- },
       },
-      -- behaviour = {
-      --   auto_suggestions = false,
-      --   minimize_diff = false,
-      --   enable_cursor_planning_mode = true,
-      --   enable_claude_text_editor_tool_mode = true,
-      -- },
+      behaviour = {
+        auto_suggestions = false,
+      },
       windows = {
         width = 50,
       },
@@ -95,10 +80,11 @@ return {
       mappings = {
         cancel = {
           normal = { '<C-c>' },
+          insert = { '<C-c>' },
         },
         sidebar = {
           close = { '<C-c>', 'ZZ' },
-          close_form_input = { '<C-c>', '<C-d>' },
+          close_form_input = { normal = '<C-c>', insert = '<C-d>' },
         },
       },
       selector = {
