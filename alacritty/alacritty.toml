@@ -1,0 +1,41 @@
+[env]
+TERM = "alacritty"
+COLORTERM = "truecolor"
+
+[font]
+size = 13.0
+
+[font.bold]
+family = "JetBrains Mono Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrains Mono Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "JetBrains Mono Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "JetBrains Mono Nerd Font"
+style = "Regular"
+
+[terminal.shell]
+args = ["-l"]
+program = "/usr/bin/bash"
+
+[window]
+decorations = "full"
+opacity = 0.9
+startup_mode = "Maximized"
+
+[window.dimensions]
+columns = 80
+lines = 24
+
+[window.padding]
+x = 10
+y = 10
+
+[terminal]

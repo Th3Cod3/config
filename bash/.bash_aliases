@@ -16,6 +16,9 @@ alias perd='sudo find ${PER_FOLDERS} -type d -print0 | sudo xargs -0 chmod 777'
 alias perg='sudo chown -R th3cod3:www-data ${PER_FOLDERS}'
 alias pera="perf; perd; perg"
 
+### Python
+alias py='python3'
+
 # artisan
 alias pa="php artisan"
 alias pakey="php artisan key:generate"
@@ -28,6 +31,10 @@ alias pat="php artisan test"
 alias patf="php artisan test --filter"
 
 #docker
+if ! command -v docker-compose &>/dev/null; then
+  alias docker-compose='docker compose'
+fi
+
 alias dku='docker-compose up -d --remove-orphans'
 alias dkd='docker-compose down'
 alias dks='docker-compose stop'
@@ -94,6 +101,7 @@ alias gU='git update-index --no-assume-unchanged'
 alias t="tmux new-session -As main"
 alias tks="tmux -2 kill-server"
 alias ts="~/.config/tmux/tmux-sessionizer.sh"
+alias cdwd='cd $(tmux display -p "#{session_path}")'
 
 # ghidra
 alias ghidra='~/src/ghidra_11.2_PUBLIC/ghidraRun'

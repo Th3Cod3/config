@@ -64,12 +64,6 @@ return {
           },
           align = 'right',
         },
-
-        icon = {
-          folder_closed = '/',
-          folder_open = '>',
-          folder_empty = '-',
-        },
       },
 
       filesystem = {
@@ -88,6 +82,7 @@ return {
 
           always_show_by_pattern = {
             '.env*',
+            'local/*',
           },
         },
       },

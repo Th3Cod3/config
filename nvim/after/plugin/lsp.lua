@@ -1,3 +1,5 @@
+local ltex_status = true;
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
   callback = function(event)
@@ -13,6 +15,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- map('n', 'gI', vim.lsp.buf.implementation, { desc = 'Goto Implementation' })
     -- map('n', 'gy', vim.lsp.buf.type_definition, { desc = 'Goto Type Definition' })
     local builtin = require('telescope.builtin')
+    map('n', '<leader>vs', function ()
+      ltex_status = not ltex_status
+      vim.lsp.enable('ltex', ltex_status)
+
+      if not ltex_status then
+        vim.notify("ltex stopped")
+        vim.lsp.stop_client(vim.lsp.get_clients({ name = 'ltex' }))
+      else
+        vim.notify("ltex started")
+      end
+    end, { desc = 'Stop ltex' })
+
     map('n', 'gd', builtin.lsp_definitions, { desc = 'Goto Definition' })
     map('n', 'gr', builtin.lsp_references, { desc = 'References' })
     map('n', 'gI', builtin.lsp_implementations, { desc = 'Goto Implementation' })
@@ -62,7 +76,7 @@ vim.lsp.enable('intelephense')
 -- vim.lsp.enable('phpactor')
 
 -- others
-vim.lsp.enable('ltex', false)
+vim.lsp.enable('ltex', ltex_status)
 -- vim.lsp.enable('dockerls')
 -- vim.lsp.enable('sqlls')
 -- vim.lsp.enable('yamlls')

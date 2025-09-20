@@ -60,3 +60,7 @@ export PS1='\n\[\e[1;37m\]|-- \[\e[1;32m\]\u\[\e[0;39m\]@\[\e[1;36m\]\h\[\e[0;39
 export XDG_CONFIG_HOME="$HOME/.config"
 
 export TH3COD3_SETTINGS_LOADED=1
+export EDITOR=nvim
+export VISUAL=nvim
+export PATH="~/.local/bin:$PATH"
+
