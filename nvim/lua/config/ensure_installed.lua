@@ -51,6 +51,7 @@ M.lsp = {
   'lua_ls',
   'bashls',
   'vimls',
+  'pyright',
   -- web
   'ts_ls',
   'vtsls',
@@ -72,6 +73,7 @@ M.lsp = {
 M.null_ls = {
   'stylua',
   'shfmt',
+  'autoflake',
   'blade_formatter',
   'phpcsfixer',
   'prettierd',
