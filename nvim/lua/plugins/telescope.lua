@@ -60,7 +60,9 @@ return {
       local map = vim.keymap.set
 
       map('n', '<leader>T', ':Telescope ', { desc = 'Telescope cmd' })
-      map('n', '<leader>ff', function() builtin.find_files({ hidden = true }) end, { desc = 'Telescope Find Files' })
+      map('n', '<leader>ff', function()
+        builtin.find_files({ hidden = true })
+      end, { desc = 'Telescope Find Files' })
       map('n', '<leader><leader><leader>', builtin.resume, { desc = 'Telescope Resume' })
       map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fs', builtin.grep_string, { desc = 'Telescope Live Grep' })
@@ -74,6 +76,9 @@ return {
       map('n', '<leader>fc', builtin.commands, { desc = 'Telescope Commands' })
       map('n', '<leader>fM', builtin.man_pages, { desc = 'Telescope man pages' })
       map('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope Keymaps' })
+      map('n', '<leader>fn', function()
+        require('telescope').extensions.notify.notify()
+      end, { desc = 'Telescope Notifications' })
       map('n', '<leader>fd', function()
         builtin.diagnostics({ bufnr = 0, previewer = false })
       end, { desc = 'Telescope Diagnostics (buffer)' })
@@ -83,7 +88,6 @@ return {
       map('n', '<leader>gF', builtin.git_files, { desc = 'Telescope Git Files' })
       map('n', '<leader>gs', builtin.git_status, { desc = 'Telescope Git Status' })
       -- map('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope Git Branches' })
-
     end,
   },
 }

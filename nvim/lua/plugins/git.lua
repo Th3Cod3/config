@@ -3,11 +3,27 @@ return {
     'ruifm/gitlinker.nvim',
     keys = {
       {
+        '<leader>gY',
+        function()
+          require('gitlinker').get_repo_url()
+        end,
+        desc = 'Git repo link',
+      },
+      {
+        '<leader>gB',
+        function()
+          require('gitlinker').get_repo_url({
+            action_callback = require('gitlinker.actions').open_in_browser,
+          })
+        end,
+        desc = 'Git open repository',
+      },
+      {
         '<leader>gy',
         function()
           require('gitlinker').get_buf_range_url('n')
         end,
-        desc = 'Git remote permalink',
+        desc = 'Git file remote permalink',
       },
       {
         '<leader>gy',
@@ -15,7 +31,7 @@ return {
           require('gitlinker').get_buf_range_url('v')
         end,
         mode = 'v',
-        desc = 'Git remote permalink (visual)',
+        desc = 'Git file remote permalink',
       },
       {
         '<leader>go',
@@ -68,6 +84,13 @@ return {
       { '<leader>gx', ':DiffviewClose<cr>', desc = 'Diffview close' },
       { '<leader>gh', ':DiffviewFileHistory<cr>', desc = 'Diffview history (commits)' },
       { '<leader>gb', ':DiffviewFileHistory %<cr>', desc = 'Current buffer git history' },
+    },
+    opts = {
+      view = {
+        merge_tool = {
+          layout = 'diff3_mixed',
+        },
+      },
     },
   },
 
