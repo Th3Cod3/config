@@ -67,7 +67,7 @@ local function compare_to_clipboard()
   ))
 end
 
-map('x', '<leader>d', compare_to_clipboard)
+map('x', '<leader>di', compare_to_clipboard)
 
 map('n', '<leader>qt', toggle_quickfix, { desc = 'Toggle Quickfix Window' })
 map('n', '<leader>qn', ':cnext<cr>', { desc = 'Next Quickfix' })
@@ -118,10 +118,10 @@ end
 map('v', '<leader>dr', diff_register_with_selection, { desc = 'Diff register with selection' })
 
 -- rezise windows
-map('n', '<M-Left>', ':vertical resize -2<CR>', { silent = true })
-map('n', '<M-Right>', ':vertical resize +2<CR>', { silent = true })
-map('n', '<M-Up>', ':resize -2<CR>', { silent = true })
-map('n', '<M-Down>', ':resize +2<CR>', { silent = true })
+map('n', '<M-Left>',  '<C-w><', { silent = true })
+map('n', '<M-Right>', '<C-w>>', { silent = true })
+map('n', '<M-Up>',    '<C-w>-', { silent = true })
+map('n', '<M-Down>',  '<C-w>+', { silent = true })
 
 -- split panes
 map({ 'n', 'v' }, '<leader>|', ':vs<cr>')
@@ -131,3 +131,4 @@ map({ 'n', 'v' }, '<leader>-', ':sp<cr>')
 map({ 'n', 'v' }, '<leader>bd', ':bd<cr>')
 map({ 'n', 'v' }, '<leader>bn', ':bnext<cr>')
 map({ 'n', 'v' }, '<leader>bp', ':bprevious<cr>')
+map({ 'n', 'v' }, '<leader>bc', ':enew<cr>')

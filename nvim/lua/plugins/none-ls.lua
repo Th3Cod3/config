@@ -28,9 +28,10 @@ return {
         diagnostics_format = '[#{s}] #{m}',
         sources = {
           null_ls.builtins.diagnostics.phpstan.with({
-            command = 'docker-compose',
+            command = 'docker',
             args = function(params)
               return {
+                'compose',
                 'exec',
                 '-T',
                 'web',
@@ -44,8 +45,29 @@ return {
               }
             end,
             method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-            timeout = 5000,
+            timeout = 10000,
+            condition = function(ctx)
+              -- Find project root (nearest folder containing composer.json or .git)
+              local marker = vim.fs.find({ 'composer.json', '.git' }, { path = ctx.dirname, upward = true })[1]
+              if not marker then
+                return false
+              end
+              local root = vim.fs.dirname(marker)
+              -- Only enable if vendor/bin/phpstan exists
+              return vim.fn.filereadable(root .. '/vendor/bin/phpstan') == 1
+            end,
             temp_dir = '/tmp',
+            on_exit = function(code, signal, ctx)
+              if code ~= 0 then
+                -- phpstan returns exit code 1 if any errors are found
+                if code == 1 then
+                  return
+                end
+                -- Handle other exit codes (e.g., 2 for configuration errors)
+                local err_msg = string.format('phpstan exited with code %d (signal: %d)', code, signal)
+                vim.notify(err_msg, vim.log.levels.ERROR)
+              end
+            end,
             on_output = function(params)
               local path = params.temp_path or params.bufname
               local parser = h.diagnostics.from_json({})
@@ -56,11 +78,6 @@ return {
                   and params.output.files[path]
                   and params.output.files[path].messages
                 or {}
-
-              -- @todo: getting false positives, when phpstan has not found any errors
-              if not next(params.messages) and not params.output then
-                vim.print('phpstan error: ' .. params.err)
-              end
 
               return parser({ output = params.messages })
             end,

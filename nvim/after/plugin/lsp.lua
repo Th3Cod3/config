@@ -1,5 +1,3 @@
-local ltex_status = true;
-
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
   callback = function(event)
@@ -51,32 +49,3 @@ vim.lsp.config("*", {
 vim.diagnostic.config({
   virtual_lines = true,
 })
-
--- terminal&vim
-vim.lsp.enable('lua_ls')
-vim.lsp.enable('bashls')
-vim.lsp.enable('vimls')
-
--- embedded/c/c++
-vim.lsp.enable('clangd')
-vim.lsp.enable('vhdl_ls')
--- vim.lsp.enable('serve_d')
-
--- web
-vim.lsp.enable('eslint')
--- vim.lsp.enable('ast_grep')
-vim.lsp.enable('ts_ls')
-vim.lsp.enable('vtsls')
-vim.lsp.enable('vue_ls')
-vim.lsp.enable('jsonls')
-vim.lsp.enable('cssls')
-vim.lsp.enable('emmet_ls')
-vim.lsp.enable('html')
-vim.lsp.enable('intelephense')
--- vim.lsp.enable('phpactor')
-
--- others
-vim.lsp.enable('ltex', ltex_status)
--- vim.lsp.enable('dockerls')
--- vim.lsp.enable('sqlls')
--- vim.lsp.enable('yamlls')

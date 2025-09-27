@@ -14,9 +14,9 @@ return {
         end,
         desc = 'Open Lazydocker floating window',
       },
-      { '<leader>ku', ':!docker-compose up -d<cr>', desc = 'docker-compose up' },
-      { '<leader>kd', ':!docker-compose down<cr>', desc = 'docker-compose down' },
-      { '<leader>ks', ':!docker-compose stop<cr>', desc = 'docker-compose stop' },
+      { '<leader>ku', ':!docker compose up -d<cr>', desc = 'docker compose up' },
+      { '<leader>kd', ':!docker compose down<cr>', desc = 'docker compose down' },
+      { '<leader>ks', ':!docker compose stop<cr>', desc = 'docker compose stop' },
     },
   },
 }

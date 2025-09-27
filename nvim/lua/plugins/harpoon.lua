@@ -67,7 +67,7 @@ return {
       harpoon:setup()
 
       map('n', '<C-h>', function() toggle_telescope(harpoon:list()) end, { desc = 'Open harpoon window' })
-      map('n', '<leader>ah', function() harpoon:list():add() end, { desc = 'Add current file to harpoon' })
+      map('n', '<leader>A', function() harpoon:list():add() end, { desc = 'Add current file to harpoon' })
       map('n', '<leader>1', function() harpoon:list():select(1) end, { desc = 'Select harpoon item 1' })
       map('n', '<leader>2', function() harpoon:list():select(2) end, { desc = 'Select harpoon item 2' })
       map('n', '<leader>3', function() harpoon:list():select(3) end, { desc = 'Select harpoon item 3' })

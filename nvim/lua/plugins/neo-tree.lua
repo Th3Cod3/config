@@ -20,31 +20,6 @@ return {
 
       window = {
         position = 'current',
-        mappings = {
-          ['z'] = 'none',
-          ['<BS>'] = 'noop',
-          ['/'] = 'noop',
-          ['U'] = 'navigate_up',
-          ['f'] = 'fuzzy_finder',
-          ['<C-F>'] = { ntc.find_files, desc = 'Find files (Telescope)' },
-          ['<C-G>'] = { ntc.live_grep, desc = 'Live grep (Telescope)' },
-          ['Y'] = { ntc.copy_path, desc = 'Copy path' },
-          ['zo'] = { ntc.neotree_zo, desc = 'Fold' },
-          ['zO'] = { ntc.neotree_zO, desc = 'Fold recursively' },
-          ['zc'] = { ntc.neotree_zc, desc = 'Unfold' },
-          ['zC'] = { ntc.neotree_zC, desc = 'Unfold recursively' },
-          ['za'] = { ntc.neotree_za, desc = 'Toggle fold' },
-          ['zA'] = { ntc.neotree_zA, desc = 'Toggle fold recursively' },
-          ['zx'] = { ntc.neotree_zx, desc = 'Toggle fold' },
-          ['zX'] = { ntc.neotree_zX, desc = 'Toggle fold recursively' },
-          ['zm'] = { ntc.neotree_zm, desc = 'Fold more' },
-          ['zM'] = { ntc.neotree_zM, desc = 'Fold all' },
-          ['zr'] = { ntc.neotree_zr, desc = 'Fold less' },
-          ['zR'] = { ntc.neotree_zR, desc = 'Unfold all' },
-          ['D'] = { ntc.neotree_diff_files, desc = 'Diff files' },
-          ['J'] = { ntc.neotree_first_file, desc = 'Jump to first file' },
-          ['K'] = { ntc.neotree_last_file, desc = 'Jump to last file' },
-        },
       },
 
       default_component_configs = {
@@ -67,6 +42,33 @@ return {
       },
 
       filesystem = {
+        window = {
+          mappings = {
+            ['z'] = 'none',
+            ['<BS>'] = 'noop',
+            ['/'] = 'noop',
+            ['U'] = 'navigate_up',
+            ['f'] = 'fuzzy_finder',
+            ['<C-F>'] = { ntc.find_files, desc = 'Find files (Telescope)' },
+            ['<C-G>'] = { ntc.live_grep, desc = 'Live grep (Telescope)' },
+            ['Y'] = { ntc.copy_path, desc = 'Copy path' },
+            ['zo'] = { ntc.neotree_zo, desc = 'Fold' },
+            ['zO'] = { ntc.neotree_zO, desc = 'Fold recursively' },
+            ['zc'] = { ntc.neotree_zc, desc = 'Unfold' },
+            ['zC'] = { ntc.neotree_zC, desc = 'Unfold recursively' },
+            ['za'] = { ntc.neotree_za, desc = 'Toggle fold' },
+            ['zA'] = { ntc.neotree_zA, desc = 'Toggle fold recursively' },
+            ['zx'] = { ntc.neotree_zx, desc = 'Toggle fold' },
+            ['zX'] = { ntc.neotree_zX, desc = 'Toggle fold recursively' },
+            ['zm'] = { ntc.neotree_zm, desc = 'Fold more' },
+            ['zM'] = { ntc.neotree_zM, desc = 'Fold all' },
+            ['zr'] = { ntc.neotree_zr, desc = 'Fold less' },
+            ['zR'] = { ntc.neotree_zR, desc = 'Unfold all' },
+            ['D'] = { ntc.neotree_diff_files, desc = 'Diff files' },
+            ['J'] = { ntc.neotree_first_file, desc = 'Jump to first file' },
+            ['K'] = { ntc.neotree_last_file, desc = 'Jump to last file' },
+          },
+        },
         filtered_items = {
           hide_dotfiles = false,
           -- hide_gitignored = false,
@@ -80,9 +82,12 @@ return {
             '.DS_Store',
           },
 
+          always_show = {
+            'local',
+          },
+
           always_show_by_pattern = {
             '.env*',
-            'local/*',
           },
         },
       },
