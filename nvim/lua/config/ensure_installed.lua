@@ -74,6 +74,7 @@ M.null_ls = {
   'stylua',
   'shfmt',
   'autoflake',
+  'clang_format',
   'sql_formatter',
   'blade_formatter',
   'phpcsfixer',

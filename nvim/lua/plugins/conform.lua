@@ -13,6 +13,9 @@ return {
     opts = {
       formatters_by_ft = {
         lua = { 'stylua' },
+        c = { 'clang_format' },
+        cpp = { 'clang_format' },
+        objc = { 'clang_format' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
         vue = { 'prettierd', 'prettier', stop_after_first = true },
@@ -44,14 +47,31 @@ return {
           },
           stdin = false,
           condition = function(ctx)
-            -- Find project root (nearest folder containing composer.json or .git)
             local marker = vim.fs.find({ 'composer.json', '.git' }, { path = ctx.dirname, upward = true })[1]
             if not marker then
               return false
             end
+
+            local env_fixer = vim.env.NVIM_PHP_FIXER
+            if vim.api.nvim_call_function('exists', { '*DotenvGet' }) == 1 then
+              env_fixer = vim.api.nvim_call_function('DotenvGet', { 'NVIM_PHP_FIXER' })
+            end
+
+            if vim.fn.empty(env_fixer) == 0 and env_fixer ~= 'phpcs' then
+              vim.notify('Skipping phpcsfixer due to NVIM_PHP_FIXER=' .. vim.inspect(env_fixer), vim.log.levels.DEBUG)
+              return false
+            end
+
             local root = vim.fs.dirname(marker)
-            -- Only enable if vendor/bin/php-cs-fixer exists
-            return vim.fn.filereadable(root .. '/vendor/bin/php-cs-fixer') == 1
+            local has_binary = vim.fn.filereadable(root .. '/vendor/bin/php-cs-fixer') == 1
+
+            if has_binary then
+              vim.notify('Using phpcsfixer for PHP formatting', vim.log.levels.DEBUG)
+            else
+              vim.notify('PHP CS Fixer binary not found, skipping formatter', vim.log.levels.DEBUG)
+            end
+
+            return has_binary
           end,
         },
         pint = {
@@ -74,8 +94,27 @@ return {
             if not marker then
               return false
             end
+
+            local env_fixer = vim.env.NVIM_PHP_FIXER
+            if vim.api.nvim_call_function('exists', { '*DotenvGet' }) == 1 then
+              env_fixer = vim.api.nvim_call_function('DotenvGet', { 'NVIM_PHP_FIXER' })
+            end
+
+            if vim.fn.empty(env_fixer) == 0 and env_fixer ~= 'pint' then
+              vim.notify('Skipping pint due to NVIM_PHP_FIXER=' .. vim.inspect(env_fixer), vim.log.levels.DEBUG)
+              return false
+            end
+
             local root = vim.fs.dirname(marker)
-            return vim.fn.filereadable(root .. '/vendor/bin/pint') == 1
+            local has_binary = vim.fn.filereadable(root .. '/vendor/bin/pint') == 1
+
+            if has_binary then
+              vim.notify('Using pint for PHP formatting', vim.log.levels.DEBUG)
+            else
+              vim.notify('Pint binary not found, skipping formatter', vim.log.levels.DEBUG)
+            end
+
+            return has_binary
           end,
         },
       },
