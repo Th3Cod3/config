@@ -137,11 +137,11 @@ return {
             elements = {
               {
                 id = 'watches',
-                size = 0.25,
+                size = 0.50,
               },
               {
                 id = 'breakpoints',
-                size = 0.25,
+                size = 0.50,
               },
             },
             position = 'left',
@@ -209,6 +209,8 @@ return {
       end, { desc = 'Debug add to watch' })
 
       --- Stepping
+      map('n', '<leader>dd', dap.disconnect, { noremap = true, desc = 'Debug disconnect (continue)' })
+      map('n', '<leader>dt', dap.terminate, { noremap = true, desc = 'Debug terminate' })
       map('n', '<leader>dc', dap.continue, { noremap = true, desc = 'Debug continue' })
       map('n', '<leader>dn', dap.step_over, { noremap = true, desc = 'Debug step over (next)' })
       map('n', '<leader>di', dap.step_into, { noremap = true, desc = 'Debug step into' })
