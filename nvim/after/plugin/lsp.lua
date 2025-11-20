@@ -1,3 +1,5 @@
+local ltex_status = true
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
   callback = function(event)
@@ -13,22 +15,30 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- map('n', 'gI', vim.lsp.buf.implementation, { desc = 'Goto Implementation' })
     -- map('n', 'gy', vim.lsp.buf.type_definition, { desc = 'Goto Type Definition' })
     local builtin = require('telescope.builtin')
-    map('n', '<leader>vs', function ()
+    map('n', '<leader>vs', function()
       ltex_status = not ltex_status
       vim.lsp.enable('ltex', ltex_status)
 
       if not ltex_status then
-        vim.notify("ltex stopped")
+        vim.notify('ltex stopped')
         vim.lsp.stop_client(vim.lsp.get_clients({ name = 'ltex' }))
       else
-        vim.notify("ltex started")
+        vim.notify('ltex started')
       end
     end, { desc = 'Stop ltex' })
 
-    map('n', 'gd', builtin.lsp_definitions, { desc = 'Goto Definition' })
-    map('n', 'gr', builtin.lsp_references, { desc = 'References' })
-    map('n', 'gI', builtin.lsp_implementations, { desc = 'Goto Implementation' })
-    map('n', 'gy', builtin.lsp_type_definitions, { desc = 'Goto Type Definition' })
+    map('n', 'gd', function()
+      builtin.lsp_definitions({ hidden = true, file_ignore_patterns = {}, no_ignore = true })
+    end, { desc = 'Goto Definition' })
+    map('n', 'gr', function()
+      builtin.lsp_references({ hidden = true, file_ignore_patterns = {}, no_ignore = true })
+    end, { desc = 'References' })
+    map('n', 'gI', function()
+      builtin.lsp_implementations({ hidden = true, file_ignore_patterns = {}, no_ignore = true })
+    end, { desc = 'Goto Implementation' })
+    map('n', 'gy', function()
+      builtin.lsp_type_definitions({ hidden = true, file_ignore_patterns = {}, no_ignore = true })
+    end, { desc = 'Goto Type Definition' })
     map('n', 'K', vim.lsp.buf.hover, { desc = 'Hover' })
     map('n', 'gh', vim.lsp.buf.hover, { desc = 'Hover' })
     map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto Declaration' })
@@ -42,10 +52,36 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-vim.lsp.config("*", {
-  capabilities = require("blink.cmp").get_lsp_capabilities(),
+vim.lsp.config('*', {
+  capabilities = require('blink.cmp').get_lsp_capabilities(),
 })
 
-vim.diagnostic.config({
-  virtual_lines = true,
-})
+-- local timer = vim.uv.new_timer()
+--
+-- vim.api.nvim_create_autocmd('CursorHold', {
+--   callback = function()
+--     if not timer then
+--       timer = vim.uv.new_timer()
+--       return
+--     end
+--
+--     timer:stop() -- cancel previous
+--
+--     local buf = vim.api.nvim_get_current_buf()
+--     local pos = vim.api.nvim_win_get_cursor(0)
+--
+--     timer:start(1000, 0, function()
+--       vim.schedule(function()
+--         if buf ~= vim.api.nvim_get_current_buf() then
+--           return
+--         end
+--
+--         local newpos = vim.api.nvim_win_get_cursor(0)
+--         if newpos[1] ~= pos[1] or newpos[2] ~= pos[2] then
+--           return
+--         end
+--         vim.diagnostic.open_float(nil, { focusable = false })
+--       end)
+--     end)
+--   end,
+-- })
