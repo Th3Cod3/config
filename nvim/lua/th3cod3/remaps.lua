@@ -69,6 +69,21 @@ end
 
 map('x', '<leader>di', compare_to_clipboard)
 
+local function unique_files_in_quickfix()
+  local qflist = vim.fn.getqflist()
+  local seen = {}
+  local unique_qflist = {}
+
+  for _, item in ipairs(qflist) do
+    if not seen[item.bufnr] then
+      table.insert(unique_qflist, item)
+      seen[item.bufnr] = true
+    end
+  end
+
+  vim.fn.setqflist({}, ' ', { title = 'Unique Files', items = unique_qflist })
+end
+map('n', '<leader>qu', unique_files_in_quickfix, { desc = 'Unique Files in Quickfix' })
 map('n', '<leader>qt', toggle_quickfix, { desc = 'Toggle Quickfix Window' })
 map('n', '<leader>qn', ':cnext<cr>', { desc = 'Next Quickfix' })
 map('n', '<leader>qp', ':cprevious<cr>', { desc = 'Previous Quickfix' })
