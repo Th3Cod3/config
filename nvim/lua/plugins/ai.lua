@@ -5,9 +5,10 @@ return {
       'nvim-lua/plenary.nvim',
     },
     -- build = "bundled_build.lua",
-    build = "npm install -g mcp-hub@latest",
+    build = 'npm install -g mcp-hub@latest',
     opts = {
       -- use_bundled_binary = true,
+      auto_approve = false,
       extensions = {
         avante = {
           make_slash_commands = true, -- make /slash commands from MCP server prompts
@@ -27,25 +28,54 @@ return {
       require('copilot').setup({
         suggestion = {
           auto_trigger = true,
-          keymap = {
-            accept = false,
-            accept_word = '<C-L>',
-            accept_line = '<C-J>',
-            dismiss = '<C-K>',
-          },
+          -- keymap = {
+          --   accept = false,
+          --   accept_word = '<C-L>',
+          --   accept_line = '<C-J>',
+          --   dismiss = '<C-K>',
+          -- },
         },
         filetypes = {
           markdown = true,
         },
       })
 
-      vim.keymap.set('i', '<tab>', function()
+      local map = vim.keymap.set
+
+      map('i', '<tab>', function()
         if require('copilot.suggestion').is_visible() then
           require('copilot.suggestion').accept()
           return '<Ignore>'
         end
 
         return '<tab>'
+      end, { expr = true, noremap = true })
+
+      map('i', '<C-K>', function()
+        if require('copilot.suggestion').is_visible() then
+          require('copilot.suggestion').dismiss()
+          return '<Ignore>'
+        end
+
+        return '<S-tab>'
+      end, { expr = true, noremap = true })
+
+      map('i', '<C-L>', function()
+        if require('copilot.suggestion').is_visible() then
+          require('copilot.suggestion').accept_word()
+          return '<Ignore>'
+        end
+
+        return '<C-L>'
+      end, { expr = true, noremap = true })
+
+      map('i', '<C-J>', function()
+        if require('copilot.suggestion').is_visible() then
+          require('copilot.suggestion').accept_line()
+          return '<Ignore>'
+        end
+
+        return '<C-J>'
       end, { expr = true, noremap = true })
     end,
   },
@@ -58,12 +88,19 @@ return {
       { '<leader>aC', ':AvanteClear<cr>', desc = 'Avante clear' },
       { '<leader>at', ':AvanteToggle<cr>', desc = 'Avante toggle' },
     },
+    ---@module 'avante'
+    ---@type avante.Config
     opts = {
       provider = 'copilot',
       providers = {
+        copilot = {
+          model = 'claude-sonnet-4',
+        },
       },
       behaviour = {
         auto_suggestions = false,
+        auto_approve = false,
+        auto_apply_diff_after_generation = false,
       },
       windows = {
         width = 50,

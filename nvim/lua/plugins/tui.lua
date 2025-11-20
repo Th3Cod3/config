@@ -3,29 +3,69 @@ local c = {
   gray = '#999999',
   white = '#CCCCCC',
   gray2 = '#555555',
+  yellow = '#999900',
 }
 
 return {
   {
-    'navarasu/onedark.nvim',
+    'scottmckendry/cyberdream.nvim',
     lazy = false,
-    name = 'onedark',
     priority = 1000,
     config = function()
-      require('onedark').setup({
-        style = 'deep',
+      local colors = require('cyberdream.colors')
+      --- @type cyberdream.Palette
+      local p = colors.default
+
+      require('cyberdream').setup({
         transparent = true,
         highlights = {
-          ['@function'] = { fg = c.purple },
+          Keyword = { fg = p.purple },
+          Identifier = { fg = p.cyan },
+          Function = { fg = p.purple },
+          Type = { fg = p.orange },
+          Constant = { fg = p.orange },
+          Boolean = { fg = p.orange },
+
+          ['@attribute'] = { fg = p.cyan },
+          ['@attribute.builtin'] = { fg = p.blue },
+
           ['@lsp.type.method'] = { fg = c.purple },
+          ['@constructor'] = { fg = p.yellow },
+
+          ['@keyword.type'] = { fg = p.purple },
+
+          ['@module'] = { fg = c.yellow },
+          ['@module.builtin'] = { fg = p.orange },
+
+          ['@function'] = { fg = c.purple },
+          ['@function.builtin'] = { fg = p.cyan },
+          ['@function.call'] = { fg = p.blue },
+          ['@function.macro'] = { fg = p.cyan },
           ['@function.member'] = { fg = c.purple },
-          ['@variable'] = { fg = c.white },
+          ['@function.method'] = { fg = p.blue },
+          ['@function.method.call'] = { fg = p.blue },
+
+          ['@operator'] = { fg = p.pink },
+
+          ['@property'] = { fg = p.cyan },
+          ['@property.builtin'] = { fg = p.blue },
+
+          -- Punctuation
+          ['@punctuation.bracket'] = { fg = p.grey },
+          ['@punctuation.delimiter'] = { fg = p.grey },
+          ['@punctuation.special'] = { fg = p.red },
+
+          ['@variable'] = { fg = p.fg },
+          ['@variable.builtin'] = { fg = p.red },
+          ['@variable.member'] = { fg = p.blue },
+          ['@variable.parameter'] = { fg = p.red },
+          ['@variable.parameter.builtin'] = { fg = p.orange },
+
           ['Visual'] = { bg = c.gray2 },
-          ['NeoTreeMessage'] = { fg = c.gray },
-          ['NeoTreeFileStats'] = { fg = c.gray },
         },
       })
-      require('onedark').load()
+
+      vim.cmd.colorscheme('cyberdream')
     end,
   },
 
@@ -39,18 +79,19 @@ return {
     },
     opts = {},
   },
+
   {
     'nvim-treesitter/nvim-treesitter-context',
     event = { 'BufEnter' },
     opt = {
-      enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
-      multiwindow = false,      -- Enable multiwindow support.
-      max_lines = 6,            -- How many lines the window should span. Values <= 0 mean no limit.
-      min_window_height = 0,    -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+      enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+      multiwindow = false, -- Enable multiwindow support.
+      max_lines = 6, -- How many lines the window should span. Values <= 0 mean no limit.
+      min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
       line_numbers = true,
       multiline_threshold = 20, -- Maximum number of lines to show for a single context
-      trim_scope = 'outer',     -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-      mode = 'topline',          -- Line used to calculate context. Choices: 'cursor', 'topline'
+      trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+      mode = 'topline', -- Line used to calculate context. Choices: 'cursor', 'topline'
     },
   },
   {

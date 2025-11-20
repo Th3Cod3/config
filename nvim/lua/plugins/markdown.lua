@@ -18,7 +18,11 @@ return {
     keys = {
       { '<leader>mt', ':Mtoc<cr>', desc = 'Markdown TOC' },
     },
-    opts = {},
+    opts = {
+      toc_list = {
+        markers = '-',
+      },
+    },
   },
 
   {
@@ -51,6 +55,6 @@ return {
     cmd = { 'PasteImage' },
     keys = {
       { '<leader>mi', ':PasteImage<cr>', desc = 'Paste Image' },
-    }
+    },
   },
 }

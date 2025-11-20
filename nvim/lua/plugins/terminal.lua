@@ -1,10 +1,11 @@
+local map = vim.keymap.set
 function _G.set_terminal_keymaps()
   local opts = { buffer = 0 }
 
-  vim.keymap.set('t', '<C-q>', [[<C-\><C-n>]], opts)
-  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
-  vim.keymap.set('n', 'gf', '<C-w>gf', opts)
-  vim.keymap.set('n', 'gF', '<C-w>gF', opts)
+  map('t', '<C-q>', [[<C-\><C-n>]], opts)
+  map('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+  map('n', 'gf', '<C-w>gf', opts)
+  map('n', 'gF', '<C-w>gF', opts)
 end
 
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
