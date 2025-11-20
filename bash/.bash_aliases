@@ -30,28 +30,23 @@ alias parl="php artisan route:list"
 alias pat="php artisan test"
 alias patf="php artisan test --filter"
 
-#docker
-if ! command -v docker-compose &>/dev/null; then
-  alias docker-compose='docker compose'
-fi
-
-alias dku='docker-compose up -d --remove-orphans'
-alias dkd='docker-compose down'
-alias dks='docker-compose stop'
+alias dku='docker compose up -d --remove-orphans'
+alias dkd='docker compose down'
+alias dks='docker compose stop'
 alias dksa='docker container stop $(docker ps -q)'
-alias dkfresh='docker-compose restart'
-alias dkex='docker-compose exec'
-alias dkps='docker-compose ps'
-alias dklogs='docker-compose logs -f'
+alias dkfresh='docker compose restart'
+alias dkex='docker compose exec'
+alias dkps='docker compose ps'
+alias dklogs='docker compose logs -f'
 alias dkpsa='docker ps -a'
 alias dkrma='docker rm $(docker ps -aq)'
 
-alias dkdb='docker-compose exec db bash'
-alias dkchrome='docker-compose exec chrome bash'
-alias dknode='docker-compose exec node ash'
-alias dkw='docker-compose exec web bash'
-alias dknr='docker-compose exec node-red bash'
-alias dksw='docker-compose exec web sh'
+alias dkdb='docker compose exec db bash'
+alias dkchrome='docker compose exec chrome bash'
+alias dknode='docker compose exec node ash'
+alias dkw='docker compose exec web bash'
+alias dknr='docker compose exec node-red bash'
+alias dksw='docker compose exec web sh'
 
 ### GIT
 alias g='git'

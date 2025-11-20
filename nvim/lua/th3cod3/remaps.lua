@@ -117,11 +117,11 @@ end
 
 map('v', '<leader>dr', diff_register_with_selection, { desc = 'Diff register with selection' })
 
--- rezise windows
-map('n', '<M-Left>',  '<C-w><', { silent = true })
-map('n', '<M-Right>', '<C-w>>', { silent = true })
-map('n', '<M-Up>',    '<C-w>-', { silent = true })
-map('n', '<M-Down>',  '<C-w>+', { silent = true })
+-- resize windows
+map('n', '<M-H>',  '3<C-w><', { silent = true })
+map('n', '<M-L>', '3<C-w>>', { silent = true })
+map('n', '<M-K>',    '3<C-w>-', { silent = true })
+map('n', '<M-J>',  '3<C-w>+', { silent = true })
 
 -- split panes
 map({ 'n', 'v' }, '<leader>|', ':vs<cr>')
