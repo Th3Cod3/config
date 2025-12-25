@@ -3,7 +3,7 @@ return {
     'jay-babu/mason-null-ls.nvim',
     event = 'VeryLazy',
     opts = {
-      ensure_installed = require('config.ensure_installed').null_ls,
+      ensure_installed = require('th3cod3.config.ensure_installed').null_ls,
     },
   },
   {

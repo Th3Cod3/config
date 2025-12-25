@@ -7,7 +7,7 @@ return {
   },
   priority = 1000,
   config = function()
-    local ntc = require('config.neo-tree')
+    local ntc = require('th3cod3.config.neo-tree')
     require('neo-tree').setup({
       event_handlers = {
         {

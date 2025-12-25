@@ -26,6 +26,13 @@ vim.opt.incsearch = true
 
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = '120'
+vim.opt.foldlevel = 99
 
 vim.opt.spell = true
 vim.opt.spelllang = 'es,nl,en_us'
+
+vim.filetype.add({
+  pattern = {
+    ['.*%.env.*'] = 'sh',
+  },
+})

@@ -44,7 +44,7 @@ return {
             show_help = '?',
           },
         },
-        ensure_installed = require('config.ensure_installed').treesitter,
+        ensure_installed = require('th3cod3.config.ensure_installed').treesitter,
         auto_install = true,
         highlight = {
           enable = true,

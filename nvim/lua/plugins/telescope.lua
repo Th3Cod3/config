@@ -14,6 +14,7 @@ return {
       local actions = require('telescope.actions')
       local actionsLayout = require('telescope.actions.layout')
       local builtin = require('telescope.builtin')
+      local config = require('th3cod3.config.telescope')
 
       local buffers = function()
         builtin.buffers({

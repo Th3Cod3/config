@@ -16,7 +16,7 @@ M.live_grep = function(state)
   local node = state.tree:get_node()
   local path = node:get_id()
 
-  telescope.live_grep({ cwd = path })
+  telescope.live_grep({ cwd = path, hidden = true })
 end
 
 M.copy_path = function(state)
@@ -207,9 +207,7 @@ M.neotree_za = function(state, toggle_all)
   end
 end
 
---- Recursively close an open folder or recursively open a closed folder.
-M.neotree_zA = function(state)
-  M.neotree_za(state, true)
+--- Recursively close an open folder or recursively open a closed folder. M.neotree_zA = function(state) M.neotree_za(state, true)
 end
 
 --- Set depthlevel, analagous to foldlevel, for the neo-tree file tree.
@@ -326,6 +324,24 @@ M.neotree_last_file = function(state)
   local render = require('neo-tree.ui.renderer')
 
   render.focus_node(state, siblings[1]:get_id())
+end
+
+M.neotree_set_cwd_to_node = function(state)
+  if not state then return end
+
+  local node = state.tree:get_node()
+  if not node then return end
+
+  local path = node:get_id()
+  if not path then return end
+
+  -- If it's a file, go to its parent directory
+  if node.type ~= "directory" then
+    path = vim.fn.fnamemodify(path, ":h")
+  end
+
+  vim.cmd.cd(vim.fn.fnameescape(path))
+  vim.notify("cwd → " .. path)
 end
 
 return M
