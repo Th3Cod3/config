@@ -12,5 +12,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('th3cod3')
-require('lazy').setup('plugins')
+
+if vim.g.vscode then
+  require('lazy').setup('plugins_vscode')
+else
+  require('lazy').setup('plugins')
+end
+
 vim.keymap.set('n', '<leader>L', ':Lazy reload', { desc = 'Lazy reload' })

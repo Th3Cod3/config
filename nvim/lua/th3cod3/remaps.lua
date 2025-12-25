@@ -22,6 +22,9 @@ map({ 'n', 'v' }, '<leader>p', [["+p]], { desc = 'Paste from system clipboard' }
 map({ 'n', 'v' }, '<leader>P', [["+P]], { desc = 'Paste from system clipboard' })
 map({ 'n', 'v' }, '<leader>x', [["_d]], { desc = 'Delete without yanking' })
 
+-- copy register to system clipboard
+map('n', '<leader>cc', [[:let @+ = @"]], { desc = 'Copy current register to system clipboard' })
+
 -- Search
 map('n', '<leader>sw', [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
 map({ 'n', 'v' }, '<leader>sh', ':noh<cr>', { desc = 'Clear search highlight' })
