@@ -1,14 +1,13 @@
 local map = vim.keymap.set
-function _G.set_terminal_keymaps()
-  local opts = { buffer = 0 }
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
+    local opts = { buffer = true, silent = true }
 
-  map('t', '<C-q>', [[<C-\><C-n>]], opts)
-  map('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
-  map('n', 'gf', '<C-w>gf', opts)
-  map('n', 'gF', '<C-w>gF', opts)
-end
-
-vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+    map('n', 'gf', '<C-w>gf', opts)
+    map('n', 'gF', '<C-w>gF', opts)
+  end,
+})
 
 return {
   {
@@ -18,6 +17,8 @@ return {
       local term = require('toggleterm')
       term.setup({
         direction = 'float',
+        shell = 'bash',
+        shell_args = { '-l' },
       })
 
       local map = vim.keymap.set

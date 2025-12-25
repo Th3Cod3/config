@@ -62,10 +62,19 @@ return {
           ['@variable.parameter.builtin'] = { fg = p.orange },
 
           ['Visual'] = { bg = c.gray2 },
+          ['NeoTreeGitModified'] = { fg = p.orange },
         },
       })
 
       vim.cmd.colorscheme('cyberdream')
+
+      vim.g.terminal_color_8  = "#555555" -- gray
+      vim.g.terminal_color_7  = "#AAAAAA" -- light gray
+
+      vim.diagnostic.config({
+        float = { border = "rounded" },
+      })
+
     end,
   },
 

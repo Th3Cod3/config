@@ -27,19 +27,11 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
-      -- 'super-tab' for mappings similar to vscode (tab to accept)
-      -- 'enter' for enter to accept
-      -- 'none' for no mappings
-      --
-      -- All presets have the following mappings:
-      -- C-space: Open menu or open docs if already open
-      -- C-n/C-p or Up/Down: Select next/previous item
-      -- C-e: Hide menu
-      -- C-k: Toggle signature help (if signature.enabled = true)
-      --
-      -- See :h blink-cmp-config-keymap for defining your own keymap
-      keymap = { preset = 'default' },
+      keymap = {
+        preset = 'default',
+        ['<C-l>'] = { 'snippet_forward', 'fallback' },
+        ['<C-h>'] = { 'snippet_backward', 'fallback' },
+      },
 
       appearance = {
         -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -50,12 +42,20 @@ return {
       -- (Default) Only show the documentation popup when manually triggered
       completion = {
         documentation = {
+          window = {
+            border = 'rounded',
+          },
           auto_show = true,
           auto_show_delay_ms = 1000,
         },
       },
 
-      signature = { enabled = true },
+      signature = {
+        enabled = true,
+        window = {
+          border = 'rounded',
+        },
+      },
 
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
@@ -63,20 +63,21 @@ return {
         default = { 'lazydev', 'avante', 'lsp', 'path', 'snippets', 'buffer' },
         providers = {
           laravel = {
-              name = "laravel",
-              module = "blink.compat.source",
-              score_offset = 95, -- show at a higher priority than lsp
+            name = 'Laravel',
+            module = 'blink.compat.source',
+            score_offset = 95, -- show at a higher priority than lsp
           },
           avante = {
-            module = 'blink-cmp-avante',
             name = 'Avante',
+            module = 'blink-cmp-avante',
           },
           lazydev = {
-            module = 'lazydev.integrations.blink',
             name = 'LazyDev',
+            module = 'lazydev.integrations.blink',
             score_offset = 100,
           },
           buffer = {
+            name = 'Buffer',
             min_keyword_length = 3,
           },
         },

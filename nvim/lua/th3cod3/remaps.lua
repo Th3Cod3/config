@@ -29,7 +29,7 @@ map({ 'n', 'v' }, '<leader>sh', ':noh<cr>', { desc = 'Clear search highlight' })
 map({ 'n', 'v' }, '<leader>kv', ':qa!<cr>', { desc = 'Force quit all file (kill vim)' })
 
 -- Macros
-map('n', 'q', '<nop>', { noremap = true })
+map({ 'n', 'v' }, 'q', '<nop>', { noremap = true })
 map('n', 'Q', 'q', { noremap = true, desc = 'Record macro' })
 map('n', '<M-q>', 'Q', { noremap = true, desc = 'Replay last register' })
 
@@ -88,6 +88,8 @@ map('n', '<leader>qt', toggle_quickfix, { desc = 'Toggle Quickfix Window' })
 map('n', '<leader>qn', ':cnext<cr>', { desc = 'Next Quickfix' })
 map('n', '<leader>qp', ':cprevious<cr>', { desc = 'Previous Quickfix' })
 
+map('t', '<C-q>', [[<C-\><C-n>]], opts)
+map('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
 
 ---@type 'lines'|'text'|'disabled'
 local diagnostic_next_view = 'text'
@@ -130,13 +132,23 @@ local function diff_register_with_selection()
   vim.cmd('diffthis')
 end
 
+map('n', '<leader>ti', function()
+  local project_init = vim.fn.getcwd() .. '/.nvim/init.lua'
+  if vim.fn.filereadable(project_init) == 1 then
+    vim.cmd('source ' .. project_init)
+    vim.notify('Loaded project init', vim.log.levels.INFO)
+  else
+    vim.notify('No project '.. project_init .. ' found', vim.log.levels.WARN)
+  end
+end, { desc = 'Load project init.lua' })
+
 map('v', '<leader>dr', diff_register_with_selection, { desc = 'Diff register with selection' })
 
 -- resize windows
-map('n', '<M-H>',  '3<C-w><', { silent = true })
+map('n', '<M-H>', '3<C-w><', { silent = true })
 map('n', '<M-L>', '3<C-w>>', { silent = true })
-map('n', '<M-K>',    '3<C-w>-', { silent = true })
-map('n', '<M-J>',  '3<C-w>+', { silent = true })
+map('n', '<M-K>', '3<C-w>-', { silent = true })
+map('n', '<M-J>', '3<C-w>+', { silent = true })
 
 -- split panes
 map({ 'n', 'v' }, '<leader>|', ':vs<cr>')

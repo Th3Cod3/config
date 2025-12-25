@@ -1,6 +1,7 @@
 return {
   {
     'rcarriga/nvim-notify',
+    lazy = false,
     keys = {
       {
         '<Esc>',
@@ -57,9 +58,10 @@ return {
     config = function()
       local notify = require('notify')
       notify.setup({
+        wrap = true,
         max_width = 50,
         max_height = 20,
-        -- background_colour = vim.api.nvim_get_hl(0, { name = 'Normal' }).bg or '#000000',
+        background_colour = '#000000',
         render = 'minimal',
         timeout = 5000,
         top_down = false,
@@ -68,6 +70,7 @@ return {
         end,
         on_close = nil,
       })
+
       vim.notify = notify
     end,
   },

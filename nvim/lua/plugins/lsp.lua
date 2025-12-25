@@ -25,7 +25,7 @@ return {
     event = 'VeryLazy',
     config = function()
       require('mason-lspconfig').setup({
-        ensure_installed = require('config.ensure_installed').lsp,
+        ensure_installed = require('th3cod3.config.ensure_installed').lsp,
       })
     end,
   },

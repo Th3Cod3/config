@@ -14,7 +14,6 @@ end
 return {
   {
     'adalessa/laravel.nvim',
-    version = '3.*',
     dependencies = {
       'tpope/vim-dotenv',
       'nvim-telescope/telescope.nvim',
@@ -24,19 +23,123 @@ return {
       'nvim-treesitter/nvim-treesitter',
     },
     cmd = { 'Laravel' },
-    keys = {
-      { '<leader>la', ':Laravel artisan<cr>', desc = 'Laravel artisan' },
-      { '<leader>lt', ':Laravel artisan tinker<cr>', desc = 'Laravel Tinker' },
-      { '<leader>lr', ':Laravel routes<cr>', desc = 'Laravel routes' },
-      { '<leader>lR', ':Laravel related<cr>', desc = 'Laravel related' },
-      { '<leader>lv', ':Laravel view_finder<cr>', desc = 'Laravel list views' },
-      { '<leader>lm', ':Laravel make<cr>', desc = 'Laravel make' },
-      { 'gf', goFile, noremap = false, expr = true, desc = 'Go to file' },
+    ft = { 'php', 'blade' },
+    event = {
+      'BufEnter composer.json',
     },
-    event = { 'VeryLazy' },
+    keys = {
+      {
+        '<leader>ll',
+        function()
+          Laravel.pickers.laravel()
+        end,
+        desc = 'Laravel: Open Laravel Picker',
+      },
+      {
+        '<c-g>',
+        function()
+          Laravel.commands.run('view:finder')
+        end,
+        desc = 'Laravel: Open View Finder',
+      },
+      {
+        '<leader>la',
+        function()
+          Laravel.pickers.artisan()
+        end,
+        desc = 'Laravel: Open Artisan Picker',
+      },
+      {
+        '<leader>lt',
+        function()
+          Laravel.commands.run('actions')
+        end,
+        desc = 'Laravel: Open Actions Picker',
+      },
+      {
+        '<leader>lr',
+        function()
+          Laravel.pickers.routes()
+        end,
+        desc = 'Laravel: Open Routes Picker',
+      },
+      {
+        '<leader>lh',
+        function()
+          Laravel.run('artisan docs')
+        end,
+        desc = 'Laravel: Open Documentation',
+      },
+      {
+        '<leader>lm',
+        function()
+          Laravel.pickers.make()
+        end,
+        desc = 'Laravel: Open Make Picker',
+      },
+      {
+        '<leader>lc',
+        function()
+          Laravel.pickers.commands()
+        end,
+        desc = 'Laravel: Open Commands Picker',
+      },
+      {
+        '<leader>lo',
+        function()
+          Laravel.pickers.resources()
+        end,
+        desc = 'Laravel: Open Resources Picker',
+      },
+      {
+        '<leader>lp',
+        function()
+          Laravel.commands.run('command_center')
+        end,
+        desc = 'Laravel: Open Command Center',
+      },
+      {
+        'gf',
+        function()
+          local ok, res = pcall(function()
+            if Laravel.app('gf').cursorOnResource() then
+              return "<cmd>lua Laravel.commands.run('gf')<cr>"
+            end
+          end)
+          if not ok or not res then
+            return 'gf'
+          end
+          return res
+        end,
+        expr = true,
+        noremap = true,
+      },
+    },
+
     opts = {
       lsp_server = 'intelephense',
+      ui = {
+        default = 'popup',
+      },
+      environments = {
+        definitions = {
+          {
+            name = 'docker-compose',
+            map = {
+              php = { 'docker', 'compose', 'exec', '-it', 'web', 'php' },
+              composer = { 'docker', 'compose', 'exec', '-it', 'web', 'composer' },
+              npm = { 'docker', 'compose', 'exec', '-it', 'web', 'npm' },
+              yarn = { 'docker', 'compose', 'exec', '-it', 'web', 'yarn' },
+            },
+          },
+        },
+      },
+      features = {
+        pickers = {
+          enable = true,
+          provider = 'telescope',
+        },
+      },
     },
-    config = true,
   },
 }

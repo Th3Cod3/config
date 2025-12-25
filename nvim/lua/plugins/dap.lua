@@ -61,10 +61,6 @@ return {
     lazy = true,
   },
   {
-    'jbyuki/one-small-step-for-vimkind',
-    lazy = true,
-  },
-  {
     'jay-babu/mason-nvim-dap.nvim',
     event = 'VeryLazy',
     opts = {
@@ -80,23 +76,12 @@ return {
         php = function(config)
           config.configurations = {
             {
-              name = 'PHP XDebug port 9001',
+              name = 'PHP XDebug',
               type = 'php',
               request = 'launch',
-              port = 9001,
-              pathMappings = {
-                ['/var/www/html/'] = '${workspaceFolder}',
-              },
-              hostname = '0.0.0.0',
-              ignore = {
-                '**/vendor/**',
-              },
-            },
-            {
-              name = 'PHP XDebug port 9003',
-              type = 'php',
-              request = 'launch',
-              port = 9003,
+              port = function()
+                return tonumber(vim.fn.input('Port: ', '9003'))
+              end,
               pathMappings = {
                 ['/var/www/html/'] = '${workspaceFolder}',
               },
@@ -150,21 +135,27 @@ return {
         },
       })
 
-      -- dap.configurations.lua = {
-      --   {
-      --     type = 'nlua',
-      --     request = 'attach',
-      --     name = 'Attach to running Neovim instance',
-      --   },
-      -- }
+      dap.adapters.nlua = function(cb, config)
+        cb({
+          type = 'server',
+          host = config.host or '127.0.0.1',
+          port = config.port or 8086,
+        })
+      end
 
-      -- dap.adapters.nlua = function(cb, config)
-      --   cb({
-      --     type = 'server',
-      --     host = config.host or '127.0.0.1',
-      --     port = config.port or 8086,
-      --   })
-      -- end
+      dap.configurations.lua = {
+        {
+          type = 'nlua',
+          request = 'attach',
+          name = 'Attach to running Neovim instance',
+          host = function()
+            return '127.0.0.1'
+          end,
+          port = function()
+            return tonumber(vim.fn.input('Port: ', '8086'))
+          end,
+        },
+      }
 
       --- UI
       map('n', '<leader>df', function()
@@ -207,6 +198,9 @@ return {
         end
         dap_ui.elements.watches.add(w)
       end, { desc = 'Debug add to watch' })
+      map('n', '<leader>dv', function()
+        require('osv').launch({ port = 8086 })
+      end, { noremap = true, desc = 'Debug launch OSV' })
 
       --- Stepping
       map('n', '<leader>dd', dap.disconnect, { noremap = true, desc = 'Debug disconnect (continue)' })

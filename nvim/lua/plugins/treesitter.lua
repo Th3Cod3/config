@@ -69,12 +69,12 @@ return {
             keymaps = {
               ['af'] = { query = '@function.outer', desc = 'Outer function' },
               ['if'] = { query = '@function.inner', desc = 'Inner function' },
-              ['ac'] = { query = '@class.outer', desc = 'Outer class' },
-              ['ic'] = { query = '@class.inner', desc = 'Inner class' },
+              ['ao'] = { query = '@class.outer', desc = 'Outer class' },
+              ['io'] = { query = '@class.inner', desc = 'Inner class' },
               ['aa'] = { query = '@parameter.outer', desc = 'Outer argument' },
               ['ia'] = { query = '@parameter.inner', desc = 'Inner argument' },
-              ['ad'] = { query = '@conditional.outer', desc = 'Outer conditional' },
-              ['id'] = { query = '@conditional.inner', desc = 'Inner conditional' },
+              ['ac'] = { query = '@conditional.outer', desc = 'Outer conditional' },
+              ['ic'] = { query = '@conditional.inner', desc = 'Inner conditional' },
             },
             selection_modes = {
               ['@parameter.outer'] = 'v', -- charwise
@@ -144,10 +144,10 @@ return {
         end,
       })
 
-      vim.o.foldcolumn = '1' -- '0' is not bad
-      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-      vim.o.foldlevelstart = 99
-      vim.o.foldenable = true
+      vim.opt.foldcolumn = '1' -- '0' is not bad
+      vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+      vim.opt.foldlevelstart = 99
+      vim.opt.foldenable = true
 
       -- Using ufo provider need remap `zR` and `zM`.
       vim.keymap.set('n', 'zR', ufo.openAllFolds)

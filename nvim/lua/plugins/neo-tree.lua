@@ -19,7 +19,12 @@ return {
       },
 
       window = {
-        position = 'current',
+        position = 'float',
+        mappings = {
+          ['<BS>'] = 'noop',
+          ['<bs>'] = 'noop',
+          ['/'] = 'noop',
+        },
       },
 
       default_component_configs = {
@@ -46,6 +51,7 @@ return {
           mappings = {
             ['z'] = 'none',
             ['<BS>'] = 'noop',
+            ['<bs>'] = 'noop',
             ['/'] = 'noop',
             ['U'] = 'navigate_up',
             ['f'] = 'fuzzy_finder',
@@ -67,6 +73,7 @@ return {
             ['D'] = { ntc.neotree_diff_files, desc = 'Diff files' },
             ['J'] = { ntc.neotree_first_file, desc = 'Jump to first file' },
             ['K'] = { ntc.neotree_last_file, desc = 'Jump to last file' },
+            ['C'] = { ntc.neotree_set_cwd_to_node, desc = 'Set cwd' },
             -- upload (sync files)
             uu = {
               function(state)
@@ -127,7 +134,8 @@ return {
 
     local map = vim.keymap.set
 
-    map('n', '<C-e>', ':Neotree filesystem reveal_force_cwd float<cr>', { desc = 'Reveal in file tree' })
+    map('n', '<C-e>', ':Neotree filesystem reveal float<cr>', { desc = 'Reveal in file tree' })
+    map('n', '<leader>fe', ':Neotree filesystem reveal float dir=$PWD<cr>', { desc = 'Reveal (cwd) in file tree' })
     map('n', '<leader>ge', ':Neotree git_status float<cr>', { desc = 'Reveal in file tree' })
   end,
 }

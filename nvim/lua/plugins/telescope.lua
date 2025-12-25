@@ -65,6 +65,7 @@ return {
         builtin.find_files({ hidden = true })
       end, { desc = 'Telescope Find Files' })
       map('n', '<leader><leader><leader>', builtin.resume, { desc = 'Telescope Resume' })
+      map('n', '<leader>ft', config.terminal_picker, { desc = 'Telescope Terminals' })
       map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fs', builtin.grep_string, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fb', buffers, { desc = 'Telescope Buffers' })
