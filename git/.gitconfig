@@ -6,12 +6,15 @@
   username = Th3Cod3
 [core]
   editor = nvim
+	excludesfile = /home/th3cod3/.config/config/git/.gitignore_global
 [diff]
   algorithm = patience
   tool = nvimdiff
 [difftool "nvimdiff"]
   cmd = nvim -d $LOCAL $REMOTE -c 'wincmd l' -c 'wincmd L'
 [merge]
-  tool = nvimdiff4
+  tool = nvimdiff
 [mergetool "nvimdiff4"]
   cmd = nvim -d $LOCAL $REMOTE $BASE $MERGED -c 'wincmd w' -c 'wincmd J'
+[mergetool "nvimdiff"]
+  layout = diff3
