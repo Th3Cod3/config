@@ -207,7 +207,9 @@ M.neotree_za = function(state, toggle_all)
   end
 end
 
---- Recursively close an open folder or recursively open a closed folder. M.neotree_zA = function(state) M.neotree_za(state, true)
+--- Recursively close an open folder or recursively open a closed folder.
+M.neotree_zA = function(state)
+  M.neotree_za(state, true)
 end
 
 --- Set depthlevel, analagous to foldlevel, for the neo-tree file tree.
