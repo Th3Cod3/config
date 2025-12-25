@@ -37,7 +37,10 @@ if [ -f ~/.git-completion.bash ]; then
   __git_complete gcob _git_checkout
   __git_complete gc _git_commit
   __git_complete gca _git_commit
+  __git_complete gfp _git_format_patch
   __git_complete gm _git_merge
+  __git_complete gma _git_merge
+  __git_complete gmc _git_merge
   __git_complete gp _git_pull
   __git_complete gP _git_push
   __git_complete gcp _git_cherry_pick
@@ -66,3 +69,4 @@ export EDITOR=nvim
 export VISUAL=nvim
 export PATH="~/.local/bin:$PATH"
 
+. "$HOME/.cargo/env"

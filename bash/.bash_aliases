@@ -9,15 +9,19 @@ alias la='ls -lhAF'
 alias l='ls -CF'
 alias cb='~/.config/config/scripts/.clipboard.sh'
 
+alias sshpass='ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no'
+
 export PER_FOLDERS="."
 
-alias perf='sudo find ${PER_FOLDERS} -type f -print0 | sudo xargs -0 chmod a+rw'
-alias perd='sudo find ${PER_FOLDERS} -type d -print0 | sudo xargs -0 chmod 777'
+alias perf='sudo find ${PER_FOLDERS} -type f -exec chmod a+rw {} +'
+alias perd='sudo find ${PER_FOLDERS} -type d -exec chmod 777 {} +'
 alias perg='sudo chown -R th3cod3:www-data ${PER_FOLDERS}'
 alias pera="perf; perd; perg"
 
 ### Python
 alias py='python3'
+alias pyenv='python3 -m venv venv && source venv/bin/activate'
+alias pypi='pip install -r requirements.txt'
 
 # artisan
 alias pa="php artisan"
@@ -65,6 +69,7 @@ alias gsts='git status -s'
 alias ga='git add'
 alias gai='git add -i'
 alias gaA='git add -A'
+alias gfp='git format-patch'
 alias gs='git stash'
 alias gsl='git stash list'
 alias gsa='git stash apply'
