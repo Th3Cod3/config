@@ -23,7 +23,6 @@ return {
     ---@type obsidian.config
     opts = {
       legacy_commands = false,
-      disable_frontmatter = false,
       preferred_link_style = 'markdown',
       wiki_link_func = nil,
       new_notes_location = 'current_dir',

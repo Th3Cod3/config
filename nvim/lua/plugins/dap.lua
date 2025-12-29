@@ -135,6 +135,13 @@ return {
         },
       })
 
+      dap.adapters.gdb = {
+        type = 'executable',
+        command = 'gdb',
+        name = 'gdb',
+        args = { '--quiet', '--interpreter=dap' },
+      }
+
       dap.adapters.nlua = function(cb, config)
         cb({
           type = 'server',
@@ -180,22 +187,28 @@ return {
         if condition ~= '' then
           dap.set_breakpoint(condition)
         end
-      end, { desc = 'DAP: Set conditional breakpoint' })
+      end, { desc = 'Debug conditional breakpoint' })
       map('n', '<leader>dl', function()
         local condition = vim.fn.input('Log point message: ')
         if condition ~= '' then
           dap.set_breakpoint(nil, nil, condition)
         end
-      end, { desc = 'DAP: Set logpoint' })
+      end, { desc = 'Debug set logpoint' })
+      map('n', '<leader>dH', function()
+        local hits = vim.fn.input('Hit condition: ')
+        if hits ~= '' then
+          dap.set_breakpoint(nil, hits)
+        end
+      end, { desc = 'Debug hits breakpoint' })
       map('n', '<leader>dr', repl.toggle, { noremap = true, desc = 'Toggle REPL' })
       map('n', '<leader>dL', function()
         widgets.centered_float(widgets.breakpoints)
       end, { desc = 'Debug breakpoints (list)' })
       map('n', '<leader>de', function()
         local w = vim.fn.expand('<cword>')
-        if not w:match('^%$') then
-          w = '$' .. w
-        end
+        -- if not w:match('^%$') then
+        --   w = '$' .. w
+        -- end
         dap_ui.elements.watches.add(w)
       end, { desc = 'Debug add to watch' })
       map('n', '<leader>dv', function()
@@ -205,12 +218,19 @@ return {
       --- Stepping
       map('n', '<leader>dd', dap.disconnect, { noremap = true, desc = 'Debug disconnect (continue)' })
       map('n', '<leader>dt', dap.terminate, { noremap = true, desc = 'Debug terminate' })
-      map('n', '<leader>dc', dap.continue, { noremap = true, desc = 'Debug continue' })
+      map('n', '<leader>dc', dap.continue, { noremap = true, desc = 'Debug continue/start' })
       map('n', '<leader>dn', dap.step_over, { noremap = true, desc = 'Debug step over (next)' })
       map('n', '<leader>di', dap.step_into, { noremap = true, desc = 'Debug step into' })
       map('n', '<leader>do', dap.step_out, { noremap = true, desc = 'Debug step out' })
       map('n', '<leader>dk', dap.up, { noremap = true, desc = 'Debug up' })
       map('n', '<leader>dj', dap.down, { noremap = true, desc = 'Debug down' })
+
+      -- VS Code–like DAP keybindings
+      map('n', '<F5>', dap.continue, { noremap = true, desc = 'Debug continue/start' })
+      map('n', '<S-F5>', dap.terminate, { noremap = true, desc = 'Debug terminate' })
+      map('n', '<F10>', dap.step_over, { noremap = true, desc = 'Debug step over' })
+      map('n', '<F11>', dap.step_into, { noremap = true, desc = 'Debug step into' })
+      map('n', '<S-F11>', dap.step_out, { noremap = true, desc = 'Debug step out' })
 
       --- Visual mode
       map('v', '<leader>dr', function()

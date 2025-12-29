@@ -36,6 +36,20 @@ return {
         desc = 'Laravel: Open Laravel Picker',
       },
       {
+        '<leader>lT',
+        function()
+          Laravel.commands.run('tinker')
+        end,
+        desc = 'Laravel: Open Laravel Tinker',
+      },
+      {
+        '<leader>lt',
+        function()
+          Laravel.run('artisan tinker')
+        end,
+        desc = 'Laravel: Run Artisan Tinker',
+      },
+      {
         '<c-g>',
         function()
           Laravel.commands.run('view:finder')
@@ -48,13 +62,6 @@ return {
           Laravel.pickers.artisan()
         end,
         desc = 'Laravel: Open Artisan Picker',
-      },
-      {
-        '<leader>lt',
-        function()
-          Laravel.commands.run('actions')
-        end,
-        desc = 'Laravel: Open Actions Picker',
       },
       {
         '<leader>lr',
@@ -92,13 +99,6 @@ return {
         desc = 'Laravel: Open Resources Picker',
       },
       {
-        '<leader>lp',
-        function()
-          Laravel.commands.run('command_center')
-        end,
-        desc = 'Laravel: Open Command Center',
-      },
-      {
         'gf',
         function()
           local ok, res = pcall(function()
@@ -120,6 +120,11 @@ return {
       lsp_server = 'intelephense',
       ui = {
         default = 'popup',
+        window = {
+          border = 'rounded',
+          height = 0.8,
+          width = 0.8,
+        },
       },
       environments = {
         definitions = {

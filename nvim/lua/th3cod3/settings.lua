@@ -17,6 +17,7 @@ vim.opt.relativenumber = true
 vim.opt.listchars = { tab = '» ', trail = '·', lead = '·' }
 vim.opt.list = true
 
+vim.opt.scrolloff = 10
 vim.opt.smartindent = true
 vim.opt.swapfile = false
 vim.opt.backup = false
@@ -34,5 +35,6 @@ vim.opt.spelllang = 'es,nl,en_us'
 vim.filetype.add({
   pattern = {
     ['.*%.env.*'] = 'sh',
+    ['.*%.ssh/config%.d/.*'] = 'sshconfig',
   },
 })
