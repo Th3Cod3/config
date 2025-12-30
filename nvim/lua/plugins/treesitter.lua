@@ -133,7 +133,7 @@ return {
   {
     'kevinhwang91/nvim-ufo',
     event = 'VeryLazy',
-    dependancies = {
+    dependencies = {
       'kevinhwang91/promise-async',
     },
     config = function()

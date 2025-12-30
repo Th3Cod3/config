@@ -61,16 +61,14 @@ return {
       local map = vim.keymap.set
 
       map('n', '<leader>T', ':Telescope ', { desc = 'Telescope cmd' })
-      map('n', '<leader>ff', function()
-        builtin.find_files({ hidden = true })
-      end, { desc = 'Telescope Find Files' })
+      map('n', '<leader>ff', function() builtin.find_files({ hidden = true }) end, { desc = 'Telescope Find Files' })
       map('n', '<leader><leader><leader>', builtin.resume, { desc = 'Telescope Resume' })
       map('n', '<leader>ft', config.terminal_picker, { desc = 'Telescope Terminals' })
       map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fs', builtin.grep_string, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fb', buffers, { desc = 'Telescope Buffers' })
       map('n', '<leader>fq', builtin.quickfix, { desc = 'Telescope quickfix' })
-      map('n', '<leader>fH', builtin.help_tags, { desc = 'Telescope Help Tags' })
+      map('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope Help Tags' })
       map('n', '<leader>fo', builtin.oldfiles, { desc = 'Telescope Old Files' })
       map('n', '<leader>fr', builtin.registers, { desc = 'Telescope Registers' })
       map('n', '<leader>fj', builtin.jumplist, { desc = 'Telescope Jump List' })
@@ -78,12 +76,18 @@ return {
       map('n', '<leader>fc', builtin.commands, { desc = 'Telescope Commands' })
       map('n', '<leader>fM', builtin.man_pages, { desc = 'Telescope man pages' })
       map('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope Keymaps' })
-      map('n', '<leader>fn', function()
-        require('telescope').extensions.notify.notify()
-      end, { desc = 'Telescope Notifications' })
-      map('n', '<leader>fd', function()
-        builtin.diagnostics({ bufnr = 0, previewer = false })
-      end, { desc = 'Telescope Diagnostics (buffer)' })
+      map(
+        'n',
+        '<leader>fn',
+        function() require('telescope').extensions.notify.notify() end,
+        { desc = 'Telescope Notifications' }
+      )
+      map(
+        'n',
+        '<leader>fd',
+        function() builtin.diagnostics({ bufnr = 0, previewer = false }) end,
+        { desc = 'Telescope Diagnostics (buffer)' }
+      )
       map('n', '<leader>fD', builtin.diagnostics, { desc = 'Telescope Diagnostics (CWD)' })
       map('n', '<leader>fS', builtin.lsp_document_symbols, { desc = 'Telescope LSP Document Symbols' })
       map('n', '<leader>fw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP Workspace Symbols' })

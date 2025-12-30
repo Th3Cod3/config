@@ -1,6 +1,7 @@
-vim.g.mapleader = ' '
-
+local fns = require('th3cod3.functions')
 local map = vim.keymap.set
+
+vim.g.mapleader = ' '
 
 -- Move lines
 map('v', 'K', ":m '<—2<CR>gv=gv")
@@ -37,115 +38,15 @@ map('n', 'Q', 'q', { noremap = true, desc = 'Record macro' })
 map('n', '<M-q>', 'Q', { noremap = true, desc = 'Replay last register' })
 
 -- Quickfix
-local function toggle_quickfix()
-  local windows = vim.fn.getwininfo()
-  for _, win in pairs(windows) do
-    if win['quickfix'] == 1 then
-      vim.cmd.cclose()
-      return
-    end
-  end
-  vim.cmd.copen()
-end
-
-local function compare_to_clipboard()
-  local ftype = vim.api.nvim_eval('&filetype')
-  vim.cmd(string.format(
-    [[
-    execute "\"xy"
-    vsplit
-    enew
-    normal! P
-    setlocal buftype=nowrite
-    set filetype=%s
-    diffthis
-    execute "normal! \<C-w>\<C-w>"
-    enew
-    set filetype=%s
-    normal! "xP
-    diffthis
-  ]],
-    ftype,
-    ftype
-  ))
-end
-
-map('x', '<leader>di', compare_to_clipboard)
-
-local function unique_files_in_quickfix()
-  local qflist = vim.fn.getqflist()
-  local seen = {}
-  local unique_qflist = {}
-
-  for _, item in ipairs(qflist) do
-    if not seen[item.bufnr] then
-      table.insert(unique_qflist, item)
-      seen[item.bufnr] = true
-    end
-  end
-
-  vim.fn.setqflist({}, ' ', { title = 'Unique Files', items = unique_qflist })
-end
-map('n', '<leader>qu', unique_files_in_quickfix, { desc = 'Unique Files in Quickfix' })
-map('n', '<leader>qt', toggle_quickfix, { desc = 'Toggle Quickfix Window' })
+map('x', '<leader>di', fns.compare_to_clipboard)
+map('n', '<leader>qu', fns.unique_files_in_quickfix, { desc = 'Unique Files in Quickfix' })
+map('n', '<leader>qt', fns.toggle_quickfix, { desc = 'Toggle Quickfix Window' })
 map('n', '<leader>qn', ':cnext<cr>', { desc = 'Next Quickfix' })
 map('n', '<leader>qp', ':cprevious<cr>', { desc = 'Previous Quickfix' })
 
-map('t', '<C-q>', [[<C-\><C-n>]], opts)
-map('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
-
----@type 'lines'|'text'|'disabled'
-local diagnostic_next_view = 'text'
-local function cycle_diagnostic_view()
-  if diagnostic_next_view == 'text' then
-    diagnostic_next_view = 'lines'
-    vim.diagnostic.config({
-      virtual_lines = false,
-      virtual_text = true,
-    })
-  elseif diagnostic_next_view == 'lines' then
-    diagnostic_next_view = 'disabled'
-    vim.diagnostic.config({
-      virtual_lines = true,
-      virtual_text = false,
-    })
-  else
-    diagnostic_next_view = 'text'
-    vim.diagnostic.config({
-      virtual_lines = false,
-      virtual_text = false,
-    })
-  end
-end
-map('n', '<leader>vd', cycle_diagnostic_view, { desc = 'Cycle Diagnostic View' })
-
-local function diff_register_with_selection()
-  if vim.fn.visualmode() == nil then
-    return
-  end
-
-  vim.cmd('visual! "xy')
-
-  vim.cmd('new')
-  vim.cmd('only')
-  vim.cmd('put "')
-  vim.cmd('diffthis')
-  vim.cmd('vnew')
-  vim.cmd('put x')
-  vim.cmd('diffthis')
-end
-
-map('n', '<leader>ti', function()
-  local project_init = vim.fn.getcwd() .. '/.nvim/init.lua'
-  if vim.fn.filereadable(project_init) == 1 then
-    vim.cmd('source ' .. project_init)
-    vim.notify('Loaded project init', vim.log.levels.INFO)
-  else
-    vim.notify('No project '.. project_init .. ' found', vim.log.levels.WARN)
-  end
-end, { desc = 'Load project init.lua' })
-
-map('v', '<leader>dr', diff_register_with_selection, { desc = 'Diff register with selection' })
+-- terminal
+map('t', '<C-q>', [[<C-\><C-n>]])
+map('t', '<C-w>', [[<C-\><C-n><C-w>]])
 
 -- resize windows
 map('n', '<M-H>', '3<C-w><', { silent = true })
@@ -162,3 +63,9 @@ map({ 'n', 'v' }, '<leader>bd', ':bd<cr>')
 map({ 'n', 'v' }, '<leader>bn', ':bnext<cr>')
 map({ 'n', 'v' }, '<leader>bp', ':bprevious<cr>')
 map({ 'n', 'v' }, '<leader>bc', ':enew<cr>')
+
+-- custom keymaps
+map('n', '<leader><esc>', fns.hide_float_win, { desc = 'Hide floating window' })
+map('n', '<leader>vd', fns.cycle_diagnostic_view, { desc = 'Cycle Diagnostic View' })
+map('n', '<leader>ti', fns.load_project_init, { desc = 'Load project init.lua' })
+map('v', '<leader>dr', fns.diff_register_with_selection, { desc = 'Diff register with selection' })
