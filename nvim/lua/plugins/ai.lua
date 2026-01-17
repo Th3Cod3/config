@@ -93,17 +93,23 @@ return {
     opts = {
       provider = 'copilot',
       providers = {
-        copilot = {
-          model = 'claude-sonnet-4',
+        gemini = {
+          model = 'gemini-3-flash-preview',
         },
       },
       behaviour = {
         auto_suggestions = false,
         auto_approve = false,
         auto_apply_diff_after_generation = false,
+        auto_approve_tool_permissions = false,
+        confirmation_ui_style = 'popup',
+        auto_add_current_file = false,
       },
       windows = {
         width = 50,
+        input = {
+          height = 15,
+        },
       },
       repo_map = {
         ignore_patterns = {
@@ -138,16 +144,28 @@ return {
         }
       end,
       disabled_tools = {
-        'list_files', -- Built-in file operations
-        'search_files',
-        'read_file',
-        'create_file',
-        'rename_file',
-        'delete_file',
-        'create_dir',
-        'rename_dir',
-        'delete_dir',
-        'bash', -- Built-in terminal access
+        -- 'attempt_completion',
+        -- 'base',
+        'bash',
+        -- 'create',
+        -- 'delete_tool_use_messages',
+        'dispatch_agent',
+        -- 'edit_file',
+        'get_diagnostics',
+        -- 'glob',
+        -- 'grep',
+        -- 'helpers',
+        -- 'init',
+        -- 'insert',
+        -- 'ls',
+        -- 'read_todos',
+        -- 'replace_in_file',
+        -- 'str_replace',
+        -- 'think',
+        -- 'undo_edit',
+        -- 'view',
+        -- 'write_to_file',
+        -- 'write_todos',
       },
     },
     build = 'make',

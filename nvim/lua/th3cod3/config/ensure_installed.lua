@@ -12,6 +12,7 @@ M.treesitter = {
   'query',
   -- embedded
   'asm',
+  'kconfig',
   'arduino',
   'c',
   'cpp',

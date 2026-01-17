@@ -4,12 +4,11 @@ return {
     keys = {
       {
         '<leader>cf',
-        function()
-          require('conform').format()
-        end,
+        function() require('conform').format() end,
         desc = 'Format',
       },
     },
+    init = function() vim.o.formatexpr = 'v:lua.require("conform").formatexpr()' end,
     opts = {
       formatters_by_ft = {
         lua = { 'stylua' },
@@ -25,13 +24,43 @@ return {
         json = { 'prettierd', 'prettier', stop_after_first = true },
         yaml = { 'prettierd', 'prettier', stop_after_first = true },
         sh = { 'shfmt' },
-        blade = { 'blade_formatter' },
+        blade = { 'blade_formatter', stop_after_first = true },
         php = { 'pint', 'phpcsfixer', stop_after_first = true },
         python = { 'autoflake', 'black', stop_after_first = true },
         sql = { 'sql_formatter' },
         markdown = { 'prettierd', 'prettier', stop_after_first = true },
       },
       formatters = {
+        blade_formatter = {
+          command = 'docker',
+          args = {
+            'compose',
+            'exec',
+            '-T',
+            'web',
+            'node_modules/.bin/blade-formatter',
+            '--stdin',
+            '$RELATIVE_FILEPATH',
+          },
+          stdin = true,
+          condition = function(self)
+            local marker = vim.fs.find({ 'composer.json', '.git' }, { path = self.dirname, upward = true })[1]
+            if not marker then
+              return false
+            end
+
+            local root = vim.fs.dirname(marker)
+            local has_binary = vim.fn.filereadable(root .. '/node_modules/.bin/blade-formatter') == 1
+
+            if has_binary then
+              vim.notify('Using blade-formatter for Blade formatting', vim.log.levels.DEBUG)
+            else
+              vim.notify('Blade Formatter binary not found, skipping formatter', vim.log.levels.DEBUG)
+            end
+
+            return has_binary
+          end,
+        },
         phpcsfixer = {
           command = 'docker',
           args = {
@@ -46,8 +75,8 @@ return {
             '$RELATIVE_FILEPATH',
           },
           stdin = false,
-          condition = function(ctx)
-            local marker = vim.fs.find({ 'composer.json', '.git' }, { path = ctx.dirname, upward = true })[1]
+          condition = function(self)
+            local marker = vim.fs.find({ 'composer.json', '.git' }, { path = self.dirname, upward = true })[1]
             if not marker then
               return false
             end
@@ -89,8 +118,8 @@ return {
             '$RELATIVE_FILEPATH',
           },
           stdin = false,
-          condition = function(ctx)
-            local marker = vim.fs.find({ 'composer.json', '.git' }, { path = ctx.dirname, upward = true })[1]
+          condition = function(self)
+            local marker = vim.fs.find({ 'composer.json', '.git' }, { path = self.dirname, upward = true })[1]
             if not marker then
               return false
             end

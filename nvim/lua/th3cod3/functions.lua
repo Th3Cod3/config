@@ -27,13 +27,102 @@ end
 
 M.cycle_diagnostic_view()
 
+local function get_url_under_cursor()
+  local url = vim.fn.expand('<cfile>')
+  if url:match('^https?://') then
+    return url
+  end
+end
+
+--- @type {dirs?: string|string[], bin: string}[]
+local browser_dirs_map = {
+  {
+    dirs = vim.fn.expand('~/code/WebWhales/'),
+    bin = 'google-chrome',
+  },
+}
+
+local function starts_with(s, prefix) return s:sub(1, #prefix) == prefix end
+
+--- @class OpenUrlOptions
+--- @field fallback? string (default: "<Cmd>call netrw#BrowseX(expand('<cfile>'), 0)<CR>")
+--- @field under_cursor? boolean only attempt to get URL under cursor if url is nil (default: false)
+
+--- @param url string|nil
+--- @param opts? OpenUrlOptions
+--- @return string|nil
+M.open_url = function(url, opts)
+  opts = opts or {}
+  local fallback = opts.fallback or "<Cmd>call netrw#BrowseX(expand('<cfile>'), 0)<CR>"
+
+  if not url and opts.under_cursor then
+    url = get_url_under_cursor()
+  end
+
+  if not url then
+    return fallback
+  end
+
+  local cwd = vim.uv.cwd() or vim.api.nvim_buf_get_name(0)
+  if not cwd then
+    return fallback
+  end
+  cwd = vim.fs.normalize(cwd) .. '/'
+
+  for _, map in ipairs(browser_dirs_map) do
+    local bin = map.bin
+    if not bin or bin == '' then
+      vim.notify('No browser binary specified in map', vim.log.levels.WARN)
+      goto continue_map
+    end
+
+    if vim.fn.executable(bin) == 0 then
+      vim.notify('Browser executable not found: ' .. bin, vim.log.levels.WARN)
+      goto continue_map
+    end
+
+    local dirs = map.dirs
+    if not dirs then
+      goto continue_map
+    end
+
+    if type(dirs) == 'string' then
+      dirs = { dirs }
+    end
+
+    for _, dir in ipairs(dirs) do
+      dir = vim.fs.normalize(vim.fn.expand(dir))
+
+      if dir:sub(-1) ~= '/' then
+        dir = dir .. '/'
+      end
+
+      if starts_with(cwd, dir) then
+        vim.notify('Opening URL with ' .. bin .. ': ' .. url, vim.log.levels.DEBUG)
+        vim.system({ bin }, { args = { url }, detach = true })
+        return
+      end
+    end
+
+    ::continue_map::
+  end
+
+  if vim.fn.executable('xdg-open') == 1 then
+    vim.notify('Opening URL with xdg-open: ' .. url, vim.log.levels.DEBUG)
+    vim.system({ 'xdg-open', url }, { detach = true })
+    return
+  end
+
+  return fallback
+end
+
 M.load_project_init = function()
   local project_init = vim.fn.getcwd() .. '/.nvim/init.lua'
   if vim.fn.filereadable(project_init) == 1 then
     vim.cmd('source ' .. project_init)
     vim.notify('Loaded project init', vim.log.levels.INFO)
   else
-    vim.notify('No project '.. project_init .. ' found', vim.log.levels.WARN)
+    vim.notify('No project ' .. project_init .. ' found', vim.log.levels.WARN)
   end
 end
 
@@ -106,6 +195,30 @@ M.compare_to_clipboard = function()
     ftype,
     ftype
   ))
+end
+
+M.open_init_file = function()
+  local init_file = vim.fn.getcwd() .. '/.nvim/init.lua'
+
+  if vim.fn.filereadable(init_file) == 0 then
+    vim.fn.mkdir(vim.fn.getcwd() .. '/.nvim', 'p')
+    vim.fn.writefile({}, init_file)
+  end
+
+  vim.cmd('edit ' .. init_file)
+end
+
+M.open_local_notes_file = function()
+  local notes_file = vim.fn.getcwd() .. '/.nvim/notes.md'
+
+  if vim.fn.filereadable(notes_file) == 0 then
+    vim.fn.mkdir(vim.fn.getcwd() .. '/.nvim', 'p')
+    vim.fn.writefile({}, notes_file)
+
+    vim.fn.writefile({ '# ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t'), '' }, notes_file, 's')
+  end
+
+  vim.cmd('edit ' .. notes_file)
 end
 
 return M

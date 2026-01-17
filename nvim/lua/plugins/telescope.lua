@@ -65,7 +65,23 @@ return {
       map('n', '<leader><leader><leader>', builtin.resume, { desc = 'Telescope Resume' })
       map('n', '<leader>ft', config.terminal_picker, { desc = 'Telescope Terminals' })
       map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope Live Grep' })
-      map('n', '<leader>fs', builtin.grep_string, { desc = 'Telescope Live Grep' })
+      map(
+        'n',
+        '<leader>sb',
+        function() builtin.live_grep({ grep_open_files = true }) end,
+        { desc = 'Telescope Live Grep (open files)' }
+      )
+      map(
+        'n',
+        '<leader>sc',
+        function()
+          -- @todo: improve to add conditional (git or not git)
+          local glob_pattern = vim.fn.systemlist('git diff --name-only')[1]
+          builtin.live_grep({ glob_pattern = glob_pattern })
+        end,
+        { desc = 'Telescope Live Grep (changed files)' }
+      )
+      map({ 'n', 'v' }, '<leader>fs', builtin.grep_string, { desc = 'Telescope Live Grep' })
       map('n', '<leader>fb', buffers, { desc = 'Telescope Buffers' })
       map('n', '<leader>fq', builtin.quickfix, { desc = 'Telescope quickfix' })
       map('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope Help Tags' })

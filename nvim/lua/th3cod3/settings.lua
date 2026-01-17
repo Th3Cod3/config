@@ -1,7 +1,5 @@
-vim.api.nvim_create_autocmd({"TextYankPost"}, {
-  callback = function()
-    vim.highlight.on_yank({ higroup = 'Visual', timeout = 300 })
-  end,
+vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
+  callback = function() vim.highlight.on_yank({ higroup = 'Visual', timeout = 500 }) end,
 })
 
 vim.opt_global.expandtab = true
@@ -17,6 +15,7 @@ vim.opt.relativenumber = true
 vim.opt.listchars = { tab = '» ', trail = '·', lead = '·' }
 vim.opt.list = true
 
+vim.opt.foldcolumn = 'auto:5'
 vim.opt.scrolloff = 10
 vim.opt.smartindent = true
 vim.opt.swapfile = false
@@ -36,5 +35,6 @@ vim.filetype.add({
   pattern = {
     ['.*%.env.*'] = 'sh',
     ['.*%.ssh/config%.d/.*'] = 'sshconfig',
+    ['.*%.blade%.php'] = 'blade',
   },
 })

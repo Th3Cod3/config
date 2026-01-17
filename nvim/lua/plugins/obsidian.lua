@@ -8,7 +8,7 @@ return {
     },
     keys = {
       { '<leader>of', '<cmd>Obsidian follow_link<cr>', desc = 'Obsidian: Follow Link' },
-      { '<leader>on', '<cmd>Obsidian new<cr>', desc = 'Obsidian: Create New Note' },
+      { '<leader>oN', '<cmd>Obsidian new<cr>', desc = 'Obsidian: Create New Note' },
       { '<leader>os', '<cmd>Obsidian search<cr>', desc = 'Obsidian: Search' },
       { '<leader>ot', '<cmd>Obsidian toc<cr>', desc = 'Obsidian: Table of Contents' },
       { '<leader>oT', '<cmd>Obsidian tags<cr>', desc = 'Obsidian: Tags' },

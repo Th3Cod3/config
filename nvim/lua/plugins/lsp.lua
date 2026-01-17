@@ -43,44 +43,47 @@ return {
     },
     config = function()
       -- terminal&vim
-      vim.lsp.enable('lua_ls')
-      vim.lsp.enable('bashls')
-      vim.lsp.enable('vimls')
+      vim.lsp.enable({
+        'lua_ls',
+        'bashls',
+        'vimls',
+      })
 
       -- embedded/c/c++
-      vim.lsp.enable('clangd')
-      vim.lsp.enable('vhdl_ls')
+      vim.lsp.enable({
+        'clangd',
+        'vhdl_ls',
+      })
       -- vim.lsp.enable('serve_d')
 
       -- web
-      vim.lsp.enable('eslint')
-      -- vim.lsp.enable('ast_grep')
-      vim.lsp.enable('ts_ls')
-      vim.lsp.enable('vtsls')
-      vim.lsp.enable('vue_ls')
-      vim.lsp.enable('jsonls')
-      vim.lsp.enable('cssls')
-      vim.lsp.enable('emmet_ls')
-      vim.lsp.enable('html')
-      vim.lsp.enable('intelephense')
-      -- vim.lsp.enable('phpactor')
+      vim.lsp.enable('ts_ls', false)
+      vim.lsp.enable({
+        -- 'ast_grep',
+        'eslint',
+        'vtsls',
+        'jsonls',
+        'cssls',
+        'emmet_ls',
+        'html',
+        'intelephense',
+        -- 'phpactor',
+      })
 
       -- others
       vim.lsp.enable('ltex', ltex_status)
-      -- vim.lsp.enable('dockerls')
-      -- vim.lsp.enable('sqlls')
-      -- vim.lsp.enable('yamlls')
+      -- vim.lsp.enable({
+      -- 'dockerls',
+      -- 'sqlls',
+      -- 'yamlls',
+      -- })
       vim.lsp.config('lua_ls', {
         settings = {
           Lua = {
             diagnostics = {
               globals = {
                 'vim',
-                'require',
               },
-            },
-            workspace = {
-              library = vim.api.nvim_get_runtime_file('', true),
             },
           },
         },

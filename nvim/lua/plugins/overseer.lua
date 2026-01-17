@@ -2,9 +2,9 @@ return {
   {
     'stevearc/overseer.nvim',
     keys = {
-      { '<leader>to', '<cmd>OverseerToggle<cr>', desc = 'Toggle Overseer' },
-      { '<leader>tr', '<cmd>OverseerRun<cr>', desc = 'Run Task' },
-      { '<leader>ts', '<cmd>OverseerShow<cr>', desc = 'Show Tasks' },
+      { '<leader>ro', '<cmd>OverseerToggle<cr>', desc = 'Toggle Overseer' },
+      { '<leader>rr', '<cmd>OverseerRun<cr>', desc = 'Run Task' },
+      { '<leader>rs', '<cmd>OverseerShow<cr>', desc = 'Show Tasks' },
     },
     ---@module 'overseer'
     ---@type overseer.SetupOpts

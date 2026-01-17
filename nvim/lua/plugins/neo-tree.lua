@@ -12,9 +12,7 @@ return {
       event_handlers = {
         {
           event = 'file_open_requested',
-          handler = function()
-            require('neo-tree.command').execute({ action = 'close' })
-          end,
+          handler = function() require('neo-tree.command').execute({ action = 'close' }) end,
         },
       },
 
@@ -27,27 +25,9 @@ return {
         },
       },
 
-      default_component_configs = {
-        git_status = {
-          symbols = {
-            -- Change type
-            added = 'A',
-            deleted = 'D',
-            modified = 'M',
-            renamed = 'R',
-            -- Status type
-            untracked = 'U',
-            ignored = 'I',
-            unstaged = 'M',
-            staged = 'S',
-            conflict = 'C',
-          },
-          align = 'right',
-        },
-      },
-
       filesystem = {
         window = {
+          ---@diagnostic disable: assign-type-mismatch
           mappings = {
             ['z'] = 'none',
             ['<BS>'] = 'noop',
@@ -76,17 +56,13 @@ return {
             ['C'] = { ntc.neotree_set_cwd_to_node, desc = 'Set cwd' },
             -- upload (sync files)
             uu = {
-              function(state)
-                vim.cmd('TransferUpload ' .. state.tree:get_node().path)
-              end,
+              function(state) vim.cmd('TransferUpload ' .. state.tree:get_node().path) end,
               desc = 'upload file or directory',
               nowait = true,
             },
             -- download (sync files)
             ud = {
-              function(state)
-                vim.cmd('TransferDownload' .. state.tree:get_node().path)
-              end,
+              function(state) vim.cmd('TransferDownload' .. state.tree:get_node().path) end,
               desc = 'download file or directory',
               nowait = true,
             },
@@ -106,6 +82,7 @@ return {
               desc = 'diff with remote',
             },
           },
+          ---@diagnostic enable: assign-type-mismatch
         },
         filtered_items = {
           hide_dotfiles = false,
@@ -122,6 +99,8 @@ return {
 
           always_show = {
             'local',
+            'personal',
+            'work',
             '.nvim',
           },
 

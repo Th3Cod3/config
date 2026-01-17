@@ -33,6 +33,8 @@ return {
           ['@constructor'] = { fg = p.yellow },
 
           ['@keyword.type'] = { fg = p.purple },
+          ['@tag.blade'] = { fg = p.purple },
+          ['@punctuation.bracket.blade'] = { fg = p.purple },
 
           ['@module'] = { fg = c.yellow },
           ['@module.builtin'] = { fg = p.orange },

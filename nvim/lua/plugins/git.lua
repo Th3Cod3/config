@@ -3,68 +3,89 @@ return {
     'ruifm/gitlinker.nvim',
     keys = {
       {
-        '<leader>gY',
+        '<leader>gyr',
         function()
-          require('gitlinker').get_repo_url()
+          local url = require('gitlinker').get_repo_url({
+            print_url = false,
+          })
         end,
-        desc = 'Git repo link',
+        desc = 'Git: Copy remote repo URL',
       },
       {
-        '<leader>gB',
+        '<leader>gor',
         function()
           require('gitlinker').get_repo_url({
-            action_callback = require('gitlinker.actions').open_in_browser,
+            print_url = false,
+            action_callback = require('th3cod3.functions').open_url,
           })
         end,
-        desc = 'Git open repository',
+        desc = 'Git: Open repo (in browser)',
+      },
+      {
+        '<leader>gyl',
+        function() require('gitlinker').get_buf_range_url('n') end,
+        desc = 'Git: Copy file line remote permalink',
       },
       {
         '<leader>gy',
-        function()
-          require('gitlinker').get_buf_range_url('n')
-        end,
-        desc = 'Git file remote permalink',
-      },
-      {
-        '<leader>gy',
-        function()
-          require('gitlinker').get_buf_range_url('v')
-        end,
+        function() require('gitlinker').get_buf_range_url('v') end,
         mode = 'v',
-        desc = 'Git file remote permalink',
+        desc = 'Git: Copy file line remote permalink',
       },
       {
-        '<leader>go',
+        '<leader>gol',
         function()
           require('gitlinker').get_buf_range_url('n', {
-            action_callback = require('gitlinker.actions').open_in_browser,
+            action_callback = require('th3cod3.functions').open_url,
           })
         end,
-        desc = 'Git remote permalink (open in browser)',
+        desc = 'Git: Open remote permalink (in browser)',
       },
       {
         '<leader>go',
         function()
           require('gitlinker').get_buf_range_url('v', {
-            action_callback = require('gitlinker.actions').open_in_browser,
+            action_callback = require('th3cod3.functions').open_url,
           })
         end,
         mode = 'v',
-        desc = 'Git remote permalink (open in browser)',
+        desc = 'Git: Open remote permalink (in browser)',
+      },
+      {
+        '<leader>gom',
+        function()
+          require('gitlinker').get_repo_url({
+            print_url = false,
+            action_callback = function(url)
+              vim.system({ 'git' }, { args = { 'branch', '--show-current' } }, function(obj)
+                local branch = obj.stdout:gsub('%s+', '')
+                url = url .. '/compare/master...' .. branch
+                vim.notify('Opening URL: ' .. url, vim.log.levels.DEBUG, { title = 'Git' })
+                require('th3cod3.functions').open_url(url)
+              end)
+            end,
+          })
+        end,
+        desc = 'Git: Open compare branch with master',
+      },
+      {
+        '<leader>god',
+        function()
+          require('gitlinker').get_repo_url({
+            action_callback = function(url)
+              vim.system({ 'git' }, { args = { 'branch', '--show-current' } }, function(obj)
+                local branch = obj.stdout:gsub('%s+', '')
+                url = url .. '/compare/master...' .. branch
+                vim.notify('Opening URL: ' .. url, vim.log.levels.DEBUG, { title = 'Git' })
+                require('th3cod3.functions').open_url(url)
+              end)
+            end,
+          })
+        end,
+        desc = 'Git: Open compare branch with dev',
       },
     },
-    config = function()
-      require('gitlinker').setup()
-    end,
-  },
-
-  {
-    'tpope/vim-fugitive',
-    event = 'VeryLazy',
-    config = function()
-      vim.keymap.set('n', '<leader>gS', ':Git<CR>', { desc = 'Git fugitive', noremap = true })
-      vim.keymap.set('n', '<leader>gB', ':Git blame<CR>', { desc = 'Git fugitive blame', noremap = true })
-    end,
+    config = function() require('gitlinker').setup() end,
   },
 
   {
@@ -98,12 +119,11 @@ return {
     'lewis6991/gitsigns.nvim',
     event = 'BufRead',
     config = function()
-      require('gitsigns').setup({
+      local gitsigns = require('gitsigns')
+      gitsigns.setup({
         current_line_blame = true,
         current_line_blame_formatter = '<author>, <author_time:%R> - <summary>',
         on_attach = function(bufnr)
-          local gitsigns = require('gitsigns')
-
           local function map(mode, l, r, opts)
             opts = opts or {}
             opts.buffer = bufnr
@@ -128,27 +148,26 @@ return {
           end, { desc = 'Previous hunk' })
 
           -- Actions
-          map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'Stage hunk' })
+          map('n', '<leader>hs', gitsigns.stage_hunk, { desc = '[Un]Stage hunk' })
           map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'Reset hunk' })
-          map('v', '<leader>hs', function()
-            gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-          end, { desc = 'Stage hunk' })
-          map('v', '<leader>hr', function()
-            gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-          end, { desc = 'Reset hunk' })
-          map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'Stage buffer' })
-          map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'Undo stage hunk' })
+          map(
+            'v',
+            '<leader>hs',
+            function() gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') }) end,
+            { desc = '[Un]Stage hunk' }
+          )
+          map(
+            'v',
+            '<leader>hr',
+            function() gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') }) end,
+            { desc = 'Reset hunk' }
+          )
+          map('n', '<leader>hS', gitsigns.stage_buffer, { desc = '[Un]Stage buffer' })
           map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'Reset buffer' })
-          map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Preview hunk' })
-          map('n', '<leader>hb', function()
-            gitsigns.blame_line({ full = true })
-          end, { desc = 'Blame line' })
-          map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = 'Toggle blame line' })
+          map('n', '<leader>gB', gitsigns.toggle_current_line_blame, { desc = 'Toggle blame line' })
           map('n', '<leader>hd', gitsigns.diffthis, { desc = 'Diff this' })
-          map('n', '<leader>hD', function()
-            gitsigns.diffthis('~')
-          end, { desc = 'Diff this (cached)' })
-          map('n', '<leader>td', gitsigns.toggle_deleted, { desc = 'Toggle deleted' })
+          map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Preview hunk' })
+          map('n', '<leader>hi', gitsigns.preview_hunk_inline, { desc = 'Preview hunk inline' })
 
           -- Text object
           map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'Select hunk' })
@@ -166,8 +185,13 @@ return {
       'LazyGitFilter',
       'LazyGitFilterCurrentFile',
     },
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+      'nvim-lua/plenary.nvim',
+    },
     keys = {
       { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
+      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
   },
 }
