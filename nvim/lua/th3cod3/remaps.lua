@@ -82,33 +82,3 @@ map('n', '<leader>on', fns.open_local_notes_file, { desc = 'Open local notes fil
 map('n', '<leader>ri', fns.load_project_init, { desc = 'Load project init.lua' })
 map('n', '<leader>re', fns.open_init_file, { desc = 'Open Neovim init file' })
 map('n', 'gx', function() fns.open_url(nil, { under_cursor = true }) end, { desc = 'Open under cursor' })
-
--- auto commands
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'help',
-  callback = function(event)
-    local opts = { buffer = event.buf, silent = true }
-
-    map('n', 'gh', '<C-]>', opts)
-    map('n', 'gH', '<C-T>', opts)
-
-    map('n', 'q', '<cmd>q<CR>', opts)
-    map('n', '<CR>', '<C-]>', opts)
-    map('n', 'gr', function()
-      local word = vim.fn.expand('<cword>')
-      vim.cmd('helpgrep ' .. word)
-      vim.cmd('copen')
-    end, opts)
-  end,
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'notify',
-  callback = function(event)
-    local opts = { buffer = event.buf, silent = true }
-
-    map('n', 'q', '<cmd>q<CR>', opts)
-    map('n', '<CR>', '<cmd>q<CR>', opts)
-    map('n', '<esc>', '<cmd>q<CR>', opts)
-  end,
-})

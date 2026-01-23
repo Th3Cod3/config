@@ -27,6 +27,55 @@ end
 
 M.cycle_diagnostic_view()
 
+local function decode_url(str)
+  return str:gsub('%%(%x%x)', function(h) return string.char(tonumber(h, 16)) end)
+end
+
+local function encode_url(str)
+  return str:gsub("[^%w-_~%.%!%*'%(%)/]", function(c) return string.format('%%%02X', string.byte(c)) end)
+end
+
+M.move_media_and_update_refs = function()
+  local current_buf_path = vim.api.nvim_buf_get_name(0)
+  local buf_dir = vim.fn.fnamemodify(current_buf_path, ':h')
+  local cfile = vim.fn.expand('<cfile>')
+  local cfile_decoded = decode_url(cfile)
+  local abs_old_path = vim.fn.fnamemodify(buf_dir .. '/' .. cfile, ':p')
+  abs_old_path = decode_url(abs_old_path)
+
+  if abs_old_path == '' then
+    vim.notify('No file path under cursor', vim.log.levels.ERROR)
+    return
+  end
+
+  if vim.fn.filereadable(abs_old_path) == 0 then
+    vim.notify('File does not exist or no file path under cursor. ' .. abs_old_path, vim.log.levels.ERROR)
+    return
+  end
+
+  local new_path = vim.fn.input('Move to: ', cfile_decoded, 'file')
+  new_path = decode_url(new_path)
+  if new_path == '' then
+    return
+  end
+
+  -- Move the file
+  local normalized_new_path = new_path:gsub('%s+', '-')
+  local abs_new_path = vim.fn.fnamemodify(buf_dir .. '/' .. normalized_new_path, ':p')
+  vim.fn.mkdir(vim.fn.fnamemodify(abs_new_path, ':h'), 'p')
+  os.rename(abs_old_path, abs_new_path)
+
+  -- Update Markdown references in current buffer
+  local current_buf = vim.api.nvim_get_current_buf()
+  local old_rel = cfile
+  local new_rel = encode_url(vim.fn.fnamemodify(normalized_new_path, ':.'))
+
+  vim.notify(string.format('Updating references from %s to %s', old_rel, new_rel))
+  vim.api.nvim_buf_call(current_buf, function() vim.cmd(string.format([[%%s@%s@%s@g]], old_rel, new_rel)) end)
+
+  vim.notify(string.format('Moved %s → %s and updated references', abs_old_path, new_path))
+end
+
 local function get_url_under_cursor()
   local url = vim.fn.expand('<cfile>')
   if url:match('^https?://') then
@@ -37,7 +86,7 @@ end
 --- @type {dirs?: string|string[], bin: string}[]
 local browser_dirs_map = {
   {
-    dirs = vim.fn.expand('~/code/WebWhales/'),
+    dirs = vim.fs.normalize('~/code/WebWhales/'),
     bin = 'google-chrome',
   },
 }
@@ -91,7 +140,7 @@ M.open_url = function(url, opts)
     end
 
     for _, dir in ipairs(dirs) do
-      dir = vim.fs.normalize(vim.fn.expand(dir))
+      dir = vim.fs.normalize(dir)
 
       if dir:sub(-1) ~= '/' then
         dir = dir .. '/'
@@ -99,7 +148,7 @@ M.open_url = function(url, opts)
 
       if starts_with(cwd, dir) then
         vim.notify('Opening URL with ' .. bin .. ': ' .. url, vim.log.levels.DEBUG)
-        vim.system({ bin }, { args = { url }, detach = true })
+        vim.system({ bin, url }, { detach = true })
         return
       end
     end

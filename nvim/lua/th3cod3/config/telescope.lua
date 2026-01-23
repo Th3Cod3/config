@@ -2,9 +2,31 @@ local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 local conf = require('telescope.config').values
 local actions = require('telescope.actions')
+local actionsLayout = require('telescope.actions.layout')
 local action_state = require('telescope.actions.state')
 local M = {}
 
+M.filesMappings = {
+  i = {
+    ['<Cr>'] = actions.select_tab,
+    ['<C-o>'] = actions.select_default,
+    ['<C-b>'] = actions.preview_scrolling_right,
+    ['<C-p>'] = actionsLayout.toggle_preview,
+    ['<C-j>'] = actions.cycle_history_next,
+    ['<C-k>'] = actions.cycle_history_prev,
+    ['<C-v>'] = actionsLayout.cycle_layout_next,
+  },
+  n = {
+    ['<Cr>'] = actions.select_tab,
+    ['<C-o>'] = actions.select_default,
+    ['<C-b>'] = actions.preview_scrolling_right,
+    ['<C-p>'] = actionsLayout.toggle_preview,
+    ['<C-j>'] = actions.cycle_history_next,
+    ['<C-k>'] = actions.cycle_history_prev,
+
+    ['<C-v>'] = actionsLayout.cycle_layout_next,
+  },
+}
 M.terminal_picker = function()
   local terminals = {}
 

@@ -2,11 +2,11 @@ local map = vim.keymap.set
 
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
-  callback = function()
-    local opts = { buffer = true, silent = true }
+  callback = function(args)
+    local buf = args.buf
+    local opts = { buffer = buf, silent = true }
 
-    map('n', 'gf', '<C-w>gf', opts)
-    map('n', 'gF', '<C-w>gF', opts)
+    map('n', 'q', '<Cmd>hide<CR>', opts)
     map('t', '<M-H>', [[<Cmd>wincmd h<CR>]], opts)
     map('t', '<M-J>', [[<Cmd>wincmd j<CR>]], opts)
     map('t', '<M-K>', [[<Cmd>wincmd k<CR>]], opts)

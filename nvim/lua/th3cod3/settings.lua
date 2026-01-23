@@ -9,6 +9,7 @@ vim.opt_global.shiftwidth = 2
 vim.opt_global.wrap = false
 vim.opt_global.smartcase = true
 vim.opt_global.ignorecase = true
+vim.opt.switchbuf = 'useopen,usetab,newtab'
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
