@@ -3,8 +3,12 @@ local map = vim.keymap.set
 
 vim.g.mapleader = ' '
 
+map({ 'i', 'c' }, '<C-BS>', '<C-w>')
+map({ 'i', 'c' }, '<C-h>', '<C-w>')
+map({ 'i', 'c' }, '<C-Del>', '<C-o>dw')
+
 -- Move lines
-map('v', 'K', ":m '<—2<CR>gv=gv")
+map('v', 'K', ":m '<-2<CR>gv=gv")
 map('v', 'J', ":m '>+1<CR>gv=gv")
 
 -- center pane on some movement
@@ -24,7 +28,7 @@ map({ 'n', 'v' }, '<leader>P', [["+P]], { desc = 'Paste from system clipboard' }
 map({ 'n', 'v' }, '<leader>x', [["_d]], { desc = 'Delete without yanking' })
 
 -- copy register to system clipboard
-map('n', '<leader>cc', [[:let @+ = @"]], { desc = 'Copy current register to system clipboard' })
+map('n', '<leader>cc', [[:let @+ = @"<cr>]], { desc = 'Copy current register to system clipboard' })
 
 -- Search
 map('n', '<leader>sw', [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
@@ -63,6 +67,12 @@ map({ 'n', 'v' }, '<leader>bd', ':bd<cr>')
 map({ 'n', 'v' }, '<leader>bn', ':bnext<cr>')
 map({ 'n', 'v' }, '<leader>bp', ':bprevious<cr>')
 map({ 'n', 'v' }, '<leader>bc', ':enew<cr>')
+
+-- tabs
+map('n', 'gf', '<C-w>gf', { noremap = true })
+map('n', 'gF', '<C-w>gF', { noremap = true })
+map('n', '<leader>ta', ':tab ball<cr>', { desc = 'Tab All Buffers' })
+map('n', '<leader>to', ':tabonly<cr>', { desc = 'Tab Only Current' })
 
 -- custom keymaps
 map('n', '<leader><esc>', fns.hide_float_win, { desc = 'Hide floating window' })

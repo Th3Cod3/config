@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+
 if [ -f /etc/arch-release ]; then
   echo "Arch Linux detected"
   sudo pacman -Sy && sudo pacman -S --needed base-devel ninja gettext cmake unzip curl \
@@ -103,6 +104,7 @@ ln -sf ~/.config/config/kitty ~/.config/
 ln -sf ~/.config/config/nvim ~/.config/
 ln -sf ~/.config/config/bash/.bash_aliases ~/.bash_aliases
 ln -sf ~/.config/config/bash/.bash_profile ~/.bash_profile
+ln -sf ~/.config/config/bash/.inputrc ~/.inputrc
 ln -sf ~/.config/config/git/.gitconfig ~/.gitconfig
 mkdir -p ~/.config/lazygit
 ln -sf ~/.config/config/git/config.yml ~/.config/lazygit/config.yml

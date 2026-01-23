@@ -57,9 +57,6 @@ function git_branch_name() {
   echo $(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')
 }
 
-bind 'set completion-ignore-case on'
-bind '"\ee":alias-expand-line'
-
 export PS1='\n\[\e[1;37m\]|-- \[\e[1;32m\]\u\[\e[0;39m\]@\[\e[1;36m\]\h\[\e[0;39m\]:\[\e[1;33m\]\w\[\e[0;39m\]\[\e[1;35m\] $(git_branch_name)\[\e[0;39m\] \[\e[1;37m\]--|\[\e[0;39m\]\n$ '
 
 export XDG_CONFIG_HOME="$HOME/.config"
