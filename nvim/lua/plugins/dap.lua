@@ -24,9 +24,7 @@ local function get_visual_expr()
     local last = lines[#lines]
 
     -- defensive bounds
-    local function clamp(x, lo)
-      return math.max(lo, x)
-    end
+    local function clamp(x, lo) return math.max(lo, x) end
     local first_from = clamp(scol, 1)
     local last_to = ecol
 
@@ -69,9 +67,7 @@ return {
       },
 
       handlers = {
-        function(config)
-          require('mason-nvim-dap').default_setup(config)
-        end,
+        function(config) require('mason-nvim-dap').default_setup(config) end,
 
         php = function(config)
           config.configurations = {
@@ -79,9 +75,7 @@ return {
               name = 'PHP XDebug',
               type = 'php',
               request = 'launch',
-              port = function()
-                return tonumber(vim.fn.input('Port: ', '9003'))
-              end,
+              port = function() return tonumber(vim.fn.input('Port: ', '9003')) end,
               pathMappings = {
                 ['/var/www/html/'] = '${workspaceFolder}',
               },
@@ -112,7 +106,7 @@ return {
 
       dap_ui.setup({
         floating = {
-          border = 'single',
+          border = 'rounded',
           mappings = {
             close = { 'q', '<Esc>' },
           },
@@ -155,22 +149,24 @@ return {
           type = 'nlua',
           request = 'attach',
           name = 'Attach to running Neovim instance',
-          host = function()
-            return '127.0.0.1'
-          end,
-          port = function()
-            return tonumber(vim.fn.input('Port: ', '8086'))
-          end,
+          host = function() return vim.fn.input('Host: ', '127.0.0.1') end,
+          port = function() return tonumber(vim.fn.input('Port: ', '8086')) end,
         },
       }
 
       --- UI
-      map('n', '<leader>df', function()
-        widgets.centered_float(widgets.frames)
-      end, { noremap = true, desc = 'Debug frames' })
-      map('n', '<leader>ds', function()
-        widgets.centered_float(widgets.scopes)
-      end, { noremap = true, desc = 'Debug scopes' })
+      map(
+        'n',
+        '<leader>df',
+        function() widgets.centered_float(widgets.frames) end,
+        { noremap = true, desc = 'Debug frames' }
+      )
+      map(
+        'n',
+        '<leader>ds',
+        function() widgets.centered_float(widgets.scopes) end,
+        { noremap = true, desc = 'Debug scopes' }
+      )
       map('n', '<leader>dX', function()
         dap.terminate()
         dap.close()
@@ -201,9 +197,12 @@ return {
         end
       end, { desc = 'Debug hits breakpoint' })
       map('n', '<leader>dr', repl.toggle, { noremap = true, desc = 'Toggle REPL' })
-      map('n', '<leader>dL', function()
-        widgets.centered_float(widgets.breakpoints)
-      end, { desc = 'Debug breakpoints (list)' })
+      map(
+        'n',
+        '<leader>dL',
+        function() widgets.centered_float(widgets.breakpoints) end,
+        { desc = 'Debug breakpoints (list)' }
+      )
       map('n', '<leader>de', function()
         local w = vim.fn.expand('<cword>')
         -- if not w:match('^%$') then
@@ -211,9 +210,12 @@ return {
         -- end
         dap_ui.elements.watches.add(w)
       end, { desc = 'Debug add to watch' })
-      map('n', '<leader>dv', function()
-        require('osv').launch({ port = 8086 })
-      end, { noremap = true, desc = 'Debug launch OSV' })
+      map(
+        'n',
+        '<leader>dv',
+        function() require('osv').launch({ port = tonumber(vim.fn.input('Port: ', '8086')) }) end,
+        { noremap = true, desc = 'Debug launch OSV' }
+      )
 
       --- Stepping
       map('n', '<leader>dd', dap.disconnect, { noremap = true, desc = 'Debug disconnect (continue)' })

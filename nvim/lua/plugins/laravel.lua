@@ -1,16 +1,3 @@
-local goFile = function()
-  local filetypes = { 'blade', 'php' }
-  local ft = vim.api.nvim_get_option_value('filetype', {})
-
-  local isPhpFile = table.concat(filetypes, ','):find(ft) ~= nil
-
-  if isPhpFile and require('laravel').app('gf').cursor_on_resource() then
-    return '<cmd>Laravel gf<CR>'
-  end
-
-  return 'gf'
-end
-
 return {
   {
     'adalessa/laravel.nvim',

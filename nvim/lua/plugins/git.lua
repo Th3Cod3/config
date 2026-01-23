@@ -57,7 +57,7 @@ return {
           require('gitlinker').get_repo_url({
             print_url = false,
             action_callback = function(url)
-              vim.system({ 'git' }, { args = { 'branch', '--show-current' } }, function(obj)
+              vim.system({ 'git', 'branch', '--show-current' }, nil, function(obj)
                 local branch = obj.stdout:gsub('%s+', '')
                 url = url .. '/compare/master...' .. branch
                 vim.notify('Opening URL: ' .. url, vim.log.levels.DEBUG, { title = 'Git' })
@@ -73,7 +73,7 @@ return {
         function()
           require('gitlinker').get_repo_url({
             action_callback = function(url)
-              vim.system({ 'git' }, { args = { 'branch', '--show-current' } }, function(obj)
+              vim.system({ 'git', 'branch', '--show-current' }, nil, function(obj)
                 local branch = obj.stdout:gsub('%s+', '')
                 url = url .. '/compare/master...' .. branch
                 vim.notify('Opening URL: ' .. url, vim.log.levels.DEBUG, { title = 'Git' })

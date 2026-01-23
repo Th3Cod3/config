@@ -77,6 +77,7 @@ return {
       -- 'sqlls',
       -- 'yamlls',
       -- })
+      vim.lsp.enable('stylua', false)
       vim.lsp.config('lua_ls', {
         settings = {
           Lua = {

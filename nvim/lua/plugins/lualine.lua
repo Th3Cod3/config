@@ -14,30 +14,31 @@ return {
           lualine_b = { 'branch', 'diff', 'diagnostics' },
           lualine_c = { 'filename' },
           lualine_x = {
+            function()
+              local linters = require('lint').get_running()
+              if #linters == 0 then
+                return '󰦕'
+              end
+              return '󱉶 ' .. table.concat(linters, ', ')
+            end,
             'lsp_status',
             'copilot',
             {
               function()
-                local ok, laravel_version = pcall(function()
-                  return Laravel.app('status'):get('laravel')
-                end)
+                local ok, laravel_version = pcall(function() return Laravel.app('status'):get('laravel') end)
                 if ok then
                   return laravel_version
                 end
               end,
               icon = { ' ', color = { fg = '#F55247' } },
               cond = function()
-                local ok, has_laravel_versions = pcall(function()
-                  return Laravel.app('status'):has('laravel')
-                end)
+                local ok, has_laravel_versions = pcall(function() return Laravel.app('status'):has('laravel') end)
                 return ok and has_laravel_versions
               end,
             },
             {
               function()
-                local ok, php_version = pcall(function()
-                  return Laravel.app('status'):get('php')
-                end)
+                local ok, php_version = pcall(function() return Laravel.app('status'):get('php') end)
                 if ok then
                   return php_version
                 end
@@ -45,9 +46,7 @@ return {
               end,
               icon = { ' ', color = { fg = '#AEB2D5' } },
               cond = function()
-                local ok, has_php_version = pcall(function()
-                  return Laravel.app('status'):has('php')
-                end)
+                local ok, has_php_version = pcall(function() return Laravel.app('status'):has('php') end)
                 return ok and has_php_version
               end,
             },
