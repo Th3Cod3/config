@@ -1,4 +1,5 @@
 local filesMappings = require('th3cod3.config.telescope').filesMappings
+local sections = require('th3cod3.config.telescope').man_pages
 
 return {
   {
@@ -57,31 +58,34 @@ return {
           man_pages = {
             mappings = vim.tbl_deep_extend('force', filesMappings, {
               i = {
-                ['<F1>'] = function() builtin.man_pages({ sections = { '1' } }) end,
-                ['<F2>'] = function() builtin.man_pages({ sections = { '2' } }) end,
-                ['<F3>'] = function() builtin.man_pages({ sections = { '3' } }) end,
-                ['<F4>'] = function() builtin.man_pages({ sections = { '4' } }) end,
-                ['<F5>'] = function() builtin.man_pages({ sections = { '5' } }) end,
-                ['<F6>'] = function() builtin.man_pages({ sections = { '6' } }) end,
-                ['<F7>'] = function() builtin.man_pages({ sections = { '7' } }) end,
-                ['<F8>'] = function() builtin.man_pages({ sections = { '8' } }) end,
-                ['<F9>'] = function() builtin.man_pages({ sections = { '9' } }) end,
-                ['<F12>'] = function() builtin.man_pages({ sections = { 'ALL' } }) end,
+                ['<F1>'] = sections.section_user_cmds,
+                ['<F2>'] = sections.section_syscall,
+                ['<F3>'] = sections.section_lib_fns,
+                ['<F4>'] = sections.section_special_files,
+                ['<F5>'] = sections.section_file_formats,
+                ['<F6>'] = sections.section_games,
+                ['<F7>'] = sections.section_misc,
+                ['<F8>'] = sections.section_sys_admin,
+                ['<F9>'] = sections.section_all,
+                ['<F10>'] = sections.section_all,
+                ['<F11>'] = sections.section_all,
+                ['<F12>'] = sections.section_all,
               },
               n = {
-                ['<F1>'] = function() builtin.man_pages({ sections = { '1' } }) end,
-                ['<F2>'] = function() builtin.man_pages({ sections = { '2' } }) end,
-                ['<F3>'] = function() builtin.man_pages({ sections = { '3' } }) end,
-                ['<F4>'] = function() builtin.man_pages({ sections = { '4' } }) end,
-                ['<F5>'] = function() builtin.man_pages({ sections = { '5' } }) end,
-                ['<F6>'] = function() builtin.man_pages({ sections = { '6' } }) end,
-                ['<F7>'] = function() builtin.man_pages({ sections = { '7' } }) end,
-                ['<F8>'] = function() builtin.man_pages({ sections = { '8' } }) end,
-                ['<F9>'] = function() builtin.man_pages({ sections = { '9' } }) end,
-                ['<F12>'] = function() builtin.man_pages({ sections = { 'ALL' } }) end,
+                ['<F1>'] = sections.section_user_cmds,
+                ['<F2>'] = sections.section_syscall,
+                ['<F3>'] = sections.section_lib_fns,
+                ['<F4>'] = sections.section_special_files,
+                ['<F5>'] = sections.section_file_formats,
+                ['<F6>'] = sections.section_games,
+                ['<F7>'] = sections.section_misc,
+                ['<F8>'] = sections.section_sys_admin,
+                ['<F9>'] = sections.section_all,
+                ['<F10>'] = sections.section_all,
+                ['<F11>'] = sections.section_all,
+                ['<F12>'] = sections.section_all,
               },
             }),
-            sections = { 'ALL' },
           },
         },
         extensions = {
@@ -94,11 +98,37 @@ return {
       telescope.load_extension('ui-select')
       local map = vim.keymap.set
 
+      local find_files_everywhere = function()
+        builtin.find_files({
+          hidden = true,
+          no_ignore = true,
+          file_ignore_patterns = {},
+        })
+      end
+
+      local live_grep_everywhere = function()
+        builtin.live_grep({
+          hidden = true,
+          no_ignore = true,
+          file_ignore_patterns = {},
+        })
+      end
+
+      local grep_string_everywhere = function()
+        builtin.grep_string({
+          hidden = true,
+          no_ignore = true,
+          file_ignore_patterns = {},
+        })
+      end
+
       map('n', '<leader>T', ':Telescope ', { desc = 'Telescope cmd' })
       map('n', '<leader>ff', builtin.find_files, { desc = 'Telescope Find Files' })
+      map('n', '<leader>fF', find_files_everywhere, { desc = 'Telescope Find Files (all)' })
       map('n', '<leader><leader><leader>', builtin.resume, { desc = 'Telescope Resume' })
       map('n', '<leader>ft', config.terminal_picker, { desc = 'Telescope Terminals' })
       map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope Live Grep' })
+      map('n', '<leader>fG', live_grep_everywhere, { desc = 'Telescope Live Grep (all)' })
       map(
         'n',
         '<leader>sb',
@@ -111,6 +141,7 @@ return {
         builtin.live_grep({ glob_pattern = glob_pattern })
       end, { desc = 'Telescope Live Grep (changed files)' })
       map({ 'n', 'v' }, '<leader>fs', builtin.grep_string, { desc = 'Telescope Live Grep' })
+      map({ 'n', 'v' }, '<leader>fS', grep_string_everywhere, { desc = 'Telescope Live Grep (all)' })
       map('n', '<leader>fb', builtin.buffers, { desc = 'Telescope Buffers' })
       map('n', '<leader>fq', builtin.quickfix, { desc = 'Telescope quickfix' })
       map('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope Help Tags' })
@@ -134,8 +165,8 @@ return {
         { desc = 'Telescope Diagnostics (buffer)' }
       )
       map('n', '<leader>fD', builtin.diagnostics, { desc = 'Telescope Diagnostics (CWD)' })
-      map('n', '<leader>fS', builtin.lsp_document_symbols, { desc = 'Telescope LSP Document Symbols' })
-      map('n', '<leader>fw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP Workspace Symbols' })
+      map('n', '<leader>fls', builtin.lsp_document_symbols, { desc = 'Telescope LSP Document Symbols' })
+      map('n', '<leader>flS', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP Workspace Symbols' })
       map('n', '<leader>gF', builtin.git_files, { desc = 'Telescope Git Files' })
       map('n', '<leader>gs', builtin.git_status, { desc = 'Telescope Git Status' })
       map('n', 'z=', builtin.spell_suggest, { desc = 'Telescope spell suggest' })

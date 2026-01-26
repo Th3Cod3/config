@@ -3,6 +3,31 @@ local M = {}
 local diff_node = nil
 local diff_name = nil
 
+M.open_with_xdg = function(state)
+  local node = state.tree:get_node()
+  local path = node:get_id()
+
+  -- file extensions you want external
+  local external_ext = {
+    pdf = true,
+    png = true,
+    jpg = true,
+    jpeg = true,
+    webp = true,
+    gif = true,
+    svg = true,
+  }
+
+  local ext = path:match('^.+%.(.+)$')
+  if ext and external_ext[ext:lower()] then
+    vim.system({ 'xdg-open', path }, { detach = true, timeout = 1000 })
+    return
+  end
+
+  -- fallback to normal open
+  require('neo-tree.sources.filesystem.commands').open(state)
+end
+
 M.find_files = function(state)
   local telescope = require('telescope.builtin')
   local node = state.tree:get_node()
@@ -141,9 +166,7 @@ M.neotree_zo = function(state, open_all)
 end
 
 --- Recursively open the current folder and all folders it contains.
-M.neotree_zO = function(state)
-  M.neotree_zo(state, true)
-end
+M.neotree_zO = function(state) M.neotree_zo(state, true) end
 
 -- The nodes inside the root folder are depth 2.
 local MIN_DEPTH = 2
@@ -189,9 +212,7 @@ M.neotree_zc = function(state, close_all)
 end
 
 -- Close all containing folders back to the top level.
-M.neotree_zC = function(state)
-  M.neotree_zc(state, true)
-end
+M.neotree_zC = function(state) M.neotree_zc(state, true) end
 
 --- Open a closed folder or close an open one, with an optional count.
 M.neotree_za = function(state, toggle_all)
@@ -208,9 +229,7 @@ M.neotree_za = function(state, toggle_all)
 end
 
 --- Recursively close an open folder or recursively open a closed folder.
-M.neotree_zA = function(state)
-  M.neotree_za(state, true)
-end
+M.neotree_zA = function(state) M.neotree_za(state, true) end
 
 --- Set depthlevel, analagous to foldlevel, for the neo-tree file tree.
 local function set_depthlevel(state, depthlevel)
@@ -329,21 +348,27 @@ M.neotree_last_file = function(state)
 end
 
 M.neotree_set_cwd_to_node = function(state)
-  if not state then return end
+  if not state then
+    return
+  end
 
   local node = state.tree:get_node()
-  if not node then return end
+  if not node then
+    return
+  end
 
   local path = node:get_id()
-  if not path then return end
+  if not path then
+    return
+  end
 
   -- If it's a file, go to its parent directory
-  if node.type ~= "directory" then
-    path = vim.fn.fnamemodify(path, ":h")
+  if node.type ~= 'directory' then
+    path = vim.fn.fnamemodify(path, ':h')
   end
 
   vim.cmd.cd(vim.fn.fnameescape(path))
-  vim.notify("cwd → " .. path)
+  vim.notify('cwd → ' .. path)
 end
 
 return M

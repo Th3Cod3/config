@@ -15,7 +15,7 @@ return {
       },
       task_list = {
         border = 'rounded',
-        min_height = 0.8,
+        min_height = 0.5,
       },
       output = {
         border = 'rounded',

@@ -2,6 +2,7 @@ local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 local conf = require('telescope.config').values
 local actions = require('telescope.actions')
+local builtin = require('telescope.builtin')
 local actionsLayout = require('telescope.actions.layout')
 local action_state = require('telescope.actions.state')
 local M = {}
@@ -26,6 +27,27 @@ M.filesMappings = {
 
     ['<C-v>'] = actionsLayout.cycle_layout_next,
   },
+}
+
+M.man_pages = {
+-- 1. User Commands
+  section_user_cmds = function() builtin.man_pages({ sections = { '1' } }) end,
+-- 2. System Calls
+  section_syscall = function() builtin.man_pages({ sections = { '2' } }) end,
+  -- 3. Library Functions
+  section_lib_fns = function() builtin.man_pages({ sections = { '3' } }) end,
+  -- 4. Special Files (usually devices)
+  section_special_files = function() builtin.man_pages({ sections = { '4' } }) end,
+  -- 5. File Formats and Conventions
+  section_file_formats = function() builtin.man_pages({ sections = { '5' } }) end,
+  -- 6. Games and Screensavers
+  section_games = function() builtin.man_pages({ sections = { '6' } }) end,
+  -- 7. Miscellaneous
+  section_misc = function() builtin.man_pages({ sections = { '7' } }) end,
+  -- 8. System Administration Commands and Daemons
+  section_sys_admin = function() builtin.man_pages({ sections = { '8' } }) end,
+  -- All Sections
+  section_all = function() builtin.man_pages({ sections = { 'ALL' } }) end,
 }
 M.terminal_picker = function()
   local terminals = {}

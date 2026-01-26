@@ -66,7 +66,8 @@ map({ 'n', 'v' }, '<leader>-', ':sp<cr>')
 map({ 'n', 'v' }, '<leader>bd', ':bd<cr>')
 map({ 'n', 'v' }, '<leader>bn', ':bnext<cr>')
 map({ 'n', 'v' }, '<leader>bp', ':bprevious<cr>')
-map({ 'n', 'v' }, '<leader>bc', ':enew<cr>')
+map({ 'n', 'v' }, '<leader>bc', ':tabnew<cr>')
+map({ 'n', 'v' }, '<leader>bx', ':%bd<cr>')
 
 -- tabs
 map('n', 'gf', '<C-w>gf', { noremap = true })

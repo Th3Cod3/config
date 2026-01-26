@@ -50,7 +50,7 @@ return {
           -- auto-install parser if not installed
           if not is_installed and parsers[lang] ~= nil then
             vim.notify('Installing treesitter parser for ' .. ft, vim.log.levels.DEBUG, { title = 'TS' })
-            ts.install({ ft })
+            ts.install({ lang })
 
             vim.defer_fn(function()
               vim.notify('Loading treesitter parser for ' .. ft, vim.log.levels.DEBUG, { title = 'TS' })

@@ -229,13 +229,12 @@ M.compare_to_clipboard = function()
   vim.cmd(string.format(
     [[
     execute "\"xy"
-    vsplit
-    enew
+    tabnew
     normal! P
     setlocal buftype=nowrite
     set filetype=%s
     diffthis
-    execute "normal! \<C-w>\<C-w>"
+    vsplit
     enew
     set filetype=%s
     normal! "xP
