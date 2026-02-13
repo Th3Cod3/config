@@ -52,7 +52,11 @@ return {
   },
   {
     'theHamsta/nvim-dap-virtual-text',
-    lazy = true,
+    event = 'VeryLazy',
+    dependencies = { 'mfussenegger/nvim-dap' },
+    opts = {
+      enabled = true,
+    },
   },
   {
     'nvim-neotest/nvim-nio',
@@ -158,13 +162,13 @@ return {
       map(
         'n',
         '<leader>df',
-        function() widgets.centered_float(widgets.frames) end,
+        function() widgets.centered_float(widgets.frames, { border = 'rounded' }) end,
         { noremap = true, desc = 'Debug frames' }
       )
       map(
         'n',
         '<leader>ds',
-        function() widgets.centered_float(widgets.scopes) end,
+        function() widgets.centered_float(widgets.scopes, { border = 'rounded' }) end,
         { noremap = true, desc = 'Debug scopes' }
       )
       map('n', '<leader>dX', function()
@@ -175,7 +179,12 @@ return {
       map('n', '<leader>dx', dap_ui.toggle, { noremap = true, desc = 'Debug UI open/close' })
 
       --- Actions
-      map('n', '<leader>dh', widgets.hover, { noremap = true, desc = 'Debug hover' })
+      map(
+        'n',
+        '<leader>dh',
+        function() widgets.hover(nil, { border = 'rounded' }) end,
+        { noremap = true, desc = 'Debug hover' }
+      )
       map('n', '<leader>dp', widgets.preview, { noremap = true, desc = 'Debug preview' })
       map('n', '<leader>db', dap.toggle_breakpoint, { noremap = true, desc = 'Toggle breakpoint' })
       map('n', '<leader>dB', function()

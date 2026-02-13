@@ -18,7 +18,6 @@ return {
     event = 'VeryLazy',
     build = ':TSUpdate',
     keys = {
-      { '<leader>tc', ':TSContext toggle<cr>', desc = 'Treesitter: Toggle context' },
       { '<leader>tI', ':Inspect<cr>', desc = 'Treesitter: Inspect node' },
     },
     opts = {
@@ -65,6 +64,25 @@ return {
       })
     end,
   },
+
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = { 'BufEnter' },
+    keys = {
+      { '<leader>tc', ':TSContext toggle<cr>', desc = 'Treesitter: Toggle context' },
+    },
+    opts = {
+      enable = true,
+      multiwindow = false,
+      max_lines = 6,
+      min_window_height = 0,
+      line_numbers = true,
+      multiline_threshold = 20,
+      trim_scope = 'outer',
+      mode = 'cursor',
+    },
+  },
+
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     branch = 'main',
@@ -135,6 +153,7 @@ return {
       map_prev('[z', '@fold', 'Textobj: Previous fold', 'folds')
     end,
   },
+
   {
     'chrisgrieser/nvim-various-textobjs',
     event = 'VeryLazy',
@@ -150,6 +169,7 @@ return {
       map({ 'o', 'x' }, 'b', function() textobjs.entireBuffer() end, { noremap = true, silent = true })
     end,
   },
+
   {
     'kevinhwang91/nvim-ufo',
     event = 'VeryLazy',

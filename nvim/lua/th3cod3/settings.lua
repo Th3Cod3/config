@@ -12,11 +12,15 @@ vim.opt_global.ignorecase = true
 vim.opt.switchbuf = 'useopen,usetab,newtab'
 
 vim.opt.nu = true
-vim.opt.relativenumber = true
-vim.opt.listchars = { tab = '» ', trail = '·', lead = '·' }
+vim.opt.listchars = {
+  tab = '» ',
+  trail = '·',
+  lead = '·',
+  multispace = '··',
+}
 vim.opt.list = true
 
-vim.opt.foldcolumn = 'auto:5'
+vim.opt.foldcolumn = 'auto:1'
 vim.opt.scrolloff = 10
 vim.opt.smartindent = true
 vim.opt.swapfile = false
@@ -37,5 +41,6 @@ vim.filetype.add({
     ['.*%.env.*'] = 'sh',
     ['.*%.ssh/config%.d/.*'] = 'sshconfig',
     ['.*%.blade%.php'] = 'blade',
+    ['.*%.ld'] = 'linkerscript',
   },
 })

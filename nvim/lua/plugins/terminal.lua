@@ -6,6 +6,8 @@ vim.api.nvim_create_autocmd('TermOpen', {
     local buf = args.buf
     local opts = { buffer = buf, silent = true }
 
+    map('n', 'gf', '<C-w>gf', opts)
+    map('n', 'gF', '<C-w>gF', opts)
     map('n', 'q', '<Cmd>hide<CR>', opts)
     map('t', '<M-H>', [[<Cmd>wincmd h<CR>]], opts)
     map('t', '<M-J>', [[<Cmd>wincmd j<CR>]], opts)

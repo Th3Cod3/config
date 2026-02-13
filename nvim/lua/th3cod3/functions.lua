@@ -8,7 +8,9 @@ M.cycle_diagnostic_view = function()
     diagnostic_next_view = 'lines'
     vim.diagnostic.config({
       virtual_lines = false,
-      virtual_text = true,
+      virtual_text = {
+        source = true,
+      },
     })
   elseif diagnostic_next_view == 'lines' then
     diagnostic_next_view = 'disabled'
@@ -257,16 +259,33 @@ M.open_init_file = function()
 end
 
 M.open_local_notes_file = function()
-  local notes_file = vim.fn.getcwd() .. '/.nvim/notes.md'
+  local notes_filename = 'notes.md'
+  local notes_dirname = 'notes'
+  local notes_project_path = vim.fs.joinpath(vim.fn.getcwd(), '.nvim', notes_dirname, notes_filename)
 
-  if vim.fn.filereadable(notes_file) == 0 then
-    vim.fn.mkdir(vim.fn.getcwd() .. '/.nvim', 'p')
-    vim.fn.writefile({}, notes_file)
+  if vim.fn.filereadable(notes_project_path) == 0 then
+    vim.fn.mkdir(vim.fs.dirname(notes_project_path), 'p')
+    vim.fn.writefile({}, notes_project_path)
 
-    vim.fn.writefile({ '# ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t'), '' }, notes_file, 's')
+    vim.fn.writefile({ '# ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t'), '' }, notes_project_path, 's')
   end
 
-  vim.cmd('edit ' .. notes_file)
+  -- Build notes path
+  local cwd_suffix = vim.fs.joinpath(
+    vim.fn.fnamemodify(vim.fs.dirname(vim.fn.getcwd()), ':t'),
+    vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+  )
+  local notes_dir = vim.fs.normalize(vim.fs.joinpath('~/code/Th3Cod3/notes-tech/general/', cwd_suffix))
+
+  -- Create symlink to project notes directory
+  if vim.fn.isdirectory(notes_dir) == 0 then
+    vim.fn.mkdir(notes_dir, 'p')
+    os.execute(
+      string.format('ln -sf %s %s', vim.fs.dirname(notes_project_path), vim.fs.joinpath(notes_dir, notes_dirname))
+    )
+  end
+
+  vim.cmd('edit ' .. notes_project_path)
 end
 
 return M

@@ -1,4 +1,14 @@
 return {
+
+  {
+    'tpope/vim-fugitive',
+    event = 'VeryLazy',
+    config = function()
+      vim.keymap.set('n', '<leader>gff', ':Git<CR>', { desc = 'Git fugitive', noremap = true })
+      vim.keymap.set('n', '<leader>gfb', ':Git blame<CR>', { desc = 'Git fugitive blame', noremap = true })
+    end,
+  },
+
   {
     'ruifm/gitlinker.nvim',
     keys = {
@@ -107,6 +117,7 @@ return {
       { '<leader>gb', ':DiffviewFileHistory %<cr>', desc = 'Current buffer git history' },
     },
     opts = {
+      enhanced_diff_hl = true,
       view = {
         merge_tool = {
           layout = 'diff3_mixed',
@@ -174,24 +185,5 @@ return {
         end,
       })
     end,
-  },
-
-  {
-    'kdheepak/lazygit.nvim',
-    cmd = {
-      'LazyGit',
-      'LazyGitConfig',
-      'LazyGitCurrentFile',
-      'LazyGitFilter',
-      'LazyGitFilterCurrentFile',
-    },
-    dependencies = {
-      'nvim-telescope/telescope.nvim',
-      'nvim-lua/plenary.nvim',
-    },
-    keys = {
-      { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
-      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
-    },
   },
 }

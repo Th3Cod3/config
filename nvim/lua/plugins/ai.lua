@@ -28,12 +28,14 @@ return {
       require('copilot').setup({
         suggestion = {
           auto_trigger = true,
-          -- keymap = {
-          --   accept = false,
-          --   accept_word = '<C-L>',
-          --   accept_line = '<C-J>',
-          --   dismiss = '<C-K>',
-          -- },
+          keymap = {
+            accept = '<M-h>',
+            accept_word = '<M-l>',
+            accept_line = '<M-j>',
+            next = '<M-]>',
+            prev = '<M-[>',
+            dismiss = '<M-k>',
+          },
         },
         filetypes = {
           markdown = true,
@@ -131,7 +133,7 @@ return {
         },
       },
       selector = {
-        provider = 'telescope',
+        provider = 'snacks',
       },
       system_prompt = function()
         local hub = require('mcphub').get_hub_instance()

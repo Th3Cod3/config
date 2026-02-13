@@ -10,6 +10,12 @@ M.open_with_xdg = function(state)
   -- file extensions you want external
   local external_ext = {
     pdf = true,
+    docx = true,
+    doc = true,
+    xls = true,
+    xlsx = true,
+    ppt = true,
+    pptx = true,
     png = true,
     jpg = true,
     jpeg = true,
@@ -19,7 +25,7 @@ M.open_with_xdg = function(state)
   }
 
   local ext = path:match('^.+%.(.+)$')
-  if ext and external_ext[ext:lower()] then
+  if ext and external_ext[ext:lower()] or ext == nil then
     vim.system({ 'xdg-open', path }, { detach = true, timeout = 1000 })
     return
   end
@@ -29,19 +35,17 @@ M.open_with_xdg = function(state)
 end
 
 M.find_files = function(state)
-  local telescope = require('telescope.builtin')
   local node = state.tree:get_node()
   local path = node:get_id()
 
-  telescope.find_files({ cwd = path, hidden = true })
+  Snacks.picker.files({ dirs = { path } })
 end
 
-M.live_grep = function(state)
-  local telescope = require('telescope.builtin')
+M.grep = function(state)
   local node = state.tree:get_node()
   local path = node:get_id()
 
-  telescope.live_grep({ cwd = path, hidden = true })
+  Snacks.picker.grep({ dirs = { path } })
 end
 
 M.copy_path = function(state)

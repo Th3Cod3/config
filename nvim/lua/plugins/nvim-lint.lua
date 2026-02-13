@@ -1,3 +1,35 @@
+---@class IgnoreLinting
+---@field ft? string Filetype to ignore linting for
+---@field buftype? string Buffer type to ignore linting for
+---@field name_pattern? string Pattern to match buffer name to ignore linting for
+
+---@type IgnoreLinting[]
+local ignoreLinting = {
+  { buftype = 'terminal' },
+  { buftype = 'nofile' },
+  { ft = 'php' },
+  { ft = 'markdown.gh' },
+}
+
+local function shouldIgnoreLinting()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local name = vim.api.nvim_buf_get_name(bufnr)
+  local ft = vim.bo.filetype
+  local buftype = vim.bo.buftype
+
+  for _, rule in ipairs(ignoreLinting) do
+    if
+      (not rule.ft or rule.ft == ft)
+      and (not rule.buftype or rule.buftype == buftype)
+      and (not rule.name_pattern or name:match(rule.name_pattern))
+    then
+      return true
+    end
+  end
+
+  return false
+end
+
 return {
   {
     'mfussenegger/nvim-lint',
@@ -101,7 +133,7 @@ return {
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
-          if vim.bo.filetype ~= 'php' and vim.bo.buftype ~= 'nofile' then
+          if not shouldIgnoreLinting() then
             lint.try_lint()
           end
         end,

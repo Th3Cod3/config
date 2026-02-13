@@ -1,3 +1,4 @@
+-- require('laravel')
 return {
   {
     'adalessa/laravel.nvim',
@@ -21,6 +22,7 @@ return {
       { '<leader>lm', function() Laravel.pickers.make() end, desc = 'Laravel: Open Make Picker' },
       { '<leader>lc', function() Laravel.pickers.commands() end, desc = 'Laravel: Open Commands Picker' },
       { '<leader>lo', function() Laravel.pickers.resources() end, desc = 'Laravel: Open Resources Picker' },
+      { '<leader>lS', function() Laravel.commands.run('env:configure') end, desc = 'Laravel: Env Config' },
       {
         'gf',
         function()
@@ -30,7 +32,7 @@ return {
             end
           end)
           if not ok or not res then
-            return 'gf'
+            return '<C-w>gf'
           end
           return res
         end,
@@ -39,14 +41,18 @@ return {
       },
     },
 
+    ---@type LaravelOptions
     opts = {
       lsp_server = 'intelephense',
       ui = {
         default = 'popup',
-        window = {
-          border = 'rounded',
-          height = 0.8,
-          width = 0.8,
+        nui_opts = {
+          popup = {
+            size = {
+              width = '80%',
+              height = '80%',
+            },
+          },
         },
       },
       environments = {
@@ -65,7 +71,7 @@ return {
       features = {
         pickers = {
           enable = true,
-          provider = 'telescope',
+          provider = 'snacks',
         },
       },
     },

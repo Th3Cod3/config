@@ -57,7 +57,7 @@ return {
       -- vim.lsp.enable('serve_d')
 
       -- web
-      vim.lsp.enable('ts_ls', false)
+      vim.lsp.enable({ 'ts_ls', 'vue_ls' }, false)
       vim.lsp.enable({
         -- 'ast_grep',
         'eslint',
@@ -68,6 +68,21 @@ return {
         'html',
         'intelephense',
         -- 'phpactor',
+      })
+
+      vim.lsp.config('intelephense', {
+        settings = {
+          intelephense = {
+            environment = {
+              includePaths = {
+                vim.fn.expand('~/.config/config/lsp/php/stubs'),
+              },
+            },
+            files = {
+              maxSize = 2000000,
+            },
+          },
+        },
       })
 
       -- others

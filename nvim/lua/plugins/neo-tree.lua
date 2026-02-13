@@ -8,12 +8,17 @@ return {
   priority = 1000,
   config = function()
     local ntc = require('th3cod3.config.neo-tree')
+    local function on_move(data) Snacks.rename.on_rename_file(data.source, data.destination) end
+    local events = require('neo-tree.events')
+
     require('neo-tree').setup({
       event_handlers = {
         {
-          event = 'file_open_requested',
+          event = events.FILE_OPEN_REQUESTED,
           handler = function() require('neo-tree.command').execute({ action = 'close' }) end,
         },
+        { event = events.FILE_MOVED, handler = on_move },
+        { event = events.FILE_RENAMED, handler = on_move },
       },
 
       window = {
@@ -35,8 +40,8 @@ return {
             ['/'] = 'none',
             ['U'] = 'navigate_up',
             ['f'] = 'fuzzy_finder',
-            ['<C-F>'] = { ntc.find_files, desc = 'Find files (Telescope)' },
-            ['<C-G>'] = { ntc.live_grep, desc = 'Live grep (Telescope)' },
+            ['<C-F>'] = { ntc.find_files, desc = 'Find files' },
+            ['<C-G>'] = { ntc.grep, desc = 'Grep' },
             ['Y'] = { ntc.copy_path, desc = 'Copy path' },
             ['zo'] = { ntc.neotree_zo, desc = 'Unfold' },
             ['zO'] = { ntc.neotree_zO, desc = 'Unfold recursively' },
@@ -115,9 +120,16 @@ return {
     })
 
     local map = vim.keymap.set
+    local modulesDir = vim.fs.joinpath(vim.fn.stdpath('data'), 'lazy')
 
     map('n', '<C-e>', ':Neotree filesystem reveal float<cr>', { desc = 'Reveal in file tree' })
     map('n', '<leader>fe', ':Neotree filesystem reveal float dir=$PWD<cr>', { desc = 'Reveal (cwd) in file tree' })
+    map(
+      'n',
+      '<leader>fP',
+      ':Neotree filesystem reveal float dir=' .. modulesDir .. '<cr>',
+      { desc = 'Reveal (cwd) in file tree' }
+    )
     map('n', '<leader>ge', ':Neotree git_status float<cr>', { desc = 'Reveal in file tree' })
   end,
 }
