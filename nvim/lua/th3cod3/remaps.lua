@@ -39,14 +39,17 @@ map({ 'n', 'v' }, '<leader>kv', ':qa!<cr>', { desc = 'Force quit all file (kill 
 -- Macros
 map({ 'n', 'v' }, 'q', '<nop>', { noremap = true })
 map('n', 'Q', 'q', { noremap = true, desc = 'Record macro' })
-map('n', '<M-q>', 'Q', { noremap = true, desc = 'Replay last register' })
+map('n', '<M-q>', '@@', { noremap = true, desc = 'Replay last register' })
+map('x', '<leader>di', fns.compare_to_clipboard)
 
 -- Quickfix
-map('x', '<leader>di', fns.compare_to_clipboard)
-map('n', '<leader>qu', fns.unique_files_in_quickfix, { desc = 'Unique Files in Quickfix' })
-map('n', '<leader>qt', fns.toggle_quickfix, { desc = 'Toggle Quickfix Window' })
-map('n', '<leader>qn', ':cnext<cr>', { desc = 'Next Quickfix' })
-map('n', '<leader>qp', ':cprevious<cr>', { desc = 'Previous Quickfix' })
+map('n', '<leader>qu', fns.unique_files_in_quickfix, { desc = 'Filter Unique Files (qf)' })
+map('n', '<leader>qt', fns.toggle_quickfix, { desc = 'Toggle Window (qf)' })
+map('n', '<leader>qo', ':copen<cr>', { desc = 'Open Window (qf)' })
+map('n', '<leader>qc', ':cclose<cr>', { desc = 'Close Window (qf)' })
+map('n', '<leader>qn', ':cnext<cr>', { desc = 'Next Window (qf)' })
+map('n', '<leader>qp', ':cprevious<cr>', { desc = 'Previous (qf)' })
+map('n', '<leader>qsw', [[:cdo s/<C-r><C-w>/<C-r><C-w>/<Left>]], { desc = 'Replace word under cursor (qf)' })
 
 -- terminal
 map('t', '<C-q>', [[<C-\><C-n>]])

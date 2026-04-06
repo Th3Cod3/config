@@ -85,7 +85,7 @@ return {
             action_callback = function(url)
               vim.system({ 'git', 'branch', '--show-current' }, nil, function(obj)
                 local branch = obj.stdout:gsub('%s+', '')
-                url = url .. '/compare/master...' .. branch
+                url = url .. '/compare/dev...' .. branch
                 vim.notify('Opening URL: ' .. url, vim.log.levels.DEBUG, { title = 'Git' })
                 require('th3cod3.functions').open_url(url)
               end)

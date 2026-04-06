@@ -13,18 +13,21 @@ return {
     opts = {
       bigfile = {},
       gh = {},
-      -- gitbrowse = {},
-      indent = {},
+      -- gitbrowse = {}, indent = {},
       input = {},
       lazygit = {},
       notifier = {},
       notify = {},
       picker = {
+        actions = {
+          opencode_send = function(...) return require('opencode').snacks_picker_send(...) end,
+        },
         auto_refresh = false,
         live = false,
         win = {
           input = {
             keys = {
+              ['<a-a>'] = { 'opencode_send', mode = { 'n', 'i' } },
               ['<a-e>'] = { 'focus_preview', mode = { 'i', 'n' } },
               ['<C-j>'] = { 'history_forward', mode = { 'i', 'n' } },
               ['<C-k>'] = { 'history_back', mode = { 'i', 'n' } },
@@ -185,6 +188,15 @@ return {
 
           vim.api.nvim_create_autocmd('FileType', {
             pattern = 'snacks_picker*',
+            callback = function()
+              vim.bo.buftype = 'nofile'
+              vim.bo.bufhidden = 'wipe'
+              vim.bo.swapfile = false
+            end,
+          })
+
+          vim.api.nvim_create_autocmd('BufEnter', {
+            pattern = 'snacks://*',
             callback = function()
               vim.bo.buftype = 'nofile'
               vim.bo.bufhidden = 'wipe'

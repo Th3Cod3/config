@@ -10,6 +10,7 @@ vim.opt_global.wrap = false
 vim.opt_global.smartcase = true
 vim.opt_global.ignorecase = true
 vim.opt.switchbuf = 'useopen,usetab,newtab'
+vim.opt.winborder = "rounded"
 
 vim.opt.nu = true
 vim.opt.listchars = {
@@ -31,6 +32,7 @@ vim.opt.incsearch = true
 
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = '120'
+vim.opt.textwidth = 120
 vim.opt.foldlevel = 99
 
 vim.opt.spell = true

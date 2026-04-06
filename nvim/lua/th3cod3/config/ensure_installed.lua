@@ -61,7 +61,7 @@ M.lsp = {
   'ast_grep',
   'jsonls',
   'cssls',
-  'emmet_ls',
+  'emmet_language_server',
   'html',
   'intelephense',
   -- others

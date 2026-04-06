@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
-  callback = vim.lsp.codelens.refresh,
+  callback = function() vim.lsp.codelens.enable(true) end,
 })
 
 vim.lsp.config('*', {

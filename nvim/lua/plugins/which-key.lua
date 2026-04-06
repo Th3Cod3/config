@@ -18,33 +18,33 @@ return {
       local wk = require('which-key')
       wk.setup(opts)
       require('which-key').add({
-        { '<leader>u', group = 'Upload / Download', icon = '' },
+        { '<leader>t', group = 'Upload / Download', icon = '' },
         {
-          '<leader>ud',
+          '<leader>td',
           '<cmd>TransferDownload<cr>',
           desc = 'Download from remote server (scp)',
           icon = { color = 'green', icon = '󰇚' },
         },
         {
-          '<leader>uf',
+          '<leader>tD',
           '<cmd>DiffRemote<cr>',
           desc = 'Diff file with remote server (scp)',
           icon = { color = 'green', icon = '' },
         },
         {
-          '<leader>ui',
+          '<leader>ti',
           '<cmd>TransferInit<cr>',
           desc = 'Init/Edit Deployment config',
           icon = { color = 'green', icon = '' },
         },
         {
-          '<leader>ur',
+          '<leader>tr',
           '<cmd>TransferRepeat<cr>',
           desc = 'Repeat transfer command',
           icon = { color = 'green', icon = '󰑖' },
         },
         {
-          '<leader>uu',
+          '<leader>tu',
           '<cmd>TransferUpload<cr>',
           desc = 'Upload to remote server (scp)',
           icon = { color = 'green', icon = '󰕒' },

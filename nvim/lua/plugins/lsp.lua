@@ -49,15 +49,16 @@ return {
         'vimls',
       })
 
-      -- embedded/c/c++
+      -- embedded&systems
       vim.lsp.enable({
         'clangd',
+        'rust_analyzer',
         'vhdl_ls',
       })
       -- vim.lsp.enable('serve_d')
 
       -- web
-      vim.lsp.enable({ 'ts_ls', 'vue_ls' }, false)
+      vim.lsp.enable({ 'ts_ls' }, false)
       vim.lsp.enable({
         -- 'ast_grep',
         'eslint',
@@ -67,6 +68,7 @@ return {
         'emmet_ls',
         'html',
         'intelephense',
+        'vue_ls',
         -- 'phpactor',
       })
 
@@ -132,9 +134,7 @@ return {
           'typescript',
           'javascript',
           'javascriptreact',
-          'javascript.jsx',
           'typescriptreact',
-          'typescript.tsx',
           'vue',
         },
       })

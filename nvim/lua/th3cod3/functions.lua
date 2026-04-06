@@ -193,6 +193,14 @@ M.diff_register_with_selection = function()
   vim.cmd('diffthis')
 end
 
+M.delete_qf_item = function()
+  local qf = vim.fn.getqflist()
+  local idx = vim.fn.line('.') - 1
+
+  table.remove(qf, idx + 1)
+  vim.fn.setqflist(qf, 'r')
+end
+
 M.unique_files_in_quickfix = function()
   local qflist = vim.fn.getqflist()
   local seen = {}

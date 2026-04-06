@@ -10,9 +10,13 @@ return {
     },
     init = function() vim.o.formatexpr = 'v:lua.require("conform").formatexpr()' end,
     opts = {
+      default_format_opts = {
+        timeout_ms = 5000,
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
         c = { 'clang_format' },
+        rust = { 'rustfmt' },
         cpp = { 'clang_format' },
         objc = { 'clang_format' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
@@ -29,6 +33,7 @@ return {
         python = { 'autoflake', 'black', stop_after_first = true },
         sql = { 'sql_formatter' },
         markdown = { 'prettierd', 'prettier', stop_after_first = true },
+        xml = { 'xmlformatter', stop_after_first = true },
       },
       formatters = {
         blade_formatter = {
@@ -95,7 +100,10 @@ return {
             local has_binary = vim.fn.filereadable(root .. '/vendor/bin/php-cs-fixer') == 1
 
             if has_binary then
-              vim.notify('Using phpcsfixer for PHP formatting', vim.log.levels.DEBUG)
+              vim.notify(
+                'NVIM_PHP_FIXER=' .. vim.inspect(env_fixer) .. ', using phpcsfixer for PHP formatting',
+                vim.log.levels.DEBUG
+              )
             else
               vim.notify('PHP CS Fixer binary not found, skipping formatter', vim.log.levels.DEBUG)
             end
@@ -138,7 +146,10 @@ return {
             local has_binary = vim.fn.filereadable(root .. '/vendor/bin/pint') == 1
 
             if has_binary then
-              vim.notify('Using pint for PHP formatting', vim.log.levels.DEBUG)
+              vim.notify(
+                'NVIM_PHP_FIXER=' .. vim.inspect(env_fixer) .. ', using pint for PHP formatting',
+                vim.log.levels.DEBUG
+              )
             else
               vim.notify('Pint binary not found, skipping formatter', vim.log.levels.DEBUG)
             end
