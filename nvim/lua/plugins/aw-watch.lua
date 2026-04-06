@@ -1,6 +1,7 @@
 return {
   {
     'ActivityWatch/aw-watcher-vim',
-    lazy = false,
+    lazy = os.getenv("WSL_DISTRO_NAME") ~= nil,
   },
 }
+
