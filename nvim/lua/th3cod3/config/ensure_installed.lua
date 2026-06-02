@@ -45,6 +45,7 @@ M.treesitter = {
   'yaml',
   'markdown',
   'markdown_inline',
+  'latex',
 }
 
 M.lsp = {

@@ -3,35 +3,39 @@ local M = {}
 local diff_node = nil
 local diff_name = nil
 
+local function is_text_file(path)
+  local result = vim.system({ 'file', '--brief', '--mime-type', '--mime-encoding', path }, { text = true }):wait()
+  if result.code ~= 0 or not result.stdout then
+    return false
+  end
+
+  local out = vim.trim(result.stdout)
+  local mime, charset = out:match('^([^;]+);%s*charset=(.+)$')
+  if not mime then
+    return false
+  end
+
+  local text_like = mime:match('^text/')
+    or mime == 'application/json'
+    or mime == 'application/xml'
+    or mime == 'application/javascript'
+    or mime == 'application/x-shellscript'
+
+  local ascii_like = charset == 'us-ascii' or charset == 'utf-8'
+
+  return text_like and ascii_like
+end
+
 M.open_with_xdg = function(state)
   local node = state.tree:get_node()
   local path = node:get_id()
 
-  -- file extensions you want external
-  local external_ext = {
-    pdf = true,
-    docx = true,
-    doc = true,
-    xls = true,
-    xlsx = true,
-    ppt = true,
-    pptx = true,
-    png = true,
-    jpg = true,
-    jpeg = true,
-    webp = true,
-    gif = true,
-    svg = true,
-  }
-
-  local ext = path:match('^.+%.(.+)$')
-  if ext and external_ext[ext:lower()] or ext == nil then
-    vim.system({ 'xdg-open', path }, { detach = true, timeout = 1000 })
+  if is_text_file(path) then
+    require('neo-tree.sources.filesystem.commands').open(state)
     return
   end
 
-  -- fallback to normal open
-  require('neo-tree.sources.filesystem.commands').open(state)
+  vim.system({ 'xdg-open', path }, { detach = true, timeout = 1000 })
 end
 
 M.find_files = function(state)

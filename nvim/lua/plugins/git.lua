@@ -115,6 +115,9 @@ return {
       { '<leader>gx', ':DiffviewClose<cr>', desc = 'Diffview close' },
       { '<leader>gh', ':DiffviewFileHistory<cr>', desc = 'Diffview history (commits)' },
       { '<leader>gb', ':DiffviewFileHistory %<cr>', desc = 'Current buffer git history' },
+      { '<leader>gh', ":'<,'>DiffviewFileHistory<cr>", mode = 'v', desc = 'Git history for selected lines' },
+      { '<leader>gc', ':DiffviewOpen origin/dev...HEAD<cr>', desc = 'Git merge compare to with dev' },
+      { '<leader>gC', ':DiffviewOpen origin/master...HEAD<cr>', desc = 'Git merge compare to with master' },
     },
     opts = {
       enhanced_diff_hl = true,

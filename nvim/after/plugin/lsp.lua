@@ -38,9 +38,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
-  callback = function() vim.lsp.codelens.enable(true) end,
-})
+-- vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
+--   callback = function() vim.lsp.codelens.enable(true) end,
+-- })
 
 vim.lsp.config('*', {
   capabilities = require('blink.cmp').get_lsp_capabilities(),

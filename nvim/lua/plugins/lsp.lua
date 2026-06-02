@@ -89,6 +89,7 @@ return {
 
       -- others
       vim.lsp.enable('ltex', ltex_status)
+      vim.lsp.enable('marksman')
       -- vim.lsp.enable({
       -- 'dockerls',
       -- 'sqlls',

@@ -166,6 +166,9 @@ return {
       })
 
       local map = vim.keymap.set
+
+      map({ 'o', 'x' }, 'is', function() textobjs.subword('inner') end, { noremap = true, silent = true })
+      map({ 'o', 'x' }, 'as', function() textobjs.subword('outer') end, { noremap = true, silent = true })
       map({ 'o', 'x' }, 'b', function() textobjs.entireBuffer() end, { noremap = true, silent = true })
     end,
   },

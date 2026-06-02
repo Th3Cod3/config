@@ -1,62 +1,79 @@
 return {
   {
-    'nickjvandyke/opencode.nvim',
-    version = '*', -- Latest stable release
-    dependencies = {
-      'folke/snacks.nvim',
+    'sudo-tee/opencode.nvim',
+    event = 'VeryLazy',
+    keys = {
+      {
+        '<leader>A',
+        function()
+          local agent = require('opencode.commands.handlers.agent').actions
+          agent.switch_mode()
+        end,
+        desc = 'Opencode: Select Agent',
+      },
     },
     config = function()
-      ---@type opencode.Opts
-      vim.g.opencode_opts = {
-        -- Your configuration, if any; goto definition on the type or field for details
-      }
-
-      vim.o.autoread = true -- Required for `opts.events.reload`
-
-      -- Recommended/example keymaps
-      vim.keymap.set(
-        { 'n', 'x' },
-        '<leader>aa',
-        function() require('opencode').ask('@this: ', { submit = true }) end,
-        { desc = 'Ask opencode…' }
-      )
-      vim.keymap.set(
-        { 'n', 'x' },
-        '<leader>ax',
-        function() require('opencode').select() end,
-        { desc = 'Execute opencode action…' }
-      )
-      -- vim.keymap.set({ 'n', 't' }, '<C-.>', function() require('opencode').toggle() end, { desc = 'Toggle opencode' })
-
-      vim.keymap.set(
-        { 'n', 'x' },
-        'go',
-        function() return require('opencode').operator('@this ') end,
-        { desc = 'Add range to opencode', expr = true }
-      )
-      vim.keymap.set(
-        'n',
-        'goo',
-        function() return require('opencode').operator('@this ') .. '_' end,
-        { desc = 'Add line to opencode', expr = true }
-      )
-
-      vim.keymap.set(
-        'n',
-        '<S-C-u>',
-        function() require('opencode').command('session.half.page.up') end,
-        { desc = 'Scroll opencode up' }
-      )
-      vim.keymap.set(
-        'n',
-        '<S-C-d>',
-        function() require('opencode').command('session.half.page.down') end,
-        { desc = 'Scroll opencode down' }
-      )
-
-      -- You may want these if you use the opinionated `<C-a>` and `<C-x>` keymaps above — otherwise consider `<leader>o…` (and remove terminal mode from the `toggle` keymap)
-      -- vim.keymap.set('n', '+', '<C-a>', { desc = 'Increment under cursor', noremap = true })
-      -- vim.keymap.set('n', '-', '<C-x>', { desc = 'Decrement under cursor', noremap = true })
+      require('opencode').setup({
+        default_mode = 'plan',
+        keymap_prefix = '<leader>a',
+        keymap = {
+          editor = {
+            ['<leader>aa'] = { 'open_input' },
+          },
+          input_window = {
+            ['<esc>'] = false,
+            ['<C-r>'] = { 'cycle_variant', mode = { 'n', 'i' } },
+          },
+          output_window = {
+            ['<esc>'] = false,
+            ['<C-r>'] = { 'cycle_variant', mode = { 'n', 'i' } },
+          },
+        },
+        ui = {
+          window_width = 0.4,
+          input = {
+            min_height = 0.20,
+            max_height = 0.4,
+          },
+        },
+        context = {
+          enabled = true, -- Enable automatic context capturing
+          cursor_data = {
+            enabled = false,
+            context_lines = 5,
+          },
+          diagnostics = {
+            enabled = false,
+            info = false,
+            warning = true,
+            error = true,
+            only_closest = false,
+          },
+          current_file = {
+            enabled = false,
+            show_full_path = false,
+          },
+          files = {
+            enabled = true,
+            show_full_path = true,
+          },
+          selection = {
+            enabled = true,
+          },
+          buffer = {
+            enabled = false,
+          },
+          git_diff = {
+            enabled = false,
+          },
+        },
+      })
     end,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'MeanderingProgrammer/render-markdown.nvim',
+      'saghen/blink.cmp',
+      'folke/snacks.nvim',
+    },
   },
 }

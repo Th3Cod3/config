@@ -3,14 +3,26 @@ local map = vim.keymap.set
 return {
   {
     'MeanderingProgrammer/render-markdown.nvim',
-    ft = { 'markdown' },
+    ft = { 'markdown', 'opencode_output', 'opencode' },
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
       'nvim-tree/nvim-web-devicons',
     },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
-    opts = {},
+    opts = {
+      anti_conceal = { enabled = true },
+      file_types = { 'markdown', 'opencode_output', 'opencode' },
+      overrides = {
+        filetype = {
+          opencode_output = {
+            anti_conceal = {
+              enabled = false,
+            },
+          },
+        },
+      },
+    },
   },
 
   {
@@ -85,11 +97,16 @@ return {
           ['<leader>mL'] = 'list_cycle',
           ['<leader>mn'] = 'olist',
           ['<leader>mx'] = 'checkbox',
+          ['<leader>mX'] = 'checkbox_cycle',
           ['<leader>mh'] = 'heading',
           ['<leader>mH'] = 'heading_toggle',
         },
         switch = {},
-        autolist = {},
+        autolist = {
+          ['O'] = 'autolist_up',
+          ['o'] = 'autolist_down',
+          ['<CR>'] = 'autolist_cr',
+        },
       },
     },
   },

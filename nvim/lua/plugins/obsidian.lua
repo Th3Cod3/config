@@ -12,19 +12,25 @@ return {
       { '<leader>og', '<cmd>Obsidian search<cr>', desc = 'Obsidian: Grep' },
       { '<leader>ot', '<cmd>Obsidian toc<cr>', desc = 'Obsidian: Table of Contents' },
       { '<leader>oT', '<cmd>Obsidian tags<cr>', desc = 'Obsidian: Tags' },
-      { '<leader>ol', '<cmd>Obsidian link<cr>', desc = 'Obsidian: Create Link', mode = {'v'} },
-      { '<leader>oL', '<cmd>Obsidian links<cr>', desc = 'Obsidian: Links'},
+      { '<leader>ol', '<cmd>Obsidian link<cr>', desc = 'Obsidian: Create Link', mode = { 'v' } },
+      { '<leader>oL', '<cmd>Obsidian links<cr>', desc = 'Obsidian: Links' },
       { '<leader>oi', '<cmd>Obsidian insert_template<cr>', desc = 'Obsidian: Insert Template' },
       { '<leader>ob', '<cmd>Obsidian backlinks<cr>', desc = 'Obsidian: Backlinks' },
-      { '<leader>oe', '<cmd>Obsidian extract_note<cr>', desc = 'Obsidian: Extract Note', mode = {'v'} },
+      { '<leader>oe', '<cmd>Obsidian extract_note<cr>', desc = 'Obsidian: Extract Note', mode = { 'v' } },
       { '<leader>op', '<cmd>Obsidian paste_img<cr>', desc = 'Obsidian: Paste Image' },
       { '<leader>oo', '<cmd>Obsidian quick_switch<cr>', desc = 'Obsidian: Quick Switch' },
     },
     ---@module 'obsidian'
     ---@type obsidian.config
     opts = {
+      link = {
+        auto_update = true,
+        style = 'markdown',
+      },
+      ui = {
+        enable = false,
+      },
       legacy_commands = false,
-      preferred_link_style = 'markdown',
       wiki_link_func = nil,
       new_notes_location = 'current_dir',
       workspaces = {

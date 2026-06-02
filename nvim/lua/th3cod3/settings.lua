@@ -14,7 +14,7 @@ vim.opt.winborder = "rounded"
 
 vim.opt.nu = true
 vim.opt.listchars = {
-  tab = '» ',
+  tab = '▸ ',
   trail = '·',
   lead = '·',
   multispace = '··',

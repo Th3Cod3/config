@@ -4,7 +4,7 @@
 if [[ $# -eq 1 ]]; then
   selected=$1
 else
-  options=$(find ~/src/ ~/code/Th3Cod3/ ~/code/WebWhales/ ~/code/tutorials/ -mindepth 1 -maxdepth 1 -type d; realpath ~/.config/config/)
+  options=$(find ~/src/ ~/code/HSLeiden/ ~/code/Th3Cod3/ ~/code/WebWhales/ ~/code/tutorials/ -mindepth 1 -maxdepth 1 -type d; realpath ~/.config/config/)
   options+=$'\n'
   options+=$(find ~/code/HAN ~/code/src/ -mindepth 2 -maxdepth 2 -type d)
   selected=$(echo "$options" | fzf)
