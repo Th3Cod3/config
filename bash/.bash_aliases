@@ -7,7 +7,7 @@ alias v='nvim .'
 alias ll='ls -lhF'
 alias la='ls -lhAF'
 alias l='ls -CF'
-alias cb='~/.config/config/scripts/.clipboard.sh'
+alias cb='$HOME/code/Th3Cod3/config/scripts/.clipboard.sh'
 
 alias sshpass='ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no'
 

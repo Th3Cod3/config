@@ -23,8 +23,8 @@ if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
-if [ -f ~/.config/config/.env ]; then
-  source ~/.config/config/.env
+if [ -f "$HOME/code/Th3Cod3/config/.env" ]; then
+  source "$HOME/code/Th3Cod3/config/.env"
 fi
 
 # Git branch bash completion
@@ -87,4 +87,9 @@ export PATH="~/.local/bin:$PATH"
 
 if [ -f "$HOME/.cargo/env" ]; then
   . "$HOME/.cargo/env"
+fi
+
+# validate pandoc exists
+if command -v pandoc >/dev/null 2>&1; then
+  eval "$(pandoc --bash-completion)"
 fi

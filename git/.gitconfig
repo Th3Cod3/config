@@ -4,9 +4,10 @@
   email = yefri@th3cod3.com
   name = Th3Cod3
   username = Th3Cod3
+  signingkey = 09791DFE58EA23C4
 [core]
   editor = nvim
-	excludesfile = /home/th3cod3/.config/config/git/.gitignore_global
+  excludesfile = /home/th3cod3/code/Th3Cod3/config/git/.gitignore_global
 [diff]
   algorithm = patience
   tool = nvimdiff
@@ -18,3 +19,5 @@
   cmd = nvim -d $LOCAL $REMOTE $BASE $MERGED -c 'wincmd w' -c 'wincmd J'
 [mergetool "nvimdiff"]
   layout = diff3
+[commit]
+  gpgsign = true

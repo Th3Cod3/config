@@ -1,6 +1,6 @@
 #!/bin/bash
 
-options=$(cat ~/.config/config/.clipboard | grep -v '^#')
+options=$(cat ~/code/Th3Cod3/config/.clipboard | grep -v '^#')
 selection=$(echo "$options" | fzf)
 
 # exit if selection is empty
@@ -14,4 +14,3 @@ else
     echo -n "$selection" | xclip -selection clipboard
     echo -n "$selection" | xclip -selection primary
 fi
-

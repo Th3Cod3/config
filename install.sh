@@ -39,6 +39,11 @@ normalize_component() {
 
 TARGET=all
 UPDATE_NVM=false
+if [[ -n $CONFIG_DIR ]]; then
+  echo "Using CONFIG_DIR from environment: $CONFIG_DIR"
+else
+  CONFIG_DIR=~/code/Th3Cod3/config
+fi
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -93,6 +98,14 @@ if should_install all; then
         php python3 golang \
         npm python3-pip cargo \
         fzf tmux ripgrep git jq xclip
+  elif [ -f /etc/fedora-release ]; then
+    echo "Fedora detected"
+    sudo dnf install -y \
+        @development-tools \
+        ninja-build gettext cmake unzip curl \
+        php python3 golang \
+        npm python3-pip cargo \
+        fzf tmux ripgrep git jq xclip
   else
     echo "Unsupported distro"
     exit 1
@@ -119,7 +132,7 @@ if should_install nvim; then
     sudo rm -rf /usr/local/bin/nvim
   fi
 
-  if [ -f /usr/local/bin/nvim ]; then
+  if command -v nvim || [[ -f /usr/local/bin/nvim ]]; then
     echo "Neovim already installed"
   else
     # compile neovim
@@ -204,16 +217,16 @@ if should_install lazydocker; then
 fi
 
 if [[ "$TARGET" == "all" ]]; then
-  ln -sf ~/.config/config/tmux ~/.config/
-  ln -sf ~/.config/config/alacritty ~/.config/
-  ln -sf ~/.config/config/kitty ~/.config/
-  ln -sf ~/.config/config/nvim ~/.config/
-  ln -sf ~/.config/config/bash/.bash_aliases ~/.bash_aliases
-  ln -sf ~/.config/config/bash/.bash_profile ~/.bash_profile
-  ln -sf ~/.config/config/bash/.inputrc ~/.inputrc
-  ln -sf ~/.config/config/git/.gitconfig ~/.gitconfig
+  ln -sf $CONFIG_DIR/tmux ~/.config/
+  ln -sf $CONFIG_DIR/alacritty ~/.config/
+  ln -sf $CONFIG_DIR/kitty ~/.config/
+  ln -sf $CONFIG_DIR/nvim ~/.config/
+  ln -sf $CONFIG_DIR/bash/.bash_aliases ~/.bash_aliases
+  ln -sf $CONFIG_DIR/bash/.bash_profile ~/.bash_profile
+  ln -sf $CONFIG_DIR/bash/.inputrc ~/.inputrc
+  ln -sf $CONFIG_DIR/git/.gitconfig ~/.gitconfig
   mkdir -p ~/.config/lazygit
-  ln -sf ~/.config/config/git/config.yml ~/.config/lazygit/config.yml
+  ln -sf $CONFIG_DIR/git/config.yml ~/.config/lazygit/config.yml
 
   source ~/.bash_profile
 fi

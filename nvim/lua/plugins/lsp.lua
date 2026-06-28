@@ -77,7 +77,7 @@ return {
           intelephense = {
             environment = {
               includePaths = {
-                vim.fn.expand('~/.config/config/lsp/php/stubs'),
+                vim.fn.expand('~/code/Th3Cod3/config/lsp/php/stubs'),
               },
             },
             files = {
