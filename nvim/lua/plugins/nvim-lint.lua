@@ -101,7 +101,7 @@ return {
 
       lint.linters_by_ft = {
         php = { 'phpstan_docker' },
-        markdown = { 'markdownlint' },
+        -- markdown = { 'markdownlint' },
         make = { 'checkmake' },
         ['*'] = { 'editorconfig-checker' },
       }

@@ -31,6 +31,12 @@ return {
         },
         ui = {
           window_width = 0.4,
+          output = {
+            tools = {
+              use_folds = false,
+            },
+            max_messages = 20,
+          },
           input = {
             min_height = 0.20,
             max_height = 0.4,

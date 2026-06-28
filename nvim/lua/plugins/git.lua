@@ -1,5 +1,17 @@
-return {
+local fns = require('th3cod3.functions')
 
+local function with_branch_tree_url(branch, callback)
+  require('gitlinker').get_repo_url({
+    print_url = false,
+    action_callback = function(url) callback(branch, url .. '/tree/' .. branch) end,
+  })
+end
+
+local function with_current_branch_tree_url(callback)
+  fns.with_current_branch(function(branch) with_branch_tree_url(branch, callback) end)
+end
+
+return {
   {
     'tpope/vim-fugitive',
     event = 'VeryLazy',
@@ -20,6 +32,39 @@ return {
           })
         end,
         desc = 'Git: Copy remote repo URL',
+      },
+      {
+        '<leader>gyb',
+        function() fns.with_current_branch(fns.copy_to_clipboard) end,
+        desc = 'Git: Copy branch name',
+      },
+      {
+        '<leader>gyB',
+        function()
+          with_current_branch_tree_url(function(_, url) fns.copy_to_clipboard(url) end)
+        end,
+        desc = 'Git: Copy branch tree URL',
+      },
+      {
+        '<leader>gymb',
+        function()
+          with_current_branch_tree_url(
+            function(branch, url) fns.copy_to_clipboard('[' .. branch .. '](' .. url .. ')') end
+          )
+        end,
+        desc = 'Git: Copy branch markdown link',
+      },
+      {
+        '<leader>gymB',
+        function()
+          fns.with_selected_branch(function(branch)
+            with_branch_tree_url(
+              branch,
+              function(_, url) fns.copy_to_clipboard('[' .. branch .. '](' .. url .. ')') end
+            )
+          end)
+        end,
+        desc = 'Git: Copy selected branch markdown link',
       },
       {
         '<leader>gor',
@@ -119,14 +164,23 @@ return {
       { '<leader>gc', ':DiffviewOpen origin/dev...HEAD<cr>', desc = 'Git merge compare to with dev' },
       { '<leader>gC', ':DiffviewOpen origin/master...HEAD<cr>', desc = 'Git merge compare to with master' },
     },
-    opts = {
-      enhanced_diff_hl = true,
-      view = {
-        merge_tool = {
-          layout = 'diff3_mixed',
+    config = function()
+      local actions = require('diffview.actions')
+      require('diffview').setup({
+        enhanced_diff_hl = true,
+        view = {
+          merge_tool = {
+            layout = 'diff3_mixed',
+          },
         },
-      },
-    },
+        keymaps = {
+          file_panel = {
+            { 'n', 'S', actions.toggle_stage_entry, { desc = 'Stage all entries' } },
+            { 'n', '<c-s>', actions.stage_all, { desc = 'Stage all entries' } },
+          },
+        },
+      })
+    end,
   },
 
   {

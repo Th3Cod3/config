@@ -2,8 +2,6 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      require('laravel') -- ensure laravel is loaded
-
       require('lualine').setup({
         options = {
           globalstatus = true,
@@ -14,6 +12,11 @@ return {
           lualine_b = { 'branch', 'diff', 'diagnostics' },
           lualine_c = { 'filename' },
           lualine_x = {
+            {
+              require('obsidian.sync.status').icon,
+              color = require('obsidian.sync.status').color,
+              cond = require('obsidian.sync.status').cond,
+            },
             function()
               local linters = require('lint').get_running()
               if #linters == 0 then

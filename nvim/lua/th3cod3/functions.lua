@@ -3,6 +3,81 @@ local M = {}
 ---@type 'lines'|'text'|'disabled'
 local diagnostic_next_view = 'text'
 
+M.copy_to_clipboard = function(value)
+  vim.fn.setreg('"', value)
+  vim.fn.setreg('+', value)
+  vim.notify('Copied: ' .. value, vim.log.levels.DEBUG, { title = 'Git' })
+end
+
+M.with_current_branch = function(callback)
+  vim.system({ 'git', 'branch', '--show-current' }, nil, function(obj)
+    local branch = obj.stdout:gsub('%s+', '')
+    if branch == '' then
+      vim.notify('No current branch found', vim.log.levels.ERROR, { title = 'Git' })
+      return
+    end
+
+    callback(branch)
+  end)
+end
+
+M.with_selected_branch = function(callback)
+  local branches = vim.fn.systemlist({ 'git', 'branch', '--format=%(refname:short)' })
+  if vim.v.shell_error ~= 0 then
+    vim.notify('Failed to list branches', vim.log.levels.ERROR, { title = 'Git' })
+    return
+  end
+
+  if #branches == 0 then
+    vim.notify('No branches found', vim.log.levels.ERROR, { title = 'Git' })
+    return
+  end
+
+  vim.ui.select(branches, { prompt = 'Select branch:' }, function(branch)
+    if branch then
+      callback(branch)
+    end
+  end)
+end
+
+M.relative_path = function(from, to)
+  from = vim.fs.normalize(from):gsub('/$', '')
+  to = vim.fs.normalize(to):gsub('/$', '')
+
+  local from_parts = vim.split(from, '/', { plain = true, trimempty = true })
+  local to_parts = vim.split(to, '/', { plain = true, trimempty = true })
+  local i = 1
+
+  while from_parts[i] and from_parts[i] == to_parts[i] do
+    i = i + 1
+  end
+
+  local parts = {}
+  for _ = i, #from_parts do
+    parts[#parts + 1] = '..'
+  end
+
+  for j = i, #to_parts do
+    parts[#parts + 1] = to_parts[j]
+  end
+
+  return #parts > 0 and table.concat(parts, '/') or '.'
+end
+
+M.buffer_var = function(name)
+  local pattern = '^' .. vim.pesc(name) .. ':%s*(.+)$'
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+  for _, line in ipairs(lines) do
+    local value = line:match(pattern)
+    if value then
+      return vim.trim(value)
+    end
+  end
+
+  return ''
+end
+
 M.cycle_diagnostic_view = function()
   if diagnostic_next_view == 'text' then
     diagnostic_next_view = 'lines'
@@ -76,6 +151,34 @@ M.move_media_and_update_refs = function()
   vim.api.nvim_buf_call(current_buf, function() vim.cmd(string.format([[%%s@%s@%s@g]], old_rel, new_rel)) end)
 
   vim.notify(string.format('Moved %s → %s and updated references', abs_old_path, new_path))
+end
+
+M.minify_markdown_tables = function()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+  for index, line in ipairs(lines) do
+    if line:find('|', 1, true) then
+      local cells = vim.split(line, '|', { plain = true })
+
+      for cell_index, cell in ipairs(cells) do
+        local trimmed = vim.trim(cell)
+
+        if trimmed == '' and cell:match('%s') then
+          cells[cell_index] = ' '
+        elseif trimmed:match('^:?-+:?$') then
+          local left_align = trimmed:sub(1, 1) == ':'
+          local right_align = trimmed:sub(-1) == ':'
+          cells[cell_index] = (left_align and ':' or '') .. '---' .. (right_align and ':' or '')
+        else
+          cells[cell_index] = trimmed
+        end
+      end
+
+      lines[index] = table.concat(cells, '|')
+    end
+  end
+
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
 end
 
 local function get_url_under_cursor()
@@ -235,24 +338,51 @@ M.toggle_quickfix = function()
 end
 
 M.compare_to_clipboard = function()
-  local ftype = vim.api.nvim_eval('&filetype')
-  vim.cmd(string.format(
-    [[
-    execute "\"xy"
-    tabnew
-    normal! P
-    setlocal buftype=nowrite
-    set filetype=%s
-    diffthis
-    vsplit
-    enew
-    set filetype=%s
-    normal! "xP
-    diffthis
-  ]],
-    ftype,
-    ftype
-  ))
+  local bufnr = vim.api.nvim_get_current_buf()
+  local ftype = vim.bo.filetype
+  local mode = vim.fn.visualmode()
+  local start_pos = vim.fn.getpos("'<")
+  local end_pos = vim.fn.getpos("'>")
+  local start_row = start_pos[2] - 1
+  local start_col = start_pos[3] - 1
+  local end_row = end_pos[2] - 1
+  local end_col = end_pos[3]
+
+  if start_row > end_row or (start_row == end_row and start_col > end_col) then
+    start_row, end_row = end_row, start_row
+    start_col, end_col = end_col, start_col
+  end
+
+  local selected_lines
+  if mode == 'V' then
+    selected_lines = vim.api.nvim_buf_get_lines(bufnr, start_row, end_row + 1, false)
+  else
+    selected_lines = vim.api.nvim_buf_get_text(bufnr, start_row, start_col, end_row, end_col, {})
+  end
+
+  if #selected_lines == 0 then
+    vim.notify('No selected text to compare', vim.log.levels.ERROR)
+    return
+  end
+
+  local clipboard_lines = vim.split(vim.fn.getreg('+'), '\n', { plain = true })
+
+  local function setup_diff_buffer(name, lines)
+    local buf = vim.api.nvim_get_current_buf()
+    vim.bo[buf].buftype = 'nofile'
+    vim.bo[buf].bufhidden = 'wipe'
+    vim.bo[buf].swapfile = false
+    vim.bo[buf].filetype = ftype
+    vim.api.nvim_buf_set_name(buf, name .. '://' .. buf)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+    vim.cmd.diffthis()
+  end
+
+  vim.cmd.tabnew()
+  setup_diff_buffer('clipboard', clipboard_lines)
+  vim.cmd.vsplit()
+  vim.cmd.enew()
+  setup_diff_buffer('selection', selected_lines)
 end
 
 M.open_init_file = function()
