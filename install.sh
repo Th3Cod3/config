@@ -101,11 +101,11 @@ if should_install all; then
   elif [ -f /etc/fedora-release ]; then
     echo "Fedora detected"
     sudo dnf install -y \
-        @development-tools \
-        ninja-build gettext cmake unzip curl \
-        php python3 golang \
-        npm python3-pip cargo \
-        fzf tmux ripgrep git jq xclip
+      @development-tools \
+      ninja-build gettext cmake unzip curl \
+      php python3 golang rust \
+      npm python3-pip cargo uv \
+      fzf tmux ripgrep git jq xclip gh pandoc-cli
   else
     echo "Unsupported distro"
     exit 1
@@ -117,7 +117,9 @@ ARCH=$(uname -m)
 if should_install all; then
   sudo npm i -g n
   sudo n 22
-  sudo npm i -g typescript @vue/typescript-plugin
+  sudo npm i -g typescript @vue/typescript-plugin \
+    opencode-ai mcp-hub \
+    obsidian-headless
 fi
 
 if should_install all; then

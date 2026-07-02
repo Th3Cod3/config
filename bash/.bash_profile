@@ -89,7 +89,17 @@ if [ -f "$HOME/.cargo/env" ]; then
   . "$HOME/.cargo/env"
 fi
 
-# validate pandoc exists
+# pandoc autocomplete
 if command -v pandoc >/dev/null 2>&1; then
   eval "$(pandoc --bash-completion)"
+fi
+
+# uv autocomplete
+if command -v uv >/dev/null 2>&1; then
+  eval "$(uv generate-shell-completion bash)"
+fi
+
+# uvx autocomplete
+if command -v uvx >/dev/null 2>&1; then
+  eval "$(uvx --generate-shell-completion bash)"
 fi

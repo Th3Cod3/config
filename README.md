@@ -12,6 +12,15 @@ Run the `install.sh` script to install the following packages:
 - gcc (c/c++) build-essential
 - java
 - go
+- rust
+
+### Package managers
+
+- npm
+- pip
+- composer
+- cargo
+- uv
 
 ### Tools
 
@@ -23,13 +32,12 @@ Run the `install.sh` script to install the following packages:
 - curl
 - jq
 - xclip
-
-### Package managers
-
-- npm
-- pip
-- composer
-- cargo
+- gh
+- pandoc
+- opencode-ai (npm)
+- mcp-hub (npm)
+- obsidian-headless (npm)
+- n (npm)
 
 ### Build
 
