@@ -28,15 +28,15 @@ return {
         json = { 'prettierd', 'prettier', stop_after_first = true },
         yaml = { 'prettierd', 'prettier', stop_after_first = true },
         sh = { 'shfmt' },
-        blade = { 'blade_formatter', stop_after_first = true },
-        php = { 'pint', 'phpcsfixer', stop_after_first = true },
+        blade = { 'blade_formatter_dk', 'blade_formatter', stop_after_first = true },
+        php = { 'pint_dk', 'pint', 'phpcsfixer_dk', 'phpcsfixer', stop_after_first = true },
         python = { 'autoflake', 'black', stop_after_first = true },
         sql = { 'sql_formatter' },
         markdown = { 'prettierd', 'prettier', stop_after_first = true },
         xml = { 'xmlformatter', stop_after_first = true },
       },
       formatters = {
-        blade_formatter = {
+        blade_formatter_dk = {
           command = 'docker',
           args = {
             'compose',
@@ -66,7 +66,7 @@ return {
             return has_binary
           end,
         },
-        phpcsfixer = {
+        phpcsfixer_dk = {
           command = 'docker',
           args = {
             'compose',
@@ -111,7 +111,7 @@ return {
             return has_binary
           end,
         },
-        pint = {
+        pint_dk = {
           command = 'docker',
           args = {
             'compose',

@@ -11,6 +11,8 @@ alias cb='$HOME/code/Th3Cod3/config/scripts/.clipboard.sh'
 
 alias sshpass='ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no'
 
+alias wl-x='wl-paste | xclip -selection clipboard'
+
 export PER_FOLDERS="."
 
 alias perf='sudo find ${PER_FOLDERS} -type f -exec chmod a+rw {} +'

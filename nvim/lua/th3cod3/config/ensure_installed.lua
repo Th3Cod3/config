@@ -75,8 +75,8 @@ M.lsp = {
 M.null_ls = {
   'stylua',
   'shfmt',
-  -- 'autoflake',
-  -- 'clang-format',
+  'autoflake',
+  'clang-format',
   'sql-formatter',
   'blade-formatter',
   'php-cs-fixer',
@@ -84,10 +84,13 @@ M.null_ls = {
   'editorconfig-checker',
   'markdownlint',
   'phpstan',
+  'black',
+  'rustfmt',
+  'xmlformatter',
 }
 
 local arch = vim.fn.system('uname -m')
-arch = string.gsub(arch, "%s+", "")
+arch = string.gsub(arch, '%s+', '')
 if arch == 'x86_64' then
   -- mason has only registered those packages for x86_64
   -- embedded
