@@ -13,12 +13,12 @@ alias sshpass='ssh -o PreferredAuthentications=password -o PubkeyAuthentication=
 
 alias wl-x='wl-paste | xclip -selection clipboard'
 
-export PER_FOLDERS="."
+export PERM_FOLDERS="."
 
-alias perf='sudo find ${PER_FOLDERS} -type f -exec chmod a+rw {} +'
-alias perd='sudo find ${PER_FOLDERS} -type d -exec chmod 777 {} +'
-alias perg='sudo chown -R th3cod3:www-data ${PER_FOLDERS}'
-alias pera="perf; perd; perg"
+alias permf='sudo find ${PERM_FOLDERS} -type f -exec chmod a+rw {} +'
+alias permd='sudo find ${PERM_FOLDERS} -type d -exec chmod 777 {} +'
+alias permg='sudo chown -R th3cod3:www-data ${PERM_FOLDERS}'
+alias perma="permf; permd; permg"
 
 ### Python
 alias py='python3'

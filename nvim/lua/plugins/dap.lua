@@ -103,6 +103,38 @@ return {
     },
     config = function()
       local dap = require('dap')
+
+      vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = '#ff5555' })
+      vim.api.nvim_set_hl(0, 'DapBreakpointCondition', { fg = '#ffaa00' })
+      vim.api.nvim_set_hl(0, 'DapLogPoint', { fg = '#61afef' })
+      vim.api.nvim_set_hl(0, 'DapStopped', { fg = '#50fa7b' })
+      vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#ffaa00' })
+
+      vim.fn.sign_define('DapBreakpoint', {
+        text = '●',
+        texthl = 'DapBreakpoint',
+        linehl = '',
+        numhl = '',
+      })
+      vim.fn.sign_define('DapBreakpointCondition', {
+        text = '◆',
+        texthl = 'DapBreakpointCondition',
+        linehl = '',
+        numhl = '',
+      })
+      vim.fn.sign_define('DapLogPoint', {
+        text = '◆',
+        texthl = 'DapLogPoint',
+        linehl = '',
+        numhl = '',
+      })
+      vim.fn.sign_define('DapStopped', {
+        text = '▶',
+        texthl = 'DapStopped',
+        linehl = 'DapStoppedLine',
+        numhl = 'DapStopped',
+      })
+
       local dap_ui = require('dapui')
       local widgets = require('dap.ui.widgets')
       local repl = require('dap.repl')

@@ -21,7 +21,7 @@ return {
       { '<leader>oi', obsidian_config.insert_template, desc = 'Obsidian: Insert Template' },
       { '<leader>ob', '<cmd>Obsidian backlinks<cr>', desc = 'Obsidian: Backlinks' },
       { '<leader>oe', '<cmd>Obsidian extract_note<cr>', desc = 'Obsidian: Extract Note', mode = { 'v' } },
-      { '<leader>op', '<cmd>Obsidian paste_img<cr>', desc = 'Obsidian: Paste Image' },
+      { '<leader>op', obsidian_config.paste_img, desc = 'Obsidian: Paste Image' },
       { '<leader>oo', '<cmd>Obsidian quick_switch<cr>', desc = 'Obsidian: Quick Switch' },
     },
     ---@module 'obsidian'
@@ -44,6 +44,10 @@ return {
       link = {
         auto_update = true,
         style = 'markdown',
+      },
+      attachments = {
+        folder = 'assets',
+        img_name_func = obsidian_config.attachment_img_name,
       },
       sync = {
         enabled = true,

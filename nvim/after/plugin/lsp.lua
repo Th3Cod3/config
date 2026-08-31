@@ -6,7 +6,10 @@ local toggle_ltex = function()
 
   if not ltex_status then
     vim.notify('ltex stopped')
-    vim.lsp.stop_client(vim.lsp.get_clients({ name = 'ltex' }))
+    local clients = vim.lsp.get_clients({ name = 'ltex' })
+    for _, client in ipairs(clients) do
+      client:stop()
+    end
   else
     vim.notify('ltex started')
   end

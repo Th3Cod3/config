@@ -1,6 +1,42 @@
 local M = {}
 local fns = require('th3cod3.functions')
 
+local function kebab_case(value, keep_slashes)
+  local pattern = keep_slashes and '[^%w/]+' or '[^%w]+'
+
+  value = value:lower():gsub(pattern, '-'):gsub('%-+', '-'):gsub('/+', '/')
+  value = value:gsub('^%-+', ''):gsub('%-+$', '')
+  value = value:gsub('/%-+', '/'):gsub('%-+/', '/')
+
+  return value
+end
+
+local function attachment_note_path()
+  local note_path = vim.api.nvim_buf_get_name(0)
+  local workspace_dir = tostring(Obsidian.dir)
+  local rel = fns.relative_path(workspace_dir, note_path)
+
+  return kebab_case(rel:gsub('%.md$', ''), true)
+end
+
+local function default_image_name()
+  return 'pasted-image-' .. os.date('%Y%m%d%H%M%S')
+end
+
+function M.attachment_img_name()
+  return attachment_note_path() .. '/' .. default_image_name()
+end
+
+function M.paste_img()
+  local input = vim.trim(vim.fn.input('Image name: '))
+  local name = input ~= '' and input or default_image_name()
+
+  name = name:gsub('%.%w+$', '')
+  local path = M.attachment_img_name():gsub('[^/]+$', kebab_case(name, false))
+
+  vim.cmd('Obsidian paste_img ' .. vim.fn.fnameescape(path))
+end
+
 function M.templates_folder()
   return fns.relative_path(vim.fn.getcwd(), vim.fn.expand('~/code/Th3Cod3/notes-tech/templates'))
 end

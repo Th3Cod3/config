@@ -4,3 +4,5 @@ tmux/plugins
 nvim/spell/
 bin/
 src/
+.opencode/
+/nvim/lua/plugins_vscode
