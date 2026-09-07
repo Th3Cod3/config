@@ -4,6 +4,9 @@ return {
   {
     'MeanderingProgrammer/render-markdown.nvim',
     ft = { 'markdown', 'opencode_output', 'opencode' },
+    keys = {
+      { '<leader>mB', '<cmd>RenderMarkdown toggle<cr>', desc = 'Toggle Render Markdown Window' },
+    },
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
       'nvim-tree/nvim-web-devicons',
@@ -13,6 +16,11 @@ return {
     opts = {
       anti_conceal = { enabled = true },
       file_types = { 'markdown', 'opencode_output', 'opencode' },
+      html = {
+        comment = {
+          conceal = false,
+        },
+      },
       overrides = {
         filetype = {
           opencode_output = {
@@ -80,7 +88,7 @@ return {
     ft = { 'markdown' },
     cmd = { 'PasteImage' },
     keys = {
-      { '<leader>mi', ':PasteImage<cr>', desc = 'Paste Image' },
+      -- { '<leader>mi', ':PasteImage<cr>', desc = 'Paste Image' },
     },
   },
 

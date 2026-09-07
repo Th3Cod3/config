@@ -4,7 +4,7 @@ return {
     event = 'VeryLazy',
     keys = {
       {
-        '<leader>A',
+        '<C-M-a>',
         function()
           local agent = require('opencode.commands.handlers.agent').actions
           agent.switch_mode()
@@ -56,7 +56,7 @@ return {
             only_closest = false,
           },
           current_file = {
-            enabled = false,
+            enabled = true,
             show_full_path = false,
           },
           files = {

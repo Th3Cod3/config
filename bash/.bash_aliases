@@ -24,6 +24,7 @@ alias perma="permf; permd; permg"
 alias py='python3'
 alias pyenv='python3 -m venv venv && source venv/bin/activate'
 alias pypi='pip install -r requirements.txt'
+alias docling-md='docling --to=md --image-export-mode=referenced'
 
 # artisan
 alias pa="php artisan"
