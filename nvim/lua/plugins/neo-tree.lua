@@ -105,16 +105,13 @@ return {
             '.DS_Store',
           },
 
-          always_show = {
-            'local',
-            'personal',
-            'work',
-            '.nvim',
-          },
-
           always_show_by_pattern = {
             '.env*',
-            '*/.nvim/*',
+            '*/.nvim*',
+            '*/notes*/general*',
+            '*/notes*/local*',
+            '*/notes*/personal*',
+            '*/notes*/work*',
           },
         },
       },

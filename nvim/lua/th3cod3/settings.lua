@@ -40,7 +40,7 @@ vim.opt.spelllang = 'es,nl,en_us'
 
 vim.filetype.add({
   pattern = {
-    ['.*%.env.*'] = 'sh',
+    ['.*%.env.*'] = 'env',
     ['.*%.ssh/config%.d/.*'] = 'sshconfig',
     ['.*%.blade%.php'] = 'blade',
     ['.*%.ld'] = 'linkerscript',

@@ -37,8 +37,9 @@ return {
         time_format = 'HH:mm',
         substitutions = {
           taskId = function() return fns.buffer_var('taskId') end,
-          prNumber = function() return fns.buffer_var('prNumber') end,
-          branch = function() return fns.buffer_var('branch') end,
+          deferTaskId = function() return fns.buffer_var('deferTaskId') end,
+          deferPrNumber = function() return fns.buffer_var('deferPrNumber') end,
+          deferBranch = function() return fns.buffer_var('deferBranch') end,
         },
       },
       link = {
