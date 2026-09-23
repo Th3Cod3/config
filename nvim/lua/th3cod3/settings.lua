@@ -1,7 +1,3 @@
-vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
-  callback = function() vim.highlight.on_yank({ higroup = 'Visual', timeout = 500 }) end,
-})
-
 vim.opt_global.expandtab = true
 vim.opt_global.tabstop = 2
 vim.opt_global.softtabstop = 2

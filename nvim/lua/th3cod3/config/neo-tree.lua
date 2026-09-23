@@ -1,41 +1,14 @@
 local M = {}
+local fns = require('th3cod3.functions')
 
 local diff_node = nil
 local diff_name = nil
-
-local function is_text_file(path)
-  local result = vim.system({ 'file', '--brief', '--mime-type', '--mime-encoding', path }, { text = true }):wait()
-  if result.code ~= 0 or not result.stdout then
-    return false
-  end
-
-  local out = vim.trim(result.stdout)
-  local mime, charset = out:match('^([^;]+);%s*charset=(.+)$')
-  if not mime then
-    return false
-  end
-
-  local text_like = mime:match('^text/')
-    or mime == 'application/json'
-    or mime == 'application/xml'
-    or mime == 'application/javascript'
-    or mime == 'application/x-shellscript'
-
-  local ascii_like = charset == 'us-ascii' or charset == 'utf-8'
-
-  return text_like and ascii_like
-end
 
 M.open_with_xdg = function(state)
   local node = state.tree:get_node()
   local path = node:get_id()
 
-  if is_text_file(path) then
-    require('neo-tree.sources.filesystem.commands').open(state)
-    return
-  end
-
-  vim.system({ 'xdg-open', path }, { detach = true, timeout = 1000 })
+  fns.open_external(path)
 end
 
 M.find_files = function(state)

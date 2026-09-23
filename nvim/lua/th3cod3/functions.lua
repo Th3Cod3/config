@@ -104,83 +104,6 @@ end
 
 M.cycle_diagnostic_view()
 
-local function decode_url(str)
-  return str:gsub('%%(%x%x)', function(h) return string.char(tonumber(h, 16)) end)
-end
-
-local function encode_url(str)
-  return str:gsub("[^%w-_~%.%!%*'%(%)/]", function(c) return string.format('%%%02X', string.byte(c)) end)
-end
-
-M.move_media_and_update_refs = function()
-  local current_buf_path = vim.api.nvim_buf_get_name(0)
-  local buf_dir = vim.fn.fnamemodify(current_buf_path, ':h')
-  local cfile = vim.fn.expand('<cfile>')
-  local cfile_decoded = decode_url(cfile)
-  local abs_old_path = vim.fn.fnamemodify(buf_dir .. '/' .. cfile, ':p')
-  abs_old_path = decode_url(abs_old_path)
-
-  if abs_old_path == '' then
-    vim.notify('No file path under cursor', vim.log.levels.ERROR)
-    return
-  end
-
-  if vim.fn.filereadable(abs_old_path) == 0 then
-    vim.notify('File does not exist or no file path under cursor. ' .. abs_old_path, vim.log.levels.ERROR)
-    return
-  end
-
-  local new_path = vim.fn.input('Move to: ', cfile_decoded, 'file')
-  new_path = decode_url(new_path)
-  if new_path == '' then
-    return
-  end
-
-  -- Move the file
-  local normalized_new_path = new_path:gsub('%s+', '-')
-  local abs_new_path = vim.fn.fnamemodify(buf_dir .. '/' .. normalized_new_path, ':p')
-  vim.fn.mkdir(vim.fn.fnamemodify(abs_new_path, ':h'), 'p')
-  os.rename(abs_old_path, abs_new_path)
-
-  -- Update Markdown references in current buffer
-  local current_buf = vim.api.nvim_get_current_buf()
-  local old_rel = cfile
-  local new_rel = encode_url(vim.fn.fnamemodify(normalized_new_path, ':.'))
-
-  vim.notify(string.format('Updating references from %s to %s', old_rel, new_rel))
-  vim.api.nvim_buf_call(current_buf, function() vim.cmd(string.format([[%%s@%s@%s@g]], old_rel, new_rel)) end)
-
-  vim.notify(string.format('Moved %s → %s and updated references', abs_old_path, new_path))
-end
-
-M.minify_markdown_tables = function()
-  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-
-  for index, line in ipairs(lines) do
-    if line:find('|', 1, true) then
-      local cells = vim.split(line, '|', { plain = true })
-
-      for cell_index, cell in ipairs(cells) do
-        local trimmed = vim.trim(cell)
-
-        if trimmed == '' and cell:match('%s') then
-          cells[cell_index] = ' '
-        elseif trimmed:match('^:?-+:?$') then
-          local left_align = trimmed:sub(1, 1) == ':'
-          local right_align = trimmed:sub(-1) == ':'
-          cells[cell_index] = (left_align and ':' or '') .. '---' .. (right_align and ':' or '')
-        else
-          cells[cell_index] = trimmed
-        end
-      end
-
-      lines[index] = table.concat(cells, '|')
-    end
-  end
-
-  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-end
-
 local function get_url_under_cursor()
   local url = vim.fn.expand('<cfile>')
   if url:match('^https?://') then
@@ -188,11 +111,22 @@ local function get_url_under_cursor()
   end
 end
 
---- @type {dirs?: string|string[], bin: string}[]
+M.open_external = function(path)
+  if vim.fn.executable('xdg-open') == 0 then
+    vim.notify('xdg-open is not available', vim.log.levels.ERROR)
+    return false
+  end
+
+  vim.system({ 'xdg-open', vim.fs.normalize(path) }, { detach = true })
+  return true
+end
+
+--- @type {dirs?: string|string[], bin: string, args?: string[]}[]
 local browser_dirs_map = {
   {
     dirs = vim.fs.normalize('~/code/WebWhales/'),
-    bin = 'google-chrome',
+    bin = 'flatpak',
+    args = { 'run', 'com.google.Chrome' },
   },
 }
 
@@ -252,8 +186,16 @@ M.open_url = function(url, opts)
       end
 
       if starts_with(cwd, dir) then
-        vim.notify('Opening URL with ' .. bin .. ': ' .. url, vim.log.levels.DEBUG)
-        vim.system({ bin, url }, { detach = true })
+        local cmd = { bin }
+
+        if map.args then
+          vim.list_extend(cmd, map.args)
+        end
+
+        table.insert(cmd, url)
+
+        vim.notify('Opening URL with ' .. table.concat(cmd, ' '), vim.log.levels.DEBUG)
+        vim.system(cmd, { detach = true })
         return
       end
     end
@@ -394,36 +336,6 @@ M.open_init_file = function()
   end
 
   vim.cmd('edit ' .. init_file)
-end
-
-M.open_local_notes_file = function()
-  local notes_filename = 'notes.md'
-  local notes_dirname = 'notes'
-  local notes_project_path = vim.fs.joinpath(vim.fn.getcwd(), '.nvim', notes_dirname, notes_filename)
-
-  if vim.fn.filereadable(notes_project_path) == 0 then
-    vim.fn.mkdir(vim.fs.dirname(notes_project_path), 'p')
-    vim.fn.writefile({}, notes_project_path)
-
-    vim.fn.writefile({ '# ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t'), '' }, notes_project_path, 's')
-  end
-
-  -- Build notes path
-  local cwd_suffix = vim.fs.joinpath(
-    vim.fn.fnamemodify(vim.fs.dirname(vim.fn.getcwd()), ':t'),
-    vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
-  )
-  local notes_dir = vim.fs.normalize(vim.fs.joinpath('~/code/Th3Cod3/notes-tech/general/', cwd_suffix))
-
-  -- Create symlink to project notes directory
-  if vim.fn.isdirectory(notes_dir) == 0 then
-    vim.fn.mkdir(notes_dir, 'p')
-    os.execute(
-      string.format('ln -sf %s %s', vim.fs.dirname(notes_project_path), vim.fs.joinpath(notes_dir, notes_dirname))
-    )
-  end
-
-  vim.cmd('edit ' .. notes_project_path)
 end
 
 return M

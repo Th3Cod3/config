@@ -1,4 +1,6 @@
 require('th3cod3.debug')
 require('th3cod3.settings')
+require('th3cod3.autocmds')
 require('th3cod3.remaps')
 require('th3cod3.vscode')
+require('th3cod3.ai_backend')

@@ -1,4 +1,5 @@
 local fns = require('th3cod3.functions')
+local markdown = require('th3cod3.markdown')
 local map = vim.keymap.set
 
 vim.g.mapleader = ' '
@@ -26,6 +27,8 @@ map('n', '<leader>Y', [["+Y]], { desc = 'Yank to system clipboard' })
 map({ 'n', 'v' }, '<leader>p', [["+p]], { desc = 'Paste from system clipboard' })
 map({ 'n', 'v' }, '<leader>P', [["+P]], { desc = 'Paste from system clipboard' })
 map({ 'n', 'v' }, '<leader>x', [["_d]], { desc = 'Delete without yanking' })
+map('n', '<leader>mr', markdown.paste_rich_text_as_markdown, { desc = 'Paste rich text as Markdown' })
+map('i', '<C-g>mr', markdown.paste_rich_text_as_markdown, { desc = 'Paste rich text as Markdown' })
 
 -- copy register to system clipboard
 map('n', '<leader>cc', [[:let @+ = @"<cr>]], { desc = 'Copy current register to system clipboard' })
@@ -82,7 +85,7 @@ map('n', '<leader>to', ':tabonly<cr>', { desc = 'Tab Only Current' })
 map('n', '<leader><esc>', fns.hide_float_win, { desc = 'Hide floating window' })
 map('n', '<leader>vd', fns.cycle_diagnostic_view, { desc = 'Cycle Diagnostic View' })
 map('v', '<leader>dr', fns.diff_register_with_selection, { desc = 'Diff register with selection' })
-map('n', '<leader>on', fns.open_local_notes_file, { desc = 'Open local notes file' })
+map('n', '<leader>on', markdown.open_local_notes_file, { desc = 'Open local notes file' })
 map('n', '<leader>rI', fns.load_project_init, { desc = 'Load project init.lua' })
 map('n', '<leader>re', fns.open_init_file, { desc = 'Open Neovim init file' })
 map('n', 'gx', function() fns.open_url(nil, { under_cursor = true }) end, { desc = 'Open under cursor' })

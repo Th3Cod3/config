@@ -1,3 +1,5 @@
+local ai_backend = require('th3cod3.ai_backend')
+
 return {
   {
     'nvim-lualine/lualine.nvim',
@@ -60,7 +62,14 @@ return {
           lualine_y = { 'progress' },
           lualine_z = {
             'location',
-            require('opencode').statusline,
+            function()
+              if not ai_backend.is('opencode') then
+                return ''
+              end
+
+              local ok, opencode = pcall(require, 'opencode')
+              return ok and opencode.statusline() or ''
+            end,
           },
         },
       })

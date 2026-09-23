@@ -22,7 +22,7 @@ return {
     cmd = 'Copilot',
     event = { 'InsertEnter', 'BufRead', 'BufNewFile' },
     keys = {
-      { '<leader>ac', ':Copilot suggestion<cr>', desc = 'Copilot suggestion' },
+      { '<leader>ap', ':Copilot suggestion<cr>', desc = 'Copilot suggestion' },
     },
     config = function()
       require('copilot').setup({

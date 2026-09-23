@@ -1,6 +1,7 @@
 return {
   {
     'sudo-tee/opencode.nvim',
+    enabled = function() return require('th3cod3.ai_backend').is('opencode') end,
     event = 'VeryLazy',
     keys = {
       {

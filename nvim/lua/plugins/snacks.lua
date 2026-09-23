@@ -4,6 +4,24 @@ local seeEverythingOpts = {
   follow = true,
 }
 
+local picker_actions = {}
+local picker_input_keys = {
+  ['<a-e>'] = { 'focus_preview', mode = { 'i', 'n' } },
+  ['<C-j>'] = { 'history_forward', mode = { 'i', 'n' } },
+  ['<C-k>'] = { 'history_back', mode = { 'i', 'n' } },
+  ['<a-p>'] = false, -- 'toggle_preview',
+  ['<c-p>'] = { 'toggle_preview', mode = { 'i', 'n' } },
+  ['<a-x>'] = { 'toggle_regex', mode = { 'i', 'n' } },
+  ['<a-r>'] = false, -- 'toggle_regex'
+  ['<a-z>'] = { 'toggle_maximize', mode = { 'i', 'n' } },
+  ['<a-m>'] = false, -- 'toggle_maximize'
+}
+
+if require('th3cod3.ai_backend').is('opencode') then
+  picker_actions.opencode_send = function(...) return require('opencode').snacks_picker_send(...) end
+  picker_input_keys['<a-a>'] = { 'opencode_send', mode = { 'n', 'i' } }
+end
+
 return {
   {
     'folke/snacks.nvim',
@@ -19,25 +37,12 @@ return {
       notifier = {},
       notify = {},
       picker = {
-        actions = {
-          opencode_send = function(...) return require('opencode').snacks_picker_send(...) end,
-        },
+        actions = picker_actions,
         auto_refresh = false,
         live = false,
         win = {
           input = {
-            keys = {
-              ['<a-a>'] = { 'opencode_send', mode = { 'n', 'i' } },
-              ['<a-e>'] = { 'focus_preview', mode = { 'i', 'n' } },
-              ['<C-j>'] = { 'history_forward', mode = { 'i', 'n' } },
-              ['<C-k>'] = { 'history_back', mode = { 'i', 'n' } },
-              ['<a-p>'] = false, -- 'toggle_preview',
-              ['<c-p>'] = { 'toggle_preview', mode = { 'i', 'n' } },
-              ['<a-x>'] = { 'toggle_regex', mode = { 'i', 'n' } },
-              ['<a-r>'] = false, -- 'toggle_regex'
-              ['<a-z>'] = { 'toggle_maximize', mode = { 'i', 'n' } },
-              ['<a-m>'] = false, -- 'toggle_maximize'
-            },
+            keys = picker_input_keys,
           },
           -- result list window
           list = {

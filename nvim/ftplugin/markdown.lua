@@ -1,10 +1,10 @@
-local fns = require('th3cod3.functions')
+local markdown = require('th3cod3.markdown')
 local map = vim.keymap.set
 
 vim.opt_local.textwidth = 120
 
-map('n', '<leader>mm', fns.move_media_and_update_refs, { buffer = true, desc = 'Move file and update references' })
-map('n', '<leader>ms', fns.minify_markdown_tables, { buffer = true, desc = 'Minify markdown table formatting' })
+map('n', '<leader>mm', markdown.move_media_and_update_refs, { buffer = true, desc = 'Move file and update references' })
+map('n', '<leader>ms', markdown.minify_markdown_tables, { buffer = true, desc = 'Minify markdown table formatting' })
 map(
   { 'n', 'v' },
   '<leader>mb',
